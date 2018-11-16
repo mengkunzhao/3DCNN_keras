@@ -4,7 +4,7 @@ import matplotlib
 matplotlib.use('AGG')
 import matplotlib.pyplot as plt
 import numpy as np
-from keras.layers import (Activation, Conv3D, Dense, Dropout, Flatten,
+from keras.layers import (Activation, Convolution3D, Dense, Dropout, Flatten,
                           MaxPooling3D,ZeroPadding3D)
 from keras.layers.advanced_activations import LeakyReLU
 from keras.losses import categorical_crossentropy
