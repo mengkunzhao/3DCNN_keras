@@ -21,12 +21,15 @@ from keras.models import model_from_json
 import h5py
 
 
-filename = 'caffe_weights/sports1M_weights.h5'
-f = h5py.File(filename, 'r')
-print(f)
-# List all groups
-print("Keys: %s" % f.keys())
-a_group_key = list(f.keys())[0]
+
+filename = "caffe_weights/sports1M_weights.h5"
+
+h5 = h5py.File(filename,'r')
+print(h5)
+futures_data = h5['futures_data']  # VSTOXX futures data
+options_data = h5['options_data']  # VSTOXX call option data
+
+h5.close()
 
 '''
 model = Sequential()
