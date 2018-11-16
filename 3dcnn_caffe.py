@@ -62,7 +62,7 @@ def save_history(history, result_dir):
                 i, loss[i], acc[i], val_loss[i], val_acc[i]))
 
 
-def loaddata(vid_list, vid3d, nclass, result_dir, color=False, skip=True):
+def loaddata(vid_list, vid3d, nclass, result_dir, skip=True):
     files = open(vid_list, 'r')
     X = []
     labels = []
@@ -81,7 +81,7 @@ def loaddata(vid_list, vid3d, nclass, result_dir, color=False, skip=True):
                 continue
             labellist.append(label)
         labels.append(label)
-        X.append(vid3d.video3d(name, color=color, skip=skip))
+        X.append(vid3d.video3d(name, skip=skip))
 
     pbar.close()
     with open(os.path.join(result_dir, 'classes.txt'), 'w') as fp:
@@ -92,10 +92,8 @@ def loaddata(vid_list, vid3d, nclass, result_dir, color=False, skip=True):
         for i in range(len(labels)):
             if label == labels[i]:
                 labels[i] = num
-    if color:
-        return np.array(X).transpose((0, 1, 4, 2, 3)), labels
-    else:
-        return np.array(X).transpose((0, 1, 2, 3)), labels
+    return np.array(X).transpose((0, 1, 4, 2, 3)), labels
+
 
 
 def get_model(input_vid, summary=False):
@@ -150,30 +148,24 @@ def main():
                         help='directory where videos are stored')
     parser.add_argument('--nclass', type=int, default=101)
     parser.add_argument('--output', type=str, required=True)
-    parser.add_argument('--color', type=bool, default=True)
     parser.add_argument('--skip', type=bool, default=True)
     parser.add_argument('--depth', type=int, default=10)
     args = parser.parse_args()
 
     img_rows, img_cols, frames = 112, 112, args.depth
-    channel = 3 if args.color else 1
+    channel = 3
     fname_npz = 'dataset_{}_{}_{}.npz'.format(
         args.nclass, args.depth, args.skip)
 
     vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
-    if os.path.exists(fname_npz):
-        loadeddata = np.load(fname_npz)
-        X, Y = loadeddata["X"], loadeddata["Y"]
-    else:
-        x, y = loaddata(args.videos, vid3d, args.nclass,
-                        args.output, args.color, args.skip)
-        X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
-        Y = np_utils.to_categorical(y, nb_classes)
+    x, y = loaddata(args.videos, vid3d, args.nclass,
+                    args.output, args.skip)
+    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
+    Y = np_utils.to_categorical(y, nb_classes)
 
-        X = X.astype('float32')
-        np.savez(fname_npz, X=X, Y=Y)
-        print('Saved dataset to dataset.npz.')
+    X = X.astype('float32')
+    print('Saved dataset to dataset.npz.')
     print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 
     # Define model
