@@ -20,7 +20,10 @@ import keras
 from keras.models import model_from_json
 import h5py
 
+f = h5py.File("caffe_weights/sports1M_weights.h5")
+print(f['layer_0'][:])
 
+'''
 def scan_hdf52(path, recursive=True, tab_step=2):
     def scan_node(g, tabs=0):
         elems = []
@@ -39,7 +42,6 @@ print(scan_hdf52("caffe_weights/sports1M_weights.h5", recursive=True,tab_step=2)
 #options_data = h5['options_data']  # VSTOXX call option data
 
 
-'''
 model = Sequential()
 # 1st layer group
 model.add(Conv3D(64, kernel_size=(3, 3, 3), activation='relu', input_shape=(112,112,16,3), padding='same',
