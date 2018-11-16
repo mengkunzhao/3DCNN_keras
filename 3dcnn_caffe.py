@@ -168,7 +168,7 @@ def main():
     print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 
     # Define model
-    #model = model_from_json(open('caffe_weights/sports_1M.json', 'r').read())
+    model = model_from_json(open('caffe_weights/sports_1M.json', 'r').read())
     model = get_model(X, nb_classes, summary=True)
     model.load_weights('caffe_weights/sports1M_weights.h5')
 
