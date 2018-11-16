@@ -1,11 +1,9 @@
 import argparse
 import os
-import keras
 import matplotlib
 matplotlib.use('AGG')
 import matplotlib.pyplot as plt
 import numpy as np
-from keras.datasets import cifar10
 from keras.layers import (Activation, Conv3D, Dense, Dropout, Flatten,
                           MaxPooling3D)
 from keras.layers.advanced_activations import LeakyReLU
@@ -18,19 +16,12 @@ from sklearn.model_selection import train_test_split
 import tensorflow as tf
 import videoto3d
 from tqdm import tqdm
-<<<<<<< HEAD
-from tensorflow.python.client import device_lib
-print(device_lib.list_local_devices())
-
-config = tf.ConfigProto( device_count = {'GPU': 1 , 'CPU': 1} )
-sess = tf.Session(config=config)
-keras.backend.set_session(sess)
-#sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
-=======
 import keras
+from keras.models import model_from_json
+import h5py
 
->>>>>>> a52b20b0df797c1eb77990a8f388a7efa104661a
 
+# Adapted to use GPU for training
 config = tf.ConfigProto( device_count = {'GPU': 1 , 'CPU': 32} )
 sess = tf.Session(config=config)
 keras.backend.set_session(sess)
@@ -107,6 +98,63 @@ def loaddata(vid_list, vid3d, nclass, result_dir, color=False, skip=True):
         return np.array(X).transpose((0, 2, 3, 1)), labels
 
 
+def get_model(summary=False):
+    """ Return the Keras model of the network
+    """
+    model = Sequential()
+    # 1st layer group
+    model.add(Convolution3D(64, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv1',
+                            subsample=(1, 1, 1),
+                            input_shape=(3, 16, 112, 112)))
+    model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2),
+                           border_mode='valid', name='pool1'))
+    # 2nd layer group
+    model.add(Convolution3D(128, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv2',
+                            subsample=(1, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
+                           border_mode='valid', name='pool2'))
+    # 3rd layer group
+    model.add(Convolution3D(256, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv3a',
+                            subsample=(1, 1, 1)))
+    model.add(Convolution3D(256, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv3b',
+                            subsample=(1, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
+                           border_mode='valid', name='pool3'))
+    # 4th layer group
+    model.add(Convolution3D(512, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv4a',
+                            subsample=(1, 1, 1)))
+    model.add(Convolution3D(512, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv4b',
+                            subsample=(1, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
+                           border_mode='valid', name='pool4'))
+    # 5th layer group
+    model.add(Convolution3D(512, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv5a',
+                            subsample=(1, 1, 1)))
+    model.add(Convolution3D(512, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv5b',
+                            subsample=(1, 1, 1)))
+    model.add(ZeroPadding3D(padding=(0, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
+                           border_mode='valid', name='pool5'))
+    model.add(Flatten())
+    # FC layers group
+    model.add(Dense(4096, activation='relu', name='fc6'))
+    model.add(Dropout(.5))
+    model.add(Dense(4096, activation='relu', name='fc7'))
+    model.add(Dropout(.5))
+    model.add(Dense(487, activation='softmax', name='fc8'))
+    if summary:
+        print(model.summary())
+    return model
+
+
 def main():
     parser = argparse.ArgumentParser(
         description='simple 3D convolution for action recognition')
@@ -143,30 +191,32 @@ def main():
     print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 
     # Define model
-    model = Sequential()
-    model.add(Conv3D(32, kernel_size=(3, 3, 3), input_shape=(
-        X.shape[1:]), border_mode='same'))
-    model.add(Activation('relu'))
-    model.add(Conv3D(32, kernel_size=(3, 3, 3), border_mode='same'))
-    model.add(Activation('softmax'))
-    model.add(MaxPooling3D(pool_size=(3, 3, 3), border_mode='same'))
-    model.add(Dropout(0.25))
+    model = get_model(summary=True)
+    model.save_weights('sports1M_weights.h5', overwrite=True)
+    json_string = model.to_json()
+    with open('sports1M_model.json', 'w') as f:
+        f.write(json_string)
 
-    model.add(Conv3D(64, kernel_size=(3, 3, 3), border_mode='same'))
-    model.add(Activation('relu'))
-    model.add(Conv3D(64, kernel_size=(3, 3, 3), border_mode='same'))
-    model.add(Activation('softmax'))
-    model.add(MaxPooling3D(pool_size=(3, 3, 3), border_mode='same'))
-    model.add(Dropout(0.25))
+    # Freeze the layers except the last 4 layers
+    for layer in model.layers[:-3]:
+        layer.trainable = False
 
+    # Check the trainable status of the individual layers
+    for layer in model.layers:
+        print(layer, layer.trainable)
+# adding new layers
     model.add(Flatten())
-    model.add(Dense(512, activation='sigmoid'))
-    model.add(Dropout(0.5))
-    model.add(Dense(nb_classes, activation='softmax'))
+    # FC layers group
+    model.add(Dense(4096, activation='relu', name='fc6'))
+    model.add(Dropout(.5))
+    model.add(Dense(4096, activation='relu', name='fc7'))
+    model.add(Dropout(.5))
+    model.add(Dense(101, activation='softmax', name='fc8'))
+
+    model.summary()
 
     model.compile(loss=categorical_crossentropy,
                   optimizer=Adam(), metrics=['accuracy'])
-    model.summary()
     plot_model(model, show_shapes=True,
                to_file=os.path.join(args.output, 'model.png'))
 
