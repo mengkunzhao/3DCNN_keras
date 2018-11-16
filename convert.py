@@ -21,15 +21,22 @@ from keras.models import model_from_json
 import h5py
 
 
+def scan_hdf52(path, recursive=True, tab_step=2):
+    def scan_node(g, tabs=0):
+        elems = []
+        for k, v in g.items():
+            if isinstance(v, h5.Dataset):
+                elems.append(v.name)
+            elif isinstance(v, h5.Group) and recursive:
+                elems.append((v.name, scan_node(v, tabs=tabs + tab_step)))
+        return elems
 
-filename = "caffe_weights/sports1M_weights.h5"
+    with h5py.File("caffe_weights/sports1M_weights.h5", 'r') as f:
+        return scan_node(f)
 
-h5 = h5py.File(filename,'r')
-print(list(h5.keys()))
 #futures_data = h5['futures_data']  # VSTOXX futures data
 #options_data = h5['options_data']  # VSTOXX call option data
 
-h5.close()
 
 '''
 model = Sequential()
