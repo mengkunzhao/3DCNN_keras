@@ -169,11 +169,14 @@ def main():
     print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 
     # Define model
-    model = get_model(X, nb_classes, summary=True)
-    model.save_weights('sports1M_weights.h5', overwrite=True)
-    json_string = model.to_json()
-    with open('sports1M_model.json', 'w') as f:
-        f.write(json_string)
+    model = model_from_json(open('sports1M_model.json', 'r').read())
+    model.load_weights('sports1M_weights.h5')
+
+    #model = get_model(X, nb_classes, summary=True)
+    #model.save_weights('sports1M_weights.h5', overwrite=True)
+    #json_string = model.to_json()
+    #with open('sports1M_model.json', 'w') as f:
+    #    f.write(json_string)
 
     # Freeze the layers except the last 4 layers
     for layer in model.layers[:-5]:
@@ -182,14 +185,6 @@ def main():
     # Check the trainable status of the individual layers
     for layer in model.layers:
         print(layer, layer.trainable)
-# adding new layers
-    #model.add(Flatten())
-    # FC layers group
-#    model.add(Dense(4096, activation='relu', name='fc6_finetune'))
-#    model.add(Dropout(.5))
-#    model.add(Dense(4096, activation='relu', name='fc7_finetune'))
-#    model.add(Dropout(.5))
-#    model.add(Dense(101, activation='softmax', name='fc8_finetune'))
 
     model.summary()
 
