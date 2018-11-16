@@ -1,4 +1,4 @@
-import caffe_pb2 as caffe
+import caffe.proto.caffe_pb2 as caffe
 import numpy as np
 
 p = caffe.NetParameter()
