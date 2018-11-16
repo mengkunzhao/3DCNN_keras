@@ -98,7 +98,7 @@ def loaddata(vid_list, vid3d, nclass, result_dir, color=False, skip=True):
         return np.array(X).transpose((0, 2, 3, 1)), labels
 
 
-def get_model(summary=False, input_vid):
+def get_model(input_vid, summary=False):
     """ Return the Keras model of the network
     """
     model = Sequential()
@@ -182,7 +182,7 @@ def main():
     print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 
     # Define model
-    model = get_model(summary=True, X)
+    model = get_model(X, summary=True)
     model.save_weights('sports1M_weights.h5', overwrite=True)
     json_string = model.to_json()
     with open('sports1M_model.json', 'w') as f:
