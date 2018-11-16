@@ -102,7 +102,7 @@ def get_model(summary=False):
     #print(input_vid.shape[1:])
     model = Sequential()
     # 1st layer group
-    model.add(Conv3D(64, kernel_size=(3, 3, 3), activation='relu', input_shape=(16,112,112), padding='same', name='conv1', strides=(1, 1, 1)))
+    model.add(Conv3D(64, kernel_size=(3, 3, 3), activation='relu', input_shape=(3,16,112,112), padding='same', name='conv1', strides=(1, 1, 1)))
  #  input_shape=(3, 16, 112, 112)))
     model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2), padding='valid', name='pool1'))
 
