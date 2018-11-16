@@ -22,7 +22,7 @@ import h5py
 
 f = h5py.File("caffe_weights/sports1M_weights.h5")
 print(list(f))
-print(f['layer_0'][:])
+print(f['layer_0'].shape)
 
 '''
 def scan_hdf52(path, recursive=True, tab_step=2):
