@@ -185,11 +185,11 @@ def main():
 # adding new layers
     #model.add(Flatten())
     # FC layers group
-    model.add(Dense(4096, activation='relu', name='fc6'))
+    model.add(Dense(4096, activation='relu', name='fc6_finetune'))
     model.add(Dropout(.5))
-    model.add(Dense(4096, activation='relu', name='fc7'))
+    model.add(Dense(4096, activation='relu', name='fc7_finetune'))
     model.add(Dropout(.5))
-    model.add(Dense(101, activation='softmax', name='fc8'))
+    model.add(Dense(101, activation='softmax', name='fc8_finetune'))
 
     model.summary()
 
