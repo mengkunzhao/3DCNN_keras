@@ -23,10 +23,8 @@ class Videoto3D:
             ret, frame = cap.read()
             print(frame.shape[1])
             frame = cv2.resize(frame, (self.height, self.width))
-            if color:
-                framearray.append(frame)
-            else:
-                framearray.append(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
+            framearray.append(frame)
+
 
         cap.release()
         return np.array(framearray)
