@@ -103,47 +103,38 @@ def get_model(summary=False):
     """
     model = Sequential()
     # 1st layer group
-    model.add(Conv3D(64, 3, 3, 3, activation='relu',
-                            border_mode='same', name='conv1',
-                            subsample=(1, 1, 1),
-                            input_shape=(3, 16, 112, 112)))
-    model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2),
-                           border_mode='valid', name='pool1'))
+    model.add(Conv3D(64, kernel_size=(3, 3, 3), input_shape=(X.shape[1:]), border_mode='same', name='conv1', subsample=(1, 1, 1)))
+    model.add(Activation('relu'))  # input_shape=(3, 16, 112, 112)))
+    model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2), border_mode='valid', name='pool1'))
+
     # 2nd layer group
-    model.add(Conv3D(128, 3, 3, 3, activation='relu',
-                            border_mode='same', name='conv2',
-                            subsample=(1, 1, 1)))
-    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
-                           border_mode='valid', name='pool2'))
+    model.add(Conv3D(128, kernel_size=(3, 3, 3), border_mode='same', name='conv2', subsample=(1, 1, 1)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(1, 2, 2), border_mode='valid', name='pool2'))
+
     # 3rd layer group
-    model.add(Conv3D(256, 3, 3, 3, activation='relu',
-                            border_mode='same', name='conv3a',
-                            subsample=(1, 1, 1)))
-    model.add(Conv3D(256, 3, 3, 3, activation='relu',
-                            border_mode='same', name='conv3b',
-                            subsample=(1, 1, 1)))
-    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
-                           border_mode='valid', name='pool3'))
+
+    model.add(Conv3D(256, kernel_size=(3, 3, 3), border_mode='same', name='conv3a', subsample=(1, 1, 1)))
+    model.add(Activation('relu'))
+    model.add(Conv3D(256, kernel_size=(3, 3, 3), border_mode='same', name='conv3b', subsample=(1, 1, 1)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), border_mode='valid', name='pool3'))
+
     # 4th layer group
-    model.add(Conv3D(512, 3, 3, 3, activation='relu',
-                            border_mode='same', name='conv4a',
-                            subsample=(1, 1, 1)))
-    model.add(Convolution3D(512, 3, 3, 3, activation='relu',
-                            border_mode='same', name='conv4b',
-                            subsample=(1, 1, 1)))
-    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
-                           border_mode='valid', name='pool4'))
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), border_mode='same', name='conv4a', subsample=(1, 1, 1)))
+    model.add(Activation('relu'))
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), border_mode='same', name='conv4b', subsample=(1, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), border_mode='valid', name='pool4'))
+
     # 5th layer group
-    model.add(Conv3D(512, 3, 3, 3, activation='relu',
-                            border_mode='same', name='conv5a',
-                            subsample=(1, 1, 1)))
-    model.add(Conv3D(512, 3, 3, 3, activation='relu',
-                            border_mode='same', name='conv5b',
-                            subsample=(1, 1, 1)))
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), border_mode='same', name='conv5a', subsample=(1, 1, 1)))
+    model.add(Activation('relu'))
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), border_mode='same', name='conv5b', subsample=(1, 1, 1)))
+    model.add(Activation('relu'))
     model.add(ZeroPadding3D(padding=(0, 1, 1)))
-    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
-                           border_mode='valid', name='pool5'))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), border_mode='valid', name='pool5'))
     model.add(Flatten())
+
     # FC layers group
     model.add(Dense(4096, activation='relu', name='fc6'))
     model.add(Dropout(.5))
