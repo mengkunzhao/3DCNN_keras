@@ -1,6 +1,6 @@
 import argparse
 import os
-
+import keras
 import matplotlib
 matplotlib.use('AGG')
 import matplotlib.pyplot as plt
@@ -15,9 +15,16 @@ from keras.optimizers import Adam
 from keras.utils import np_utils
 from keras.utils.vis_utils import plot_model
 from sklearn.model_selection import train_test_split
-
+import tensorflow as tf
 import videoto3d
 from tqdm import tqdm
+from tensorflow.python.client import device_lib
+print(device_lib.list_local_devices())
+
+config = tf.ConfigProto( device_count = {'GPU': 1 , 'CPU': 1} )
+sess = tf.Session(config=config)
+keras.backend.set_session(sess)
+#sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
 
 
 def plot_history(history, result_dir):
