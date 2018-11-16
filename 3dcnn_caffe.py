@@ -96,7 +96,7 @@ def loaddata(vid_list, vid3d, nclass, result_dir, skip=True):
 
 
 
-def get_model(input_vid, summary=False):
+def get_model(input_vid, classno  summary=False):
     """ Return the Keras model of the network
     """
     print(input_vid.shape[1:])
@@ -133,7 +133,7 @@ def get_model(input_vid, summary=False):
     model.add(Dropout(.5))
     model.add(Dense(4096, activation='relu', name='fc7'))
     model.add(Dropout(.5))
-    model.add(Dense(487, activation='softmax', name='fc8'))
+    model.add(Dense(classno, activation='softmax', name='fc8'))
     if summary:
         print(model.summary())
     return model
@@ -169,7 +169,7 @@ def main():
     print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 
     # Define model
-    model = get_model(X, summary=True)
+    model = get_model(X, nb_classes, summary=True)
     model.save_weights('sports1M_weights.h5', overwrite=True)
     json_string = model.to_json()
     with open('sports1M_model.json', 'w') as f:
