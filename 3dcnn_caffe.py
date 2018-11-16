@@ -96,7 +96,7 @@ def loaddata(vid_list, vid3d, nclass, result_dir, skip=True):
 
 
 
-def get_model(input_vid, classno  summary=False):
+def get_model(input_vid, classno, summary=False):
     """ Return the Keras model of the network
     """
     print(input_vid.shape[1:])
