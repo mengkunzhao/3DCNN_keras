@@ -96,13 +96,13 @@ def loaddata(vid_list, vid3d, nclass, result_dir, skip=True):
 
 
 
-def get_model(summary=False):
+def get_model(input_vid, classno, summary=False):
     """ Return the Keras model of the network
     """
-    #print(input_vid.shape[1:])
+    print(input_vid.shape[1:])
     model = Sequential()
     # 1st layer group
-    model.add(Conv3D(64, kernel_size=(3, 3, 3), activation='relu', input_shape=(3,16,112,112), padding='same', name='conv1', strides=(1, 1, 1)))
+    model.add(Conv3D(64, kernel_size=(3, 3, 3), activation='relu', input_shape=(input_vid.shape[1:]), padding='same', name='conv1', strides=(1, 1, 1)))
  #  input_shape=(3, 16, 112, 112)))
     model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2), padding='valid', name='pool1'))
 
@@ -133,7 +133,7 @@ def get_model(summary=False):
     model.add(Dropout(.5))
     model.add(Dense(4096, activation='relu', name='fc7'))
     model.add(Dropout(.5))
-    model.add(Dense(487, activation='softmax', name='fc8'))
+    model.add(Dense(classno, activation='softmax', name='fc8'))
     if summary:
         print(model.summary())
     return model
@@ -152,27 +152,26 @@ def main():
     parser.add_argument('--depth', type=int, default=10)
     args = parser.parse_args()
 
-    #img_rows, img_cols, frames = 112, 112, args.depth
-    #channel = 3
-    #fname_npz = 'dataset_{}_{}_{}.npz'.format(
-    #    args.nclass, args.depth, args.skip)
+    img_rows, img_cols, frames = 112, 112, args.depth
+    channel = 3
+    fname_npz = 'dataset_{}_{}_{}.npz'.format(
+        args.nclass, args.depth, args.skip)
 
-    #vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
-    #nb_classes = args.nclass
-    #x, y = loaddata(args.videos, vid3d, args.nclass,
-    #                args.output, args.skip)
-    #X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
-    #Y = np_utils.to_categorical(y, nb_classes)
+    vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
+    nb_classes = args.nclass
+    x, y = loaddata(args.videos, vid3d, args.nclass,
+                    args.output, args.skip)
+    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
+    Y = np_utils.to_categorical(y, nb_classes)
 
-    #X = X.astype('float32')
-    #print('Saved dataset to dataset.npz.')
-    #print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
+    X = X.astype('float32')
+    print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 
     # Define model
     #model = model_from_json(open('caffe_weights/sports_1M.json', 'r').read())
-
-    model = get_model(summary=True)
+    model = get_model(X, nb_classes, summary=True)
     model.load_weights('caffe_weights/sports1M_weights.h5')
+
 
     #model.save_weights('sports1M_weights.h5', overwrite=True)
     #json_string = model.to_json()
