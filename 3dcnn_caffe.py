@@ -98,12 +98,12 @@ def loaddata(vid_list, vid3d, nclass, result_dir, color=False, skip=True):
         return np.array(X).transpose((0, 2, 3, 1)), labels
 
 
-def get_model(summary=False):
+def get_model(summary=False, input_vid):
     """ Return the Keras model of the network
     """
     model = Sequential()
     # 1st layer group
-    model.add(Conv3D(64, kernel_size=(3, 3, 3), input_shape=(X.shape[1:]), border_mode='same', name='conv1', subsample=(1, 1, 1)))
+    model.add(Conv3D(64, kernel_size=(3, 3, 3), input_shape=(input_vid.shape[1:]), border_mode='same', name='conv1', subsample=(1, 1, 1)))
     model.add(Activation('relu'))  # input_shape=(3, 16, 112, 112)))
     model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2), border_mode='valid', name='pool1'))
 
@@ -182,7 +182,7 @@ def main():
     print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 
     # Define model
-    model = get_model(summary=True)
+    model = get_model(summary=True, X)
     model.save_weights('sports1M_weights.h5', overwrite=True)
     json_string = model.to_json()
     with open('sports1M_model.json', 'w') as f:
