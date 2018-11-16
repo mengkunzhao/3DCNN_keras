@@ -21,6 +21,14 @@ from keras.models import model_from_json
 import h5py
 
 
+filename = 'caffe_weights/sports1M_weights.h5'
+f = h5py.File(filename, 'r')
+
+# List all groups
+print("Keys: %s" % f.keys())
+a_group_key = list(f.keys())[0]
+
+'''
 model = Sequential()
 # 1st layer group
 model.add(Conv3D(64, kernel_size=(3, 3, 3), activation='relu', input_shape=(112,112,16,3), padding='same',
@@ -59,3 +67,4 @@ model.add(Dense(487, activation='softmax', name='fc8'))
 print(model.summary())
 
 model.load_weights('caffe_weights/sports1M_weights.h5')
+'''
