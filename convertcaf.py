@@ -1,6 +1,6 @@
 from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Flatten
-from keras.layers.convolutional import Convolution3D, MaxPooling3D, ZeroPadding3D
+from keras.layers.convolutional import Conv3D, MaxPooling3D, ZeroPadding3D
 from keras.optimizers import SGD
 
 def get_model(summary=False):
