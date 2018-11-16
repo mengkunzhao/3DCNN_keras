@@ -96,13 +96,13 @@ def loaddata(vid_list, vid3d, nclass, result_dir, skip=True):
 
 
 
-def get_model(input_vid, classno, summary=False):
+def get_model(summary=False):
     """ Return the Keras model of the network
     """
-    print(input_vid.shape[1:])
+    #print(input_vid.shape[1:])
     model = Sequential()
     # 1st layer group
-    model.add(Conv3D(64, kernel_size=(3, 3, 3), activation='relu', input_shape=(input_vid.shape[1:]), padding='same', name='conv1', strides=(1, 1, 1)))
+    model.add(Conv3D(64, kernel_size=(3, 3, 3), activation='relu', input_shape=(3,16,112,112), padding='same', name='conv1', strides=(1, 1, 1)))
  #  input_shape=(3, 16, 112, 112)))
     model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2), padding='valid', name='pool1'))
 
@@ -133,7 +133,7 @@ def get_model(input_vid, classno, summary=False):
     model.add(Dropout(.5))
     model.add(Dense(4096, activation='relu', name='fc7'))
     model.add(Dropout(.5))
-    model.add(Dense(classno, activation='softmax', name='fc8'))
+    model.add(Dense(487, activation='softmax', name='fc8'))
     if summary:
         print(model.summary())
     return model
@@ -169,10 +169,11 @@ def main():
     #print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 
     # Define model
-    model = model_from_json(open('caffe_weights/sports_1M.json', 'r').read())
+    #model = model_from_json(open('caffe_weights/sports_1M.json', 'r').read())
+
+    model = get_model(summary=True)
     model.load_weights('caffe_weights/sports1M_weights.h5')
 
-    #model = get_model(X, nb_classes, summary=True)
     #model.save_weights('sports1M_weights.h5', overwrite=True)
     #json_string = model.to_json()
     #with open('sports1M_model.json', 'w') as f:
