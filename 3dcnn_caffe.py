@@ -160,7 +160,7 @@ def main():
     parser.add_argument('--depth', type=int, default=10)
     args = parser.parse_args()
 
-    img_rows, img_cols, frames = 32, 32, args.depth
+    img_rows, img_cols, frames = 112, 112, args.depth
     channel = 3 if args.color else 1
     fname_npz = 'dataset_{}_{}_{}.npz'.format(
         args.nclass, args.depth, args.skip)
