@@ -31,8 +31,9 @@ def scan_hdf52(path, recursive=True, tab_step=2):
                 elems.append((v.name, scan_node(v, tabs=tabs + tab_step)))
         return elems
 
-    with h5py.File("caffe_weights/sports1M_weights.h5", 'r') as f:
+    with h5py.File(path, 'r') as f:
         return scan_node(f)
+scan_hdf52("caffe_weights/sports1M_weights.h5", recursive=True,tab_step=2)
 
 #futures_data = h5['futures_data']  # VSTOXX futures data
 #options_data = h5['options_data']  # VSTOXX call option data
