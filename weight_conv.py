@@ -3,7 +3,7 @@ import numpy as np
 
 p = caffe.NetParameter()
 p.ParseFromString(
-    open('caffeweights/conv3d_deepnetA_sport1m_iter_1900000', 'rb').read()
+    open('caffe_weights/conv3d_deepnetA_sport1m_iter_1900000', 'rb').read()
 )
 
 def rot90(W):
