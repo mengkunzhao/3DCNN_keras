@@ -3,3 +3,4 @@ __pycache__
 UCF-101
 dataset
 *.npz
+caffeweights
