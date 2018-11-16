@@ -93,9 +93,9 @@ def loaddata(vid_list, vid3d, nclass, result_dir, color=False, skip=True):
             if label == labels[i]:
                 labels[i] = num
     if color:
-        return np.array(X).transpose((0, 2, 3, 4, 1)), labels
+        return np.array(X).transpose((0, 1, 4, 2, 3)), labels
     else:
-        return np.array(X).transpose((0, 2, 3, 1)), labels
+        return np.array(X).transpose((0, 1, 2, 3)), labels
 
 
 def get_model(input_vid, summary=False):
