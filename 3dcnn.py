@@ -72,7 +72,7 @@ def save_history(history, result_dir):
 
 
 def loaddata(vid_list, vid3d, nclass, result_dir, color=False, skip=True):
-    files = open(vid_list, 'r')
+    files = os.listdir(vid_list)
     X = []
     labels = []
     labellist = []
@@ -83,7 +83,7 @@ def loaddata(vid_list, vid3d, nclass, result_dir, color=False, skip=True):
         pbar.update(1)
         if filename == '.DS_Store':
             continue
-        name = os.path.join(video_dir, filename)
+        name = os.path.join(vid_list, filename)
         label = vid3d.get_UCF_classname(filename)
         if label not in labellist:
             if len(labellist) >= nclass:
