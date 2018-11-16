@@ -23,7 +23,7 @@ import h5py
 
 filename = 'caffe_weights/sports1M_weights.h5'
 f = h5py.File(filename, 'r')
-
+print(f)
 # List all groups
 print("Keys: %s" % f.keys())
 a_group_key = list(f.keys())[0]
