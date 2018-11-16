@@ -152,21 +152,21 @@ def main():
     parser.add_argument('--depth', type=int, default=10)
     args = parser.parse_args()
 
-    img_rows, img_cols, frames = 112, 112, args.depth
-    channel = 3
-    fname_npz = 'dataset_{}_{}_{}.npz'.format(
-        args.nclass, args.depth, args.skip)
+    #img_rows, img_cols, frames = 112, 112, args.depth
+    #channel = 3
+    #fname_npz = 'dataset_{}_{}_{}.npz'.format(
+    #    args.nclass, args.depth, args.skip)
 
-    vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
-    nb_classes = args.nclass
-    x, y = loaddata(args.videos, vid3d, args.nclass,
-                    args.output, args.skip)
-    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
-    Y = np_utils.to_categorical(y, nb_classes)
+    #vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
+    #nb_classes = args.nclass
+    #x, y = loaddata(args.videos, vid3d, args.nclass,
+    #                args.output, args.skip)
+    #X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
+    #Y = np_utils.to_categorical(y, nb_classes)
 
-    X = X.astype('float32')
+    #X = X.astype('float32')
     #print('Saved dataset to dataset.npz.')
-    print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
+    #print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 
     # Define model
     model = model_from_json(open('caffe_weights/sports_1M.json', 'r').read())
