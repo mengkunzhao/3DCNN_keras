@@ -176,14 +176,14 @@ def main():
         f.write(json_string)
 
     # Freeze the layers except the last 4 layers
-    for layer in model.layers[:-3]:
+    for layer in model.layers[:-5]:
         layer.trainable = False
 
     # Check the trainable status of the individual layers
     for layer in model.layers:
         print(layer, layer.trainable)
 # adding new layers
-    model.add(Flatten())
+    #model.add(Flatten())
     # FC layers group
     model.add(Dense(4096, activation='relu', name='fc6'))
     model.add(Dropout(.5))
