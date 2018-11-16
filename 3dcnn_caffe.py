@@ -101,6 +101,7 @@ def loaddata(vid_list, vid3d, nclass, result_dir, color=False, skip=True):
 def get_model(input_vid, summary=False):
     """ Return the Keras model of the network
     """
+    print(input_vid.shape[1:])
     model = Sequential()
     # 1st layer group
     model.add(Conv3D(64, kernel_size=(3, 3, 3), input_shape=(input_vid.shape[1:]), border_mode='same', name='conv1', subsample=(1, 1, 1)))
