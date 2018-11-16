@@ -15,10 +15,15 @@ from keras.optimizers import Adam
 from keras.utils import np_utils
 from keras.utils.vis_utils import plot_model
 from sklearn.model_selection import train_test_split
-
+import tensorflow as tf
 import videoto3d
 from tqdm import tqdm
+import keras
 
+
+config = tf.ConfigProto( device_count = {'GPU': 1 , 'CPU': 32} )
+sess = tf.Session(config=config)
+keras.backend.set_session(sess)
 
 def plot_history(history, result_dir):
     plt.plot(history.history['acc'], marker='.')
@@ -56,8 +61,8 @@ def save_history(history, result_dir):
                 i, loss[i], acc[i], val_loss[i], val_acc[i]))
 
 
-def loaddata(video_dir, vid3d, nclass, result_dir, color=False, skip=True):
-    files = os.listdir(video_dir)
+def loaddata(vid_list, vid3d, nclass, result_dir, color=False, skip=True):
+    files = open(vid_list, 'r')
     X = []
     labels = []
     labellist = []
