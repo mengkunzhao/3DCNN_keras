@@ -25,9 +25,9 @@ def scan_hdf52(path, recursive=True, tab_step=2):
     def scan_node(g, tabs=0):
         elems = []
         for k, v in g.items():
-            if isinstance(v, h5.Dataset):
+            if isinstance(v, h5py.Dataset):
                 elems.append(v.name)
-            elif isinstance(v, h5.Group) and recursive:
+            elif isinstance(v, h5py.Group) and recursive:
                 elems.append((v.name, scan_node(v, tabs=tabs + tab_step)))
         return elems
 
