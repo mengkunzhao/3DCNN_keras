@@ -54,26 +54,28 @@ def save_history(history, result_dir, name):
                 i, loss[i], acc[i], val_loss[i], val_acc[i]))
 
 
-def loaddata(video_dir, vid3d, nclass, result_dir, color=False, skip=True):
-    files=os.listdir(video_dir)
+def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
+    vid_dirs = list(open(video_list, 'r'))
+    dir = '/tank/gesrecog/chalearn/Trainset/'
+    #files=os.listdir(video_dir)
     X=[]
     labels=[]
     labellist=[]
 
-    pbar=tqdm(total=len(files))
+    pbar=tqdm(total=len(vid_dirs))
 
-    for filename in files:
+    for rows in vid_dirs:
         pbar.update(1)
-        if filename == '.DS_Store':
+        if rows == '.DS_Store':
             continue
-        name=os.path.join(video_dir, filename)
-        label=vid3d.get_UCF_classname(filename)
+        name=os.path.join(dir, rows.split(' ')[0])
+        label=rows.split(' ')[2]
         if label not in labellist:
             if len(labellist) >= nclass:
                 continue
             labellist.append(label)
         labels.append(label)
-        X.append(vid3d.video3d(name, color=color, skip=skip))
+        X.append(vid3d.video3d(name, skip=skip))
 
     pbar.close()
     with open(os.path.join(result_dir, 'classes.txt'), 'w') as fp:
@@ -92,26 +94,41 @@ def loaddata(video_dir, vid3d, nclass, result_dir, color=False, skip=True):
 
 def create_3dcnn(input_shape, nb_classes):
     model = Sequential()
-    model.add(Conv3D(32, kernel_size=(3,3,3), input_shape=(
-        input_shape), border_mode='same'))
-    model.add(Activation('relu'))
-    model.add(Conv3D(32, kernel_size=(3,3,3), border_mode='same'))
-    model.add(Activation('softmax'))
-    model.add(MaxPooling3D(pool_size=(3, 3, 3), border_mode='same'))
-    model.add(Dropout(0.25))
+    # 1st layer group
+    model.add(Conv3D(64, kernel_size=(3, 3, 3), activation='relu', input_shape=(input_shape), padding='same',
+                     name='conv1', strides=(1, 1, 1)))
+    #  input_shape=(3, 16, 112, 112)))
+    model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2), padding='valid', name='pool1'))
 
-    model.add(Conv3D(64, kernel_size=(3,3,3), border_mode='same'))
-    model.add(Activation('relu'))
-    model.add(Conv3D(64, kernel_size=(3,3,3), border_mode='same'))
-    model.add(Activation('softmax'))
-    model.add(MaxPooling3D(pool_size=(3, 3, 3), border_mode='same'))
-    model.add(Dropout(0.25))
+    # 2nd layer group
+    model.add(Conv3D(128, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv2', strides=(1, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(1, 2, 2), padding='valid', name='pool2'))
 
+    # 3rd layer group
+
+    model.add(Conv3D(256, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv3a', strides=(1, 1, 1)))
+    model.add(Conv3D(256, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv3b', strides=(1, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), padding='valid', name='pool3'))
+
+    # 4th layer group
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv4a', strides=(1, 1, 1)))
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv4b', strides=(1, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), padding='valid', name='pool4'))
+
+    # 5th layer group
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv5a', strides=(1, 1, 1)))
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv5b', strides=(1, 1, 1)))
+    model.add(ZeroPadding3D(padding=(0, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), padding='valid', name='pool5'))
     model.add(Flatten())
-    model.add(Dense(512, activation='sigmoid'))
-    model.add(Dropout(0.5))
-    model.add(Dense(nb_classes, activation='softmax'))
 
+    # FC layers group
+    model.add(Dense(4096, activation='relu', name='fc6'))
+    model.add(Dropout(.5))
+    model.add(Dense(4096, activation='relu', name='fc7'))
+    model.add(Dropout(.5))
+    model.add(Dense(nb_classes, activation='softmax', name='fc8'))
+    print(model.summary())
     return model
 
 def main():
