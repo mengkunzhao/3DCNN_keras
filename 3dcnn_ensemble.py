@@ -141,6 +141,8 @@ def main():
     parser.add_argument('--output', type=str, required=True)
     parser.add_argument('--skip', type=bool, default=True)
     parser.add_argument('--depth', type=int, default=16)
+    parser.add_argument('--nmodel', type=int, default=3)
+
     args=parser.parse_args()
 
     if not os.path.isdir(args.output):
