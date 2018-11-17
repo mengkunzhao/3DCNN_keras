@@ -26,10 +26,11 @@ class Videoto3D:
                # print(frame.shape[1])
                 frame_temp = cv2.resize(frame, (self.height, self.width))
                 framearray.append(frame_temp)
+                file2label = filename
 
 
         cap.release()
-        return np.array(framearray)
+        return np.array(framearray) , file2label
 
 
 
