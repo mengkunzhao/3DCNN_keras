@@ -146,7 +146,7 @@ def main():
     if not os.path.isdir(args.output):
         os.makedirs(args.output)
 
-    img_rows, img_cols, frames=112, 112, args.depth
+    img_rows, img_cols, frames=15, 15, args.depth
     channel=3
 
     vid3d=videoto3d.Videoto3D(img_rows, img_cols, frames)
