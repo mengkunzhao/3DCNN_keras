@@ -86,10 +86,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         for i in range(len(labels)):
             if label == labels[i]:
                 labels[i]=num
-    if color:
-        return np.array(X).transpose((0, 2, 3, 4, 1)), labels
-    else:
-        return np.array(X).transpose((0, 2, 3, 1)), labels
+    return np.array(X).transpose((0, 2, 3, 1)), labels
 
 
 def create_3dcnn(input_shape, nb_classes):
