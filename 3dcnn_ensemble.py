@@ -13,6 +13,8 @@ from keras.models import Sequential
 from keras.utils import np_utils
 from keras.utils.vis_utils import plot_model
 from sklearn.model_selection import train_test_split
+from keras import optimizers
+
 from tqdm import tqdm
 
 import videoto3d
@@ -178,8 +180,10 @@ def main():
     for i in range(args.nmodel):
         print('model{}:'.format(i))
         models.append(create_3dcnn(X.shape[1:], nb_classes))
+        adam = optimizers.Adam(lr=0.001, decay=0.0001, amsgrad=False)
+
         models[-1].compile(loss='categorical_crossentropy',
-                      optimizer='adam', metrics=['accuracy'])
+                      optimizer= adam, metrics=['accuracy'])
         history = models[-1].fit(X_train, Y_train, validation_data=(
             X_test, Y_test), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True)
         plot_history(history , args.output, i)
@@ -189,16 +193,16 @@ def main():
     model_outputs = [models[i](model_inputs[i]) for i in range (args.nmodel)]
     model_outputs = average(inputs=model_outputs)
     model = Model(inputs=model_inputs, outputs=model_outputs)
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer= adam, metrics=['accuracy'])
 
-    #model.summary()
+    model.summary()
     plot_model(model, show_shapes=True,
          to_file=os.path.join(args.output, 'model.png'))
 
     model_json=model.to_json()
-    with open(os.path.join(args.output, 'ucf101_3dcnnmodel.json'), 'w') as json_file:
+    with open(os.path.join(args.output, 'Chalearn_3dcnnmodel.json'), 'w') as json_file:
         json_file.write(model_json)
-    model.save_weights(os.path.join(args.output, 'ucf101_3dcnnmodel.hd5'))
+    model.save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel.hd5'))
 
     loss, acc=model.evaluate([X_test]*args.nmodel, Y_test, verbose=0)
     with open(os.path.join(args.output, 'result.txt'), 'w') as f:
