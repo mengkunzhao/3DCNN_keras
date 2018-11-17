@@ -55,7 +55,7 @@ def save_history(history, result_dir, name):
 
 
 def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
-    dir = '/tank/gesrecog/chalearn/Trainset/'
+    dir = '/tank/gesrecog/chalearn/train/'
     vid_dirs = list(open(os.path.join(dir + video_list), 'r'))
 
     #files=os.listdir(video_dir)
