@@ -69,7 +69,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         pbar.update(1)
         name=os.path.join(dir, rows.split(' ')[0])
         X.append(vid3d.video3d(name, skip=skip))
-        print(X.shape(0))
+        print(len(X))
         if rows == '.DS_Store':
             continue
         #print(name)
