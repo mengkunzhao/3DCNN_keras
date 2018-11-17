@@ -132,18 +132,16 @@ def create_3dcnn(input_shape, nb_classes):
     return model
 
 def main():
-    parser=argparse.ArgumentParser(
+    parser = argparse.ArgumentParser(
         description='simple 3D convolution for action recognition')
     parser.add_argument('--batch', type=int, default=128)
     parser.add_argument('--epoch', type=int, default=100)
     parser.add_argument('--videos', type=str, default='UCF101',
                         help='directory where videos are stored')
-    parser.add_argument('--nclass', type=int, default=101)
+    parser.add_argument('--nclass', type=int, default=249)
     parser.add_argument('--output', type=str, required=True)
-    parser.add_argument('--color', type=bool, default=False)
     parser.add_argument('--skip', type=bool, default=True)
-    parser.add_argument('--depth', type=int, default=10)
-    parser.add_argument('--nmodel', type=int, default=3)
+    parser.add_argument('--depth', type=int, default=16)
     args=parser.parse_args()
 
     if not os.path.isdir(args.output):
