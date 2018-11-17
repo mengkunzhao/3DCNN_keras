@@ -131,6 +131,7 @@ def main():
     if os.path.exists(fname_npz):
         loadeddata = np.load(fname_npz)
         X, Y = loadeddata["X"], loadeddata["Y"]
+        print(X.shape)
     else:
         x, y = loaddata(args.videos, vid3d, args.nclass,
                         args.output, args.color, args.skip)

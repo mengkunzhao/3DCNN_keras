@@ -23,7 +23,7 @@ class Videoto3D:
             cap.set(cv2.CAP_PROP_POS_FRAMES, frames[i])
             ret, frame = cap.read()
             if frame is not None:
-                #print(frame.shape[1])
+                print(frame.shape[1])
                 frame = cv2.resize(frame, (self.height, self.width))
                 framearray.append(frame)
 
