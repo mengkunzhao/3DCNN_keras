@@ -145,7 +145,7 @@ def main():
     if not os.path.isdir(args.output):
         os.makedirs(args.output)
 
-    img_rows, img_cols, frames=32, 32, args.depth
+    img_rows, img_cols, frames=112, 112, args.depth
     channel=3
 
     vid3d=videoto3d.Videoto3D(img_rows, img_cols, frames)
@@ -156,8 +156,7 @@ def main():
         loadeddata = np.load(fname_npz)
         X, Y = loadeddata["X"], loadeddata["Y"]
     else:
-        x, y = loaddata(args.videos, vid3d, args.nclass,
-                        args.output, args.skip)
+        x, y = loaddata(args.videos, vid3d, args.nclass,args.output, args.skip)
         X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
         Y = np_utils.to_categorical(y, nb_classes)
 
