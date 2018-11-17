@@ -12,7 +12,7 @@ from keras.models import Model
 from keras.models import Sequential
 from keras.utils import np_utils
 from keras.utils.vis_utils import plot_model
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 
 import videoto3d
