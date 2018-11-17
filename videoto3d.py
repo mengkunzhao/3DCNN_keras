@@ -24,8 +24,8 @@ class Videoto3D:
             ret, frame = cap.read()
             if frame is not None:
                 print(frame.shape[1])
-                frame = cv2.resize(frame, (self.height, self.width))
-                framearray.append(frame)
+                frame_temp = cv2.resize(frame, (self.height, self.width))
+                framearray.append(frame_temp)
 
 
         cap.release()

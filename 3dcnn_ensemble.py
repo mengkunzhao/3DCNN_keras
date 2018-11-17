@@ -67,6 +67,8 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
 
     for rows in vid_dirs:
         pbar.update(1)
+        X.append(vid3d.video3d(name, skip=skip))
+        print(X.shape(0))
         if rows == '.DS_Store':
             continue
         name=os.path.join(dir, rows.split(' ')[0])
@@ -77,7 +79,6 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                 continue
             labellist.append(label)
         labels.append(label)
-        X.append(vid3d.video3d(name, skip=skip))
 
     pbar.close()
     with open(os.path.join(result_dir, 'classes.txt'), 'w') as fp:
