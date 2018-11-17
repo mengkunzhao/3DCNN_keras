@@ -77,7 +77,7 @@ def getmodel_tf():
     model.add(Dense(4096, activation='relu', name='fc7'))
     model.add(Dropout(.5))
     model.add(Dense(487, activation='softmax', name='fc8'))
-    print(model.summary())
+   # print(model.summary())
     return model
 
 def getmodel_th():
@@ -130,7 +130,7 @@ def getmodel_th():
     model_th.add(Dense(4096, activation='relu', name='fc7'))
     model_th.add(Dropout(.5))
     model_th.add(Dense(487, activation='softmax', name='fc8'))
-    print(model_th.summary())
+   # print(model_th.summary())
     return model_th
 
 
@@ -144,8 +144,11 @@ model_weights = '/home/mahnaz/____PycharmProjects/3DCNN/3DCNN/caffeweights/sport
                      # These weights are assumed to be for  theano backend
                      # (th kernels) with th dim ordering!
 f = h5py.File(model_weights, 'r')
-np.savetxt('datafile.txt', f['layer'][...])
-print(list(f))
+#np.savetxt('datafile.txt', f['key'][...])
+g = f.require_group('/layer_0')
+print(list(g.values()))
+np.savetxt(g, f['dataset'][...])
+
 """
 No need to edit anything below this. Simply run the script now after
 editing the above 3 inputs.
