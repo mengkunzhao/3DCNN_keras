@@ -140,10 +140,12 @@ th_dim_model = getmodel_th() # Create your theano model here with TH dim orderin
 K.set_image_data_format('channels_last')
 tf_dim_model = getmodel_tf() # Create your tensorflow model with TF dimordering here
 
-model_weights = ['/home/mahnaz/____PycharmProjects/3DCNN/3DCNN/caffeweights/sports1M_weights.h5'] # Add names of theano model weight file paths here.
+model_weights = '/home/mahnaz/____PycharmProjects/3DCNN/3DCNN/caffeweights/sports1M_weights.h5' # Add names of theano model weight file paths here.
                      # These weights are assumed to be for  theano backend
                      # (th kernels) with th dim ordering!
-print(model_weights)
+f = h5py.File(model_weights, 'r')
+np.savetxt('datafile.txt', f['layer'][...])
+print(list(f))
 """
 No need to edit anything below this. Simply run the script now after
 editing the above 3 inputs.
