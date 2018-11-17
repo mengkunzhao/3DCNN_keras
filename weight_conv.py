@@ -3,6 +3,19 @@ import numpy as np
 
 from keras import backend as K
 from keras.utils.layer_utils import convert_all_kernels_in_model
+import argparse
+import os
+import matplotlib
+matplotlib.use('AGG')
+import matplotlib.pyplot as plt
+import numpy as np
+from keras.layers import (Activation, Conv3D, Dense, Dropout, Flatten,
+                          MaxPooling3D,ZeroPadding3D)
+
+from keras.models import Sequential
+import tensorflow as tf
+import keras
+import h5py
 
 ''' BACKEND must be TENSORFLOW
 This is a script to convert Theano models (Theano Backend, TH dim ordering)
@@ -28,17 +41,109 @@ Usage:
 3) Run the script.
 4) Use the weight files in the created folders : ["tf-kernels-tf-dim/", "tf-kernels-th-dim/", "th-kernels-tf-dim/"]
 '''
+def getmodel_tf():
+    model = Sequential()
+    # 1st layer group
+    model.add(Conv3D(64, kernel_size=(3, 3, 3), activation='relu', input_shape=(112,112,16,3), padding='same',
+                     name='conv1', strides=(1, 1, 1)))
+    #  input_shape=(3, 16, 112, 112)))
+    model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2), padding='valid', name='pool1'))
+
+    # 2nd layer group
+    model.add(Conv3D(128, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv2', strides=(1, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(1, 2, 2), padding='valid', name='pool2'))
+
+    # 3rd layer group
+
+    model.add(Conv3D(256, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv3a', strides=(1, 1, 1)))
+    model.add(Conv3D(256, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv3b', strides=(1, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), padding='valid', name='pool3'))
+
+    # 4th layer group
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv4a', strides=(1, 1, 1)))
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv4b', strides=(1, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), padding='valid', name='pool4'))
+
+    # 5th layer group
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv5a', strides=(1, 1, 1)))
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv5b', strides=(1, 1, 1)))
+    model.add(ZeroPadding3D(padding=(0, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), padding='valid', name='pool5'))
+    model.add(Flatten())
+
+    # FC layers group
+    model.add(Dense(4096, activation='relu', name='fc6'))
+    model.add(Dropout(.5))
+    model.add(Dense(4096, activation='relu', name='fc7'))
+    model.add(Dropout(.5))
+    model.add(Dense(487, activation='softmax', name='fc8'))
+    print(model.summary())
+    return model
+
+def getmodel_th():
+    model_th = Sequential()
+    # 1st layer group
+    model_th.add(Conv3D(64, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv1',
+                            subsample=(1, 1, 1),
+                            input_shape=(3, 16, 112, 112)))
+    model_th.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2),
+                           border_mode='valid', name='pool1'))
+    # 2nd layer group
+    model_th.add(Conv3D(128, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv2',
+                            subsample=(1, 1, 1)))
+    model_th.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
+                           border_mode='valid', name='pool2'))
+    # 3rd layer group
+    model_th.add(Conv3D(256, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv3a',
+                            subsample=(1, 1, 1)))
+    model_th.add(Conv3D(256, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv3b',
+                            subsample=(1, 1, 1)))
+    model_th.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
+                           border_mode='valid', name='pool3'))
+    # 4th layer group
+    model_th.add(Conv3D(512, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv4a',
+                            subsample=(1, 1, 1)))
+    model_th.add(Conv3D(512, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv4b',
+                            subsample=(1, 1, 1)))
+    model_th.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
+                           border_mode='valid', name='pool4'))
+    # 5th layer group
+    model_th.add(Conv3D(512, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv5a',
+                            subsample=(1, 1, 1)))
+    model_th.add(Conv3D(512, 3, 3, 3, activation='relu',
+                            border_mode='same', name='conv5b',
+                            subsample=(1, 1, 1)))
+    model_th.add(ZeroPadding3D(padding=(0, 1, 1)))
+    model_th.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
+                           border_mode='valid', name='pool5'))
+    model_th.add(Flatten())
+    # FC layers group
+    model_th.add(Dense(4096, activation='relu', name='fc6'))
+    model_th.add(Dropout(.5))
+    model_th.add(Dense(4096, activation='relu', name='fc7'))
+    model_th.add(Dropout(.5))
+    model_th.add(Dense(487, activation='softmax', name='fc8'))
+    print(model_th.summary())
+    return model_th
+
 
 K.set_image_data_format('channels_first')
-th_dim_model = None # Create your theano model here with TH dim ordering
+th_dim_model = getmodel_th() # Create your theano model here with TH dim ordering
 
 K.set_image_data_format('channels_last')
-tf_dim_model = None # Create your tensorflow model with TF dimordering here
+tf_dim_model = getmodel_tf() # Create your tensorflow model with TF dimordering here
 
-model_weights = [''] # Add names of theano model weight file paths here.
+model_weights = ['/home/mahnaz/____PycharmProjects/3DCNN/3DCNN/caffeweights/sports1M_weights.h5'] # Add names of theano model weight file paths here.
                      # These weights are assumed to be for  theano backend
                      # (th kernels) with th dim ordering!
-
+print(model_weights)
 """
 No need to edit anything below this. Simply run the script now after
 editing the above 3 inputs.
@@ -82,6 +187,7 @@ for weight_fn in model_weights:
 # Converts (theano kernels, th dim ordering) to (tensorflow kernels, tf dim ordering)
 K.set_image_dim_ordering('th')
 for weight_fn in model_weights:
+    print(weight_fn)
     th_dim_model.load_weights(weight_fn) # th-kernels-th-dim
     convert_all_kernels_in_model(th_dim_model) # tf-kernels-th-dim
 

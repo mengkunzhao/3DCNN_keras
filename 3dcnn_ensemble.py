@@ -58,7 +58,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     dir = '/tank/gesrecog/chalearn/train/'
     vid_dirs = list(open(os.path.join(dir + video_list), 'r'))
 
-    #files=os.listdir(video_dir)
+    files=os.listdir(vid_dirs)
     X=[]
     labels=[]
     labellist=[]
@@ -88,7 +88,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         for i in range(len(labels)):
             if label == labels[i]:
                 labels[i]=num
-    return np.array(X).transpose((0, 2, 3, 1)), labels
+    return np.array(X).transpose((0, 1, 4, 2, 3)), labels
 
 
 def create_3dcnn(input_shape, nb_classes):
