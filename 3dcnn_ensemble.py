@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from keras.datasets import cifar10
 from keras.layers import (Input, Activation, Conv3D, Dense, Dropout, Flatten,
-                          MaxPooling3D, Input, average)
+                          MaxPooling3D, Input, average, ZeroPadding3D)
 from keras.models import Model
 from keras.models import Sequential
 from keras.utils import np_utils
@@ -141,7 +141,7 @@ def main():
     parser.add_argument('--output', type=str, required=True)
     parser.add_argument('--skip', type=bool, default=True)
     parser.add_argument('--depth', type=int, default=16)
-    parser.add_argument('--nmodel', type=int, default=1)
+    parser.add_argument('--nmodel', type=int, default=3)
 
     args=parser.parse_args()
 
