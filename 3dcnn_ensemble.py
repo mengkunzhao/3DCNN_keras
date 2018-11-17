@@ -145,7 +145,7 @@ def main():
         os.makedirs(args.output)
 
     img_rows, img_cols, frames=32, 32, args.depth
-    channel=3 if args.color else 1
+    channel=3 
 
     vid3d=videoto3d.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
