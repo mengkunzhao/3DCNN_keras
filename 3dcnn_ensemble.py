@@ -58,7 +58,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     dir = '/tank/gesrecog/chalearn/train/'
     vid_dirs = list(open(os.path.join(dir + video_list), 'r'))
 
-    files=os.listdir(vid_dirs)
+    #files=os.listdir(vid_dirs)
     X=[]
     labels=[]
     labellist=[]
@@ -70,7 +70,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         if rows == '.DS_Store':
             continue
         name=os.path.join(dir, rows.split(' ')[0])
-        #print(name)
+        print(name)
         label=rows.split(' ')[2]
         if label not in labellist:
             if len(labellist) >= nclass:
