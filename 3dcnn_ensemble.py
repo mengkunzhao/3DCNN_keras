@@ -158,7 +158,7 @@ def main():
     if not os.path.isdir(args.output):
         os.makedirs(args.output)
 
-    img_rows, img_cols, frames=112, 112, args.depth
+    img_rows, img_cols, frames=5, 5, args.depth
     channel=3
 
     vid3d=videoto3d.Videoto3D(img_rows, img_cols, frames)
@@ -177,7 +177,7 @@ def main():
         np.savez(fname_npz, X=X, Y=Y)
         print('Saved dataset to dataset.npz.')
     print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
-
+'''
     X_train, X_test, Y_train, Y_test=train_test_split(
         X, Y, test_size=0.2, random_state=4)
 
@@ -218,6 +218,6 @@ def main():
     print('Test loss:', loss)
     print('Test accuracy:', acc)
 
-
+'''
 if __name__ == '__main__':
     main()

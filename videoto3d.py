@@ -25,7 +25,7 @@ class Videoto3D:
             print(ret)
             if frame is None:
                 break
-               # print(frame.shape[1])
+            print(frame.shape[1])
             frame_temp = cv2.resize(frame, (self.height, self.width))
             framearray.append(frame_temp)
             file2label = filename
