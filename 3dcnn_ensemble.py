@@ -79,13 +79,11 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                 continue
         #print(name)
             label=rows.split(' ')[2]
-            print(label)
             if label not in labellist:
                 if len(labellist) >= nclass:
                     continue
                 labellist.append(label)
             labels.append(label)
-        print(X)
     pbar.close()
     with open(os.path.join(result_dir, 'classes.txt'), 'w') as fp:
         for i in range(len(labellist)):
@@ -95,7 +93,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         for i in range(len(labels)):
             if label == labels[i]:
                 labels[i]=num
-    print(np.array(X).shape)
+    print(np.array(X).size)
 
     return np.array(X).transpose((0, 1, 4, 2, 3)), labels
 
