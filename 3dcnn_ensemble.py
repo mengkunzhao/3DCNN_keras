@@ -72,7 +72,6 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         name=os.path.join(dir, rows.split(' ')[0])
         print(name)
         temp , toload = vid3d.video3d(name, skip=skip)
-        print(rows.split(' ')[0].split('/')[-1])
 
         X.append(temp)
         if toload.split('/')[-1] == rows.split(' ')[0].split('/')[-1]:
@@ -80,6 +79,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                 continue
         #print(name)
             label=rows.split(' ')[2]
+            print(label)
             if label not in labellist:
                 if len(labellist) >= nclass:
                     continue
