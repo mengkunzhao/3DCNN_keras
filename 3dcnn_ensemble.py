@@ -72,7 +72,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         name=os.path.join(dir, rows.split(' ')[0])
         #print(name)
         temp , toload = vid3d.video3d(name, skip=skip)
-
+        print(temp.shape)
         #X.append(temp)
         #print(np.array(X).size)
 
