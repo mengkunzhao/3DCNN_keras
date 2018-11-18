@@ -22,11 +22,11 @@ class Videoto3D:
         for i in range(self.depth):
             cap.set(cv2.CAP_PROP_POS_FRAMES, frames[i])
             ret, frame = cap.read()
-            if frame is not None:
+            #if frame is not None:
                # print(frame.shape[1])
-                frame_temp = cv2.resize(frame, (self.height, self.width))
-                framearray.append(frame_temp)
-                file2label = filename
+            frame_temp = cv2.resize(frame, (self.height, self.width))
+            framearray.append(frame_temp)
+            file2label = filename
 
 
         cap.release()
