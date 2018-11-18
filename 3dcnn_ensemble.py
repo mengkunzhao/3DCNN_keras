@@ -64,34 +64,33 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     X=[]
     labels=[]
     labellist=[]
-
+    temp_shape = []
     pbar=tqdm(total=len(vid_dirs))
 
     for rows in vid_dirs:
         pbar.update(1)
         name=os.path.join(dir, rows.split(' ')[0])
         #print(name)
-        temp , toload = vid3d.video3d(name, skip=skip)
-        print(temp.shape)
+        temp , checkret, checkframe = vid3d.video3d(name, skip=skip)
+        temp_shape.append(temp.shape)
         #X.append(temp)
         #print(np.array(X).size)
 
-        if toload.split('/')[-1] == rows.split(' ')[0].split('/')[-1]:
-            if rows == '.DS_Store':
-                continue
+        #if toload.split('/')[-1] == rows.split(' ')[0].split('/')[-1]:
+           if rows == '.DS_Store':
+               continue
         #print(name)
-            label=rows.split(' ')[2]
-            if label not in labellist:
-                if len(labellist) >= nclass:
-                    continue
-                labellist.append(label)
-            labels.append(label)
+        label=rows.split(' ')[2]
+        if label not in labellist:
+            if len(labellist) >= nclass:
+                continue
+            labellist.append(label)
+        labels.append(label)
         X.append(temp)
-
+        with open(('classes.txt'), 'w') as ss:
+            ss.write('{}'.format(str(name)), '{}'.format(str(checkframe)), '{}'.format(str(checkret)) , '{}\n'.format(str(temp_shape)))
     pbar.close()
-    with open(os.path.join(result_dir, 'classes.txt'), 'w') as fp:
-        for i in range(len(labellist)):
-            fp.write('{}\n'.format(labellist[i]))
+
 
     for num, label in enumerate(labellist):
         for i in range(len(labels)):

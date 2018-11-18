@@ -18,14 +18,15 @@ class Videoto3D:
         else:
             frames = [x for x in range(self.depth)]
         framearray = []
-
+        retcheck = []
+        frameshapecheck = []
         for i in range(self.depth):
             cap.set(cv2.CAP_PROP_POS_FRAMES, frames[i])
             ret, frame = cap.read()
-            print(ret)
+            retcheck.append(ret)
             if frame is None:
                 break
-            print(frame.shape)
+            frameshapecheck.append(frame.shape)
             frame_temp = cv2.resize(frame, (self.height, self.width))
             framearray.append(frame_temp)
             file2label = filename
@@ -33,7 +34,7 @@ class Videoto3D:
 
 
         cap.release()
-        return np.array(framearray) , file2label
+        return np.array(framearray) ,retcheck,frameshapecheck
 
 
 
