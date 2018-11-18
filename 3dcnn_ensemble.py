@@ -68,7 +68,6 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     pbar=tqdm(total=len(vid_dirs))
 
     for rows in vid_dirs:
-        ss = open("predict_ret.txt", 'w')
         pbar.update(1)
         name=os.path.join(dir, rows.split(' ')[0])
         #print(name)
@@ -89,10 +88,11 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         temp_shape.append(temp.shape)
 
         X.append(temp)
-        ss.write('{}, {} , {} , {} \n'.format(str(name) , str(checkframe), str(checkret) , str(temp_shape)))
+        with open(('classes.txt'), 'w') as ss:
+            ss.write('{}, {} , {} , {} \n'.format(str(name) , str(checkframe), str(checkret) , str(temp_shape)))
         ss.close()
-
     pbar.close()
+
 
     for num, label in enumerate(labellist):
         for i in range(len(labels)):
