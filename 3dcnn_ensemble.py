@@ -77,8 +77,8 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         #print(np.array(X).size)
 
         #if toload.split('/')[-1] == rows.split(' ')[0].split('/')[-1]:
-           if rows == '.DS_Store':
-               continue
+        if rows == '.DS_Store':
+            continue
         #print(name)
         label=rows.split(' ')[2]
         if label not in labellist:
