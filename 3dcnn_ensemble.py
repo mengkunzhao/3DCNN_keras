@@ -68,7 +68,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     pbar=tqdm(total=len(vid_dirs))
 
     for rows in vid_dirs:
-        ss = open("predict_ret.txt")
+        ss = open("predict_ret.txt", 'w')
         pbar.update(1)
         name=os.path.join(dir, rows.split(' ')[0])
         #print(name)
