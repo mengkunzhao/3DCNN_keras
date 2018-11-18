@@ -85,7 +85,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
             labellist.append(label)
         labels.append(label)
         temp , checkret, checkframe = vid3d.video3d(name, skip=skip)
-        temp_shape.append(temp.shape)
+        temp_shape =temp.shape 
 
         X.append(temp)
         with open(('classes.txt'), 'w+') as ss:
