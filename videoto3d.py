@@ -29,6 +29,7 @@ class Videoto3D:
             frame_temp = cv2.resize(frame, (self.height, self.width))
             framearray.append(frame_temp)
             file2label = filename
+            print("frame loaded")
 
 
         cap.release()
