@@ -72,7 +72,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         name=os.path.join(dir, rows.split(' ')[0])
         temp , toload = vid3d.video3d(name, skip=skip)
         X.append(temp)
-        if toload.split('/')[-1] == rows.split('/')[-1]:
+        if toload.split('/')[-1] == rows.split(' ')[0].split('/')[-1]:
             if rows == '.DS_Store':
                 continue
         #print(name)
@@ -92,6 +92,8 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         for i in range(len(labels)):
             if label == labels[i]:
                 labels[i]=num
+    print(np.array(X).shape)
+
     return np.array(X).transpose((0, 1, 4, 2, 3)), labels
 
 
