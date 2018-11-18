@@ -70,11 +70,11 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     for rows in vid_dirs:
         pbar.update(1)
         name=os.path.join(dir, rows.split(' ')[0])
-        print(name)
+        #print(name)
         #temp , toload = vid3d.video3d(name, skip=skip)
 
         #X.append(temp)
-        print(np.array(X).size)
+        #print(np.array(X).size)
 
         #if toload.split('/')[-1] == rows.split(' ')[0].split('/')[-1]:
         if rows == '.DS_Store':
