@@ -90,8 +90,9 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
 
         X.append(temp)
         ss.write('{}, {} , {} , {} \n'.format(str(name) , str(checkframe), str(checkret) , str(temp_shape)))
+        ss.close()
+
     pbar.close()
-    ss.close()
 
     for num, label in enumerate(labellist):
         for i in range(len(labels)):
