@@ -88,7 +88,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         temp_shape.append(temp.shape)
 
         X.append(temp)
-        with open(('classes.txt'), 'w') as ss:
+        with open(('classes.txt'), 'w+') as ss:
             ss.write('{}, {} , {} , {} \n'.format(str(name) , str(checkframe), str(checkret) , str(temp_shape)))
         ss.close()
     pbar.close()
