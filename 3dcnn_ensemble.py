@@ -71,8 +71,6 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         pbar.update(1)
         name=os.path.join(dir, rows.split(' ')[0])
         #print(name)
-        temp , checkret, checkframe = vid3d.video3d(name, skip=skip)
-        temp_shape.append(temp.shape)
         #X.append(temp)
         #print(np.array(X).size)
 
@@ -86,6 +84,9 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                 continue
             labellist.append(label)
         labels.append(label)
+        temp , checkret, checkframe = vid3d.video3d(name, skip=skip)
+        temp_shape.append(temp.shape)
+
         X.append(temp)
         with open(('classes.txt'), 'w') as ss:
             ss.write('{}, {} , {} , {}\n'.format(str(name) , str(checkframe), str(checkret) , str(temp_shape)))
