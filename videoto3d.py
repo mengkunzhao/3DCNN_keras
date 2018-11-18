@@ -30,7 +30,7 @@ class Videoto3D:
 
 
         cap.release()
-        return np.array(framearray)
+        return np.array(framearray) , file2label
 
 
 

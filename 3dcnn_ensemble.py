@@ -71,22 +71,22 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         pbar.update(1)
         name=os.path.join(dir, rows.split(' ')[0])
         #print(name)
-        #temp , toload = vid3d.video3d(name, skip=skip)
+        temp , toload = vid3d.video3d(name, skip=skip)
 
         #X.append(temp)
         #print(np.array(X).size)
 
-        #if toload.split('/')[-1] == rows.split(' ')[0].split('/')[-1]:
-        if rows == '.DS_Store':
-           continue
-        #print(name)
-        label=rows.split(' ')[2]
-        if label not in labellist:
-            if len(labellist) >= nclass:
+        if toload.split('/')[-1] == rows.split(' ')[0].split('/')[-1]:
+            if rows == '.DS_Store':
                 continue
-            labellist.append(label)
-        labels.append(label)
-        X.append(vid3d.video3d(name, skip=skip))
+        #print(name)
+            label=rows.split(' ')[2]
+            if label not in labellist:
+                if len(labellist) >= nclass:
+                    continue
+                labellist.append(label)
+            labels.append(label)
+        X.append(temp)
 
     pbar.close()
     with open(os.path.join(result_dir, 'classes.txt'), 'w') as fp:
