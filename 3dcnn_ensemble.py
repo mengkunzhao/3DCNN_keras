@@ -72,9 +72,10 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         #X.append(temp)
         #print(np.array(X).size)
         temp = vid3d.video3d(name, skip=skip)
-        print(temp.shape)
+        #print(temp.shape)
         if temp.shape is (16,112,112,3):
             X.append(temp)
+            print(X.shape)
 
         #if toload.split('/')[-1] == rows.split(' ')[0].split('/')[-1]:
             if rows == '.DS_Store':
