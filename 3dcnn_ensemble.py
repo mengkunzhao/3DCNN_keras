@@ -73,7 +73,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         #print(np.array(X).size)
         temp = vid3d.video3d(name, skip=skip)
         #print(temp.shape)
-        if temp.shape is (16,112,112,3):
+        if temp.shape == (16,112,112,3):
             X.append(temp)
             print(X.shape)
 
