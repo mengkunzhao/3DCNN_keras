@@ -59,14 +59,14 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     vid_dirs = list(open(os.path.join(dir + video_list), 'r'))
     dic_X = {}
     dic_Y = {}
-    X = []
-    labels = []
-    labellist = []
-    chunk_size = 5000
+    chunk_size = 1000
     chunk_range = int(len(vid_dirs) / chunk_size)
     print(chunk_range)
     pbar = tqdm(total=len(vid_dirs))
     for i in range(chunk_range):
+        X = []
+        labels = []
+        labellist = []
         print(chunk_size*i, (i+1)*chunk_size-1)
         for rows in vid_dirs[i*chunk_size:(i+1)*chunk_size-1]:
             pbar.update(1)
@@ -83,15 +83,12 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                         continue
                     labellist.append(label)
                 labels.append(label)
-        # with open(('classes.txt'), 'w+') as ss:
-        #    ss.write('{}, {} , {} , {} \n'.format(str(name) , str(checkframe), str(checkret) , str(temp_shape)))
-        # ss.close()
-
         for num, label in enumerate(labellist):
             for i in range(len(labels)):
                 if label == labels[i]:
                     labels[i] = num
         dic_Y[i] = labels
+        print(dic_Y[i])
         dic_X[i] = np.array(X).transpose((0, 1, 4, 2, 3))
     pbar.close()
 
