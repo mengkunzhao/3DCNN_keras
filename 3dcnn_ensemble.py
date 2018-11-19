@@ -74,7 +74,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         #X.append(temp)
         #print(np.array(X).size)
         temp = vid3d.video3d(name, skip=skip)
-        if temp.shape is (16,5,5,3):
+        if temp.shape is (16,112,112,3):
             X.append(temp)
 
         #if toload.split('/')[-1] == rows.split(' ')[0].split('/')[-1]:
@@ -158,7 +158,7 @@ def main():
     if not os.path.isdir(args.output):
         os.makedirs(args.output)
 
-    img_rows, img_cols, frames=5, 5, args.depth
+    img_rows, img_cols, frames=112, 112, args.depth
     channel=3
 
     vid3d=videoto3d.Videoto3D(img_rows, img_cols, frames)
