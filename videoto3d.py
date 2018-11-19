@@ -10,7 +10,7 @@ class Videoto3D:
         self.depth = depth
 
     def video3d(self, filename, skip=True):
-        print(filename)
+        #print(filename)
         cap = cv2.VideoCapture(filename)
         ver = []
         #print(cap)
