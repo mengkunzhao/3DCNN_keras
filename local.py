@@ -162,37 +162,39 @@ def main():
     fname_npz = 'dataset_{}_{}_{}.npz'.format(args.nclass, args.depth, args.skip)
 
     #    if os.path.exists(fname_npz):
-    #    loadeddata = np.load(fname_npz)
-    #    X, Y = loadeddata["X"], loadeddata["Y"]
-    #        print(X.shape)
-    #    else:
-    loaddata(args.videos, vid3d, args.nclass, args.output, args.skip)
-    #X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
-    #Y = np_utils.to_categorical(y, nb_classes)
-
-    #X = X.astype('float32')
-    #np.savez(fname_npz, X=X, Y=Y)
-    #print('Saved dataset to dataset.npz.')
-    #print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
-
-
-'''
-    X_train, X_test, Y_train, Y_test=train_test_split(
-        X, Y, test_size=0.2, random_state=4)
-
-    # Define model
     models=[]
     for i in range(args.nmodel):
+        accuracy = []
+        loss_ = []
+        val_accuracy = []
+        val_loss_ = []
         print('model{}:'.format(i))
         models.append(create_3dcnn(X.shape[1:], nb_classes))
         adam = optimizers.Adam(lr=0.001, decay=0.0001, amsgrad=False)
-
         models[-1].compile(loss='categorical_crossentropy',
-                      optimizer= adam, metrics=['accuracy'])
-        history = models[-1].fit(X_train, Y_train, validation_data=(
-            X_test, Y_test), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True)
-        plot_history(history , args.output, i)
-        save_history(history, args.output, i)
+                           optimizer=adam, metrics=['accuracy'])
+        for j in range(34):
+            fname_npz = 'dataset_chunk_{}.npz'.format(j)
+            loadeddata = np.load(fname_npz)
+            X_, Y = loadeddata["X"], loadeddata["Y"]
+            X = X_.reshape((X_.shape[0], img_rows, img_cols, frames, channel))
+            print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
+            X_train, X_test, Y_train, Y_test=train_test_split(
+                X, Y, test_size=0.2, random_state=4)
+    # Define model
+            history = models[-1].fit(X_train, Y_train, validation_data=(
+                X_test, Y_test), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True)
+            accuracy.append(history.history(['acc']))
+            loss_.append(history.history['loss'])
+            val_loss_.append(history.history['val_loss'])
+            val_accuracy.append(history.history['val_acc'])
+        loss1 = sum(loss_)/len(loss_)
+        acc1 = sum(accuracy)/len(accuracy)
+        val_accuracy1 =  sum(val_accuracy)/len(val_accuracy)
+        val_loss1 = sum(val_loss_)/len(val_loss_)
+
+            #plot_history(history , args.output, '{}_{}'.format(i,j))
+            #save_history(history, args.output, '{}_{}'.format(i,j))
 
     model_inputs = [Input(shape=X.shape[1:]) for _ in range (args.nmodel)]
     model_outputs = [models[i](model_inputs[i]) for i in range (args.nmodel)]
