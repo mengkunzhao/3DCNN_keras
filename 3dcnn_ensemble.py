@@ -98,7 +98,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
             if label == labels[i]:
                 labels[i]=num
 
-    return np.array(X).transpose((0, 1, 4, 2, 3)), labels
+    #return np.array(X).transpose((0, 1, 4, 2, 3)), labels
 
 
 def create_3dcnn(input_shape, nb_classes):
