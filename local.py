@@ -55,51 +55,46 @@ def save_history(history, result_dir, name):
 
 
 def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
-    dir = '/home/mahnaz/____PycharmProjects/ChalearnDatasetISO/train/'
-    #vid_dirs = list(open(video_list, 'r'))
-    vid_dirs = list(open(video_list, 'r'))
-    #print(vid_dirs)
-    #files=os.listdir(vid_dirs)
-    X=[]
-    labels=[]
-    labellist=[]
-    temp_shape = []
-    pbar=tqdm(total=len(vid_dirs))
-
-    for rows in vid_dirs:
-        pbar.update(1)
-        name=os.path.join(dir, rows.split(' ')[0])
-        #print(name)
-        #X.append(temp)
-        #print(np.array(X).size)
-        temp = vid3d.video3d(name, skip=skip)
-        #print(temp.shape)
-        if temp.shape[0] == 16:
-            X.append(temp)
-            #print(len(X))
-
-        #if toload.split('/')[-1] == rows.split(' ')[0].split('/')[-1]:
-            if rows == '.DS_Store':
-                continue
-        #print(name)
-            label=rows.split(' ')[2]
-            if label not in labellist:
-                if len(labellist) >= nclass:
+    dir = '/tank/gesrecog/chalearn/train/'
+    vid_dirs = list(open(os.path.join(dir + video_list), 'r'))
+    dic_X = {}
+    dic_Y = {}
+    X = []
+    labels = []
+    labellist = []
+    chunk_size = 5000
+    chunk_range = int(len(vid_dirs) / chunk_size)
+    pbar = tqdm(total=len(vid_dirs))
+    for i in range(chunk_range):
+        for rows in vid_dirs[i*chunk_size:(i+1)*chunk_size-1]:
+            pbar.update(1)
+            name = os.path.join(dir, rows.split(' ')[0])
+            print(name)
+            temp = vid3d.video3d(name, skip=skip)
+            if temp.shape[0] == 16:
+                X.append(temp)
+                if rows == '.DS_Store':
                     continue
-                labellist.append(label)
-            labels.append(label)
-        #with open(('classes.txt'), 'w+') as ss:
+                label = rows.split(' ')[2]
+                if label not in labellist:
+                    if len(labellist) >= nclass:
+                        continue
+                    labellist.append(label)
+                labels.append(label)
+        # with open(('classes.txt'), 'w+') as ss:
         #    ss.write('{}, {} , {} , {} \n'.format(str(name) , str(checkframe), str(checkret) , str(temp_shape)))
-        #ss.close()
+        # ss.close()
+
+        for num, label in enumerate(labellist):
+            for i in range(len(labels)):
+                if label == labels[i]:
+                    labels[i] = num
+        dic_Y[i] = labels
+        dic_X[i] = np.array(X).transpose((0, 1, 4, 2, 3))
     pbar.close()
 
-
-    for num, label in enumerate(labellist):
-        for i in range(len(labels)):
-            if label == labels[i]:
-                labels[i]=num
-    #return np.array(X) , labels
-    return np.array(X).transpose((0, 1, 4, 2, 3)), labels
+    return np.array(X), labels
+    # return np.array(X).transpose((0, 1, 4, 2, 3)), labels
 
 
 def create_3dcnn(input_shape, nb_classes):
@@ -141,6 +136,7 @@ def create_3dcnn(input_shape, nb_classes):
     print(model.summary())
     return model
 
+
 def main():
     parser = argparse.ArgumentParser(
         description='simple 3D convolution for action recognition')
@@ -154,31 +150,33 @@ def main():
     parser.add_argument('--depth', type=int, default=16)
     parser.add_argument('--nmodel', type=int, default=3)
 
-    args=parser.parse_args()
+    args = parser.parse_args()
 
     if not os.path.isdir(args.output):
         os.makedirs(args.output)
 
-    img_rows, img_cols, frames=112, 112, args.depth
-    channel=3
+    img_rows, img_cols, frames = 112, 112, args.depth
+    channel = 3
 
-    vid3d=videoto3d.Videoto3D(img_rows, img_cols, frames)
+    vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
     fname_npz = 'dataset_{}_{}_{}.npz'.format(args.nclass, args.depth, args.skip)
 
-    #if os.path.exists(fname_npz):
-        #loadeddata = np.load(fname_npz)
-        #X, Y = loadeddata["X"], loadeddata["Y"]
-        #print(X.shape)
-    #else:
-
-    x, y = loaddata(args.videos, vid3d, args.nclass,args.output, args.skip)
+    #    if os.path.exists(fname_npz):
+    #    loadeddata = np.load(fname_npz)
+    #    X, Y = loadeddata["X"], loadeddata["Y"]
+    #        print(X.shape)
+    #    else:
+    x, y = loaddata(args.videos, vid3d, args.nclass, args.output, args.skip)
     X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
     Y = np_utils.to_categorical(y, nb_classes)
+
     X = X.astype('float32')
-#v   np.savez(fname_npz, X=X, Y=Y)
-#        print('Saved dataset to dataset.npz.')
+    np.savez(fname_npz, X=X, Y=Y)
+    print('Saved dataset to dataset.npz.')
     print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
+
+
 '''
     X_train, X_test, Y_train, Y_test=train_test_split(
         X, Y, test_size=0.2, random_state=4)

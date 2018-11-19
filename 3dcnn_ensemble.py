@@ -62,6 +62,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     labels=[]
     labellist=[]
     temp_shape = []
+    chunk_range = int(len(vid_dirs)/5000)
     pbar=tqdm(total=len(vid_dirs))
 
     for rows in vid_dirs:
