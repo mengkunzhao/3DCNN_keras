@@ -169,7 +169,7 @@ def main():
         val_accuracy = []
         val_loss_ = []
         print('model{}:'.format(i))
-        models.append(create_3dcnn(X.shape[1:], nb_classes))
+        models.append(create_3dcnn((img_rows, img_cols, 16, 3), nb_classes))
         adam = optimizers.Adam(lr=0.001, decay=0.0001, amsgrad=False)
         models[-1].compile(loss='categorical_crossentropy',
                            optimizer=adam, metrics=['accuracy'])
