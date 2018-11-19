@@ -33,7 +33,7 @@ class Videoto3D:
             framearray.append(frame_temp/255)
 
         cap.release()
-        return np.array(framearray), ver
+        return np.array(framearray)
 
 
 

@@ -57,7 +57,6 @@ def save_history(history, result_dir, name):
 def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     dir = '/tank/gesrecog/chalearn/train/'
     vid_dirs = list(open(os.path.join(dir + video_list), 'r'))
-
     #files=os.listdir(vid_dirs)
     X=[]
     labels=[]
@@ -68,7 +67,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     for rows in vid_dirs:
         pbar.update(1)
         name=os.path.join(dir, rows.split(' ')[0])
-        #print(name)
+        print(name)
         #X.append(temp)
         #print(np.array(X).size)
         temp = vid3d.video3d(name, skip=skip)
