@@ -79,7 +79,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                     continue
                 label = rows.split(' ')[2]
 #                labellist.append(label)
-                labels.append(label)
+                labels.append(int(label.split('/')[0]))
 #        for num, label in enumerate(labellist):
 #            for i in range(len(labels)):
 #                if label == labels[i]:
