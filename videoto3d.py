@@ -23,7 +23,7 @@ class Videoto3D:
             #print(frame.shape)
             if frame is not None:
                 frame_temp = cv2.resize(frame, (self.height, self.width))
-                framearray.append(frame_temp)
+                framearray.append(frame_temp/.255)
 
 
         cap.release()
