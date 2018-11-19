@@ -14,9 +14,7 @@ from keras.utils import np_utils
 from keras.utils.vis_utils import plot_model
 from sklearn.model_selection import train_test_split
 from keras import optimizers
-
 from tqdm import tqdm
-
 import videoto3d
 
 
@@ -168,6 +166,7 @@ def main():
     if os.path.exists(fname_npz):
         loadeddata = np.load(fname_npz)
         X, Y = loadeddata["X"], loadeddata["Y"]
+        print(X.shape)
     else:
         x, y = loaddata(args.videos, vid3d, args.nclass,args.output, args.skip)
         X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
