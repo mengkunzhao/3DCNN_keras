@@ -219,6 +219,5 @@ def main():
     print('Test loss:', loss)
     print('Test accuracy:', acc)
 
-'''
 if __name__ == '__main__':
     main()
