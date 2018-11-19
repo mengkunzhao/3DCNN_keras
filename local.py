@@ -159,7 +159,7 @@ def main():
 
     vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
-    fname_npz = 'dataset_{}_{}_{}.npz'.format(args.nclass, args.depth, args.skip)
+    #fname_npz = 'dataset_{}_{}_{}.npz'.format(args.nclass, args.depth, args.skip)
 
     #    if os.path.exists(fname_npz):
     models=[]
