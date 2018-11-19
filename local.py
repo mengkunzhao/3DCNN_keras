@@ -59,7 +59,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     vid_dirs = list(open(os.path.join(dir + video_list), 'r'))
     dic_X = {}
     dic_Y = {}
-    chunk_size = 1000
+    chunk_size = 5000
     chunk_range = int(len(vid_dirs) / chunk_size)
     print(chunk_range)
     pbar = tqdm(total=len(vid_dirs))
