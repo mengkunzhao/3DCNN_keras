@@ -67,7 +67,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     print(chunk_range)
     pbar = tqdm(total=len(vid_dirs))
     for i in range(chunk_range):
-        print(chunk_size*chunk_range)
+        print(chunk_size*i, (i+1)*chunk_size-1)
         for rows in vid_dirs[i*chunk_size:(i+1)*chunk_size-1]:
             pbar.update(1)
             name = os.path.join(dir, rows.split(' ')[0])
