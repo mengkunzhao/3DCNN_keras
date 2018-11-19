@@ -55,9 +55,10 @@ def save_history(history, result_dir, name):
 
 
 def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
-    dir = '/tank/gesrecog/chalearn/train/'
-    vid_dirs = list(open(os.path.join(dir + video_list), 'r'))
-
+    dir = '/home/mahnaz/____PycharmProjects/ChalearnDatasetISO/train/'
+    vid_dirs = list(open(video_list, 'r'))
+    vid_dirs = list(open(video_list, 'r'))
+    print(vid_dirs)
     #files=os.listdir(vid_dirs)
     X=[]
     labels=[]
@@ -72,7 +73,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         #X.append(temp)
         #print(np.array(X).size)
         temp = vid3d.video3d(name, skip=skip)
-        #print(temp.shape)
+        print(temp)
         if temp.shape == (16,112,112,3):
             X.append(temp)
             #print(len(X))
@@ -165,53 +166,60 @@ def main():
     nb_classes = args.nclass
     fname_npz = 'dataset_{}_{}_{}.npz'.format(args.nclass, args.depth, args.skip)
 
-    if os.path.exists(fname_npz):
+    #if os.path.exists(fname_npz):
         #loadeddata = np.load(fname_npz)
         #X, Y = loadeddata["X"], loadeddata["Y"]
         #print(X.shape)
     #else:
 
-        x, y = loaddata(args.videos, vid3d, args.nclass,args.output, args.skip)
-        X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
-        Y = np_utils.to_categorical(y, nb_classes)
-
-        X = X.astype('float32')
-        np.savez(fname_npz, X=X, Y=Y)
-        print('Saved dataset to dataset.npz.')
+    x, y = loaddata(args.videos, vid3d, args.nclass,args.output, args.skip)
+    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
+    Y = np_utils.to_categorical(y, nb_classes)
+    X = X.astype('float32')
+#v   np.savez(fname_npz, X=X, Y=Y)
+#        print('Saved dataset to dataset.npz.')
     print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 '''
     X_train, X_test, Y_train, Y_test=train_test_split(
         X, Y, test_size=0.2, random_state=4)
+
     # Define model
     models=[]
     for i in range(args.nmodel):
         print('model{}:'.format(i))
         models.append(create_3dcnn(X.shape[1:], nb_classes))
         adam = optimizers.Adam(lr=0.001, decay=0.0001, amsgrad=False)
+
         models[-1].compile(loss='categorical_crossentropy',
                       optimizer= adam, metrics=['accuracy'])
         history = models[-1].fit(X_train, Y_train, validation_data=(
             X_test, Y_test), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True)
         plot_history(history , args.output, i)
         save_history(history, args.output, i)
+
     model_inputs = [Input(shape=X.shape[1:]) for _ in range (args.nmodel)]
     model_outputs = [models[i](model_inputs[i]) for i in range (args.nmodel)]
     model_outputs = average(inputs=model_outputs)
     model = Model(inputs=model_inputs, outputs=model_outputs)
     model.compile(loss='categorical_crossentropy', optimizer= adam, metrics=['accuracy'])
+
     model.summary()
     plot_model(model, show_shapes=True,
          to_file=os.path.join(args.output, 'model.png'))
+
     model_json=model.to_json()
     with open(os.path.join(args.output, 'Chalearn_3dcnnmodel.json'), 'w') as json_file:
         json_file.write(model_json)
     model.save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel.hd5'))
+
     loss, acc=model.evaluate([X_test]*args.nmodel, Y_test, verbose=0)
     with open(os.path.join(args.output, 'result.txt'), 'w') as f:
         f.write('Test loss: {}\nTest accuracy:{}'.format(loss, acc))
+
     print('merged model:')
     print('Test loss:', loss)
     print('Test accuracy:', acc)
+
 '''
 if __name__ == '__main__':
     main()

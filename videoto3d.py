@@ -11,6 +11,7 @@ class Videoto3D:
 
     def video3d(self, filename, skip=True):
         cap = cv2.VideoCapture(filename)
+        #print(cap)
         nframe = cap.get(cv2.CAP_PROP_FRAME_COUNT)
         if skip:
             frames = [x * nframe / self.depth for x in range(self.depth)]
@@ -20,10 +21,10 @@ class Videoto3D:
         for i in range(self.depth):
             cap.set(cv2.CAP_PROP_POS_FRAMES, frames[i])
             ret, frame = cap.read()
-            #print(frame.shape)
+            #print(ret)
             if frame is not None:
                 frame_temp = cv2.resize(frame, (self.height, self.width))
-                framearray.append(frame_temp/.255)
+                framearray.append(frame_temp/255)
 
 
         cap.release()
