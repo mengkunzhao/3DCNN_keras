@@ -78,15 +78,12 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                 if rows == '.DS_Store':
                     continue
                 label = rows.split(' ')[2]
-                if label not in labellist:
-                    if len(labellist) >= nclass:
-                        continue
-                    labellist.append(label)
+#                labellist.append(label)
                 labels.append(label)
-        for num, label in enumerate(labellist):
-            for i in range(len(labels)):
-                if label == labels[i]:
-                    labels[i] = num
+#        for num, label in enumerate(labellist):
+#            for i in range(len(labels)):
+#                if label == labels[i]:
+#                    labels[i] = num
         dic_Y[i] = labels
         print(dic_Y[i])
         dic_X[i] = np.array(X).transpose((0, 1, 4, 2, 3))
