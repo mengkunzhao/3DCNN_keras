@@ -95,6 +95,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         for i in range(len(labels)):
             if label == labels[i]:
                 labels[i]=num
+    print(len(labels))
     return np.array(X) , labels
     #return np.array(X).transpose((0, 1, 4, 2, 3)), labels
 
