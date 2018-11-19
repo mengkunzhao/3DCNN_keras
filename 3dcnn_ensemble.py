@@ -75,7 +75,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         #print(temp.shape)
         if temp.shape == (16,112,112,3):
             X.append(temp)
-            print(len(X))
+            #print(len(X))
 
         #if toload.split('/')[-1] == rows.split(' ')[0].split('/')[-1]:
             if rows == '.DS_Store':
@@ -97,8 +97,8 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         for i in range(len(labels)):
             if label == labels[i]:
                 labels[i]=num
-    return np.array(X) , labels
-    #return np.array(X).transpose((0, 1, 4, 2, 3)), labels
+    #return np.array(X) , labels
+    return np.array(X).transpose((0, 1, 4, 2, 3)), labels
 
 
 def create_3dcnn(input_shape, nb_classes):
