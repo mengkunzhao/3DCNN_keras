@@ -57,8 +57,6 @@ def save_history(history, result_dir, name):
 def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     dir = '/tank/gesrecog/chalearn/train/'
     vid_dirs = list(open(os.path.join(dir + video_list), 'r'))
-    dic_X = {}
-    dic_Y = {}
     chunk_size = 5000
     chunk_range = int(len(vid_dirs) / chunk_size)
     print(chunk_range)
@@ -80,16 +78,17 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                 label = rows.split(' ')[2]
 #                labellist.append(label)
                 labels.append(int(label.split('/')[0]))
+                print(len(labels))
 #        for num, label in enumerate(labellist):
 #            for i in range(len(labels)):
 #                if label == labels[i]:
 #                    labels[i] = num
-        dic_Y[i] = labels
-        print(dic_Y[i])
-        dic_X[i] = np.array(X).transpose((0, 1, 4, 2, 3))
+
+        fname_npz = 'dataset_chunk_{}.npz'.format(i)
+        np.savez(fname_npz, X=np.array(X).transpose((0, 1, 4, 2, 3)), Y= np_utils.to_categorical(labels, 249))
     pbar.close()
 
-    return np.array(X), labels
+    #return np.array(X), labels
     # return np.array(X).transpose((0, 1, 4, 2, 3)), labels
 
 
@@ -163,14 +162,14 @@ def main():
     #    X, Y = loadeddata["X"], loadeddata["Y"]
     #        print(X.shape)
     #    else:
-    x, y = loaddata(args.videos, vid3d, args.nclass, args.output, args.skip)
-    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
-    Y = np_utils.to_categorical(y, nb_classes)
+    loaddata(args.videos, vid3d, args.nclass, args.output, args.skip)
+    #X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
+    #Y = np_utils.to_categorical(y, nb_classes)
 
-    X = X.astype('float32')
-    np.savez(fname_npz, X=X, Y=Y)
-    print('Saved dataset to dataset.npz.')
-    print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
+    #X = X.astype('float32')
+    #np.savez(fname_npz, X=X, Y=Y)
+    #print('Saved dataset to dataset.npz.')
+    #print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 
 
 '''
