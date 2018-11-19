@@ -57,6 +57,7 @@ def save_history(history, result_dir, name):
 def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     dir = '/tank/gesrecog/chalearn/train/'
     vid_dirs = list(open(os.path.join(dir + video_list), 'r'))
+    ver = open('verification.txt', 'w')
 
     #files=os.listdir(vid_dirs)
     X=[]
@@ -71,8 +72,9 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         #print(name)
         #X.append(temp)
         #print(np.array(X).size)
-        temp = vid3d.video3d(name, skip=skip)
-        #print(temp.shape)
+        temp , ver2 = vid3d.video3d(name, skip=skip)
+        ver.write(ver2 + '\n')
+        print(temp)
         if temp.shape == (16,112,112,3):
             X.append(temp)
             #print(len(X))
@@ -92,6 +94,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         #ss.close()
     pbar.close()
 
+    file.close()
 
     for num, label in enumerate(labellist):
         for i in range(len(labels)):

@@ -56,9 +56,9 @@ def save_history(history, result_dir, name):
 
 def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     dir = '/home/mahnaz/____PycharmProjects/ChalearnDatasetISO/train/'
+    #vid_dirs = list(open(video_list, 'r'))
     vid_dirs = list(open(video_list, 'r'))
-    vid_dirs = list(open(video_list, 'r'))
-    print(vid_dirs)
+    #print(vid_dirs)
     #files=os.listdir(vid_dirs)
     X=[]
     labels=[]
@@ -69,12 +69,12 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     for rows in vid_dirs:
         pbar.update(1)
         name=os.path.join(dir, rows.split(' ')[0])
-        print(name)
+        #print(name)
         #X.append(temp)
         #print(np.array(X).size)
         temp = vid3d.video3d(name, skip=skip)
-        print(temp)
-        if temp.shape == (16,112,112,3):
+        #print(temp.shape)
+        if temp.shape[0] == 16:
             X.append(temp)
             #print(len(X))
 
