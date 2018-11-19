@@ -64,6 +64,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     labellist = []
     chunk_size = 5000
     chunk_range = int(len(vid_dirs) / chunk_size)
+    print(chunk_range)
     pbar = tqdm(total=len(vid_dirs))
     for i in range(chunk_range):
         print(chunk_size*chunk_range)
