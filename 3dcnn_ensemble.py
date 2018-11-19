@@ -73,24 +73,23 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         #print(name)
         #X.append(temp)
         #print(np.array(X).size)
+        temp = vid3d.video3d(name, skip=skip)
+        if temp.shape is (16,5,5,3):
+            X.append(temp)
 
         #if toload.split('/')[-1] == rows.split(' ')[0].split('/')[-1]:
-        if rows == '.DS_Store':
-            continue
-        #print(name)
-        label=rows.split(' ')[2]
-        if label not in labellist:
-            if len(labellist) >= nclass:
+            if rows == '.DS_Store':
                 continue
-            labellist.append(label)
-        labels.append(label)
-        temp , checkret, checkframe = vid3d.video3d(name, skip=skip)
-        temp_shape =temp.shape 
-
-        X.append(temp)
-        with open(('classes.txt'), 'w+') as ss:
-            ss.write('{}, {} , {} , {} \n'.format(str(name) , str(checkframe), str(checkret) , str(temp_shape)))
-        ss.close()
+        #print(name)
+            label=rows.split(' ')[2]
+            if label not in labellist:
+                if len(labellist) >= nclass:
+                    continue
+                labellist.append(label)
+            labels.append(label)
+        #with open(('classes.txt'), 'w+') as ss:
+        #    ss.write('{}, {} , {} , {} \n'.format(str(name) , str(checkframe), str(checkret) , str(temp_shape)))
+        #ss.close()
     pbar.close()
 
 

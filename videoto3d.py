@@ -19,22 +19,21 @@ class Videoto3D:
             frames = [x for x in range(self.depth)]
         framearray = []
         retcheck = []
-        frameshapecheck = []
+        #frameshapecheck = []
         for i in range(self.depth):
             cap.set(cv2.CAP_PROP_POS_FRAMES, frames[i])
             ret, frame = cap.read()
-            retcheck.append(ret)
-            if frame is None:
-                break
-            frameshapecheck.append(frame.shape)
-            frame_temp = cv2.resize(frame, (self.height, self.width))
-            framearray.append(frame_temp)
-            file2label = filename
+         #   retcheck.append(ret)
+            if frame is not None:
+          #  frameshapecheck.append(frame.shape)
+                frame_temp = cv2.resize(frame, (self.height, self.width))
+                framearray.append(frame_temp)
+        #        file2label = filename
           #  print("frame loaded")
 
 
         cap.release()
-        return np.array(framearray) ,retcheck,frameshapecheck
+        return np.array(framearray) #,retcheck,frameshapecheck
 
 
 
