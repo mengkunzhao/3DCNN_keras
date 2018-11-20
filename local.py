@@ -73,7 +73,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                 X.append(temp)
                 label = rows.split(' ')[2].split('\n')[0]
                 labels.append(label.split('\n')[0])
-        print(labels)
+        #print(labels)
 
         label = np.asarray(labels,dtype=int) -1
         print(len(label))
