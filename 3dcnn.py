@@ -18,7 +18,6 @@ from sklearn.model_selection import train_test_split
 import tensorflow as tf
 import videoto3d
 from tqdm import tqdm
-<<<<<<< HEAD
 from tensorflow.python.client import device_lib
 print(device_lib.list_local_devices())
 
@@ -26,10 +25,8 @@ config = tf.ConfigProto( device_count = {'GPU': 1 , 'CPU': 1} )
 sess = tf.Session(config=config)
 keras.backend.set_session(sess)
 #sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
-=======
 import keras
 
->>>>>>> a52b20b0df797c1eb77990a8f388a7efa104661a
 
 config = tf.ConfigProto( device_count = {'GPU': 1 , 'CPU': 32} )
 sess = tf.Session(config=config)
