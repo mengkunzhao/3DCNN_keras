@@ -158,13 +158,9 @@ def main():
     model.add(Dropout(0.5))
     model.add(Dense(nb_classes, activation='softmax'))
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
-<<<<<<< HEAD
-    sgd = optimizers.SGD(lr=0.1)
-=======
     sgd = optimizers.SGD(lr=0.1, momentum=0.9, decay=0.001, nesterov=True)
     ada = optimizers.Adagrad(lr=0.01, epsilon=None, decay=0.0)
     nadam = optimizers.Nadam(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=None, schedule_decay=0.004)
->>>>>>> 332bc7c9d1de350454289f1469a38b9ea8ab5cd3
     model.compile(loss= 'categorical_crossentropy',
                   optimizer=nadam, metrics=['accuracy'])
     model.summary()
