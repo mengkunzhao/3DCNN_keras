@@ -116,37 +116,30 @@ def main():
                         help='directory where videos are stored')
     parser.add_argument('--nclass', type=int, default=101)
     parser.add_argument('--output', type=str, required=True)
-    parser.add_argument('--color', type=bool, default=False)
+#    parser.add_argument('--color', type=bool, default=False)
     parser.add_argument('--skip', type=bool, default=True)
-    parser.add_argument('--depth', type=int, default=10)
+    parser.add_argument('--depth', type=int, default=16)
     args = parser.parse_args()
 
-    img_rows, img_cols, frames = 32, 32, args.depth
-    channel = 3 if args.color else 1
-    fname_npz = 'dataset_{}_{}_{}.npz'.format(
-        args.nclass, args.depth, args.skip)
+    img_rows, img_cols, frames = 112, 112, args.depth
+    channel = 3 #if args.color else 1
+    #fname_npz = 'dataset_{}_{}_{}.npz'.format(
+    #    args.nclass, args.depth, args.skip)
 
-    vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
+    #vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
-    if os.path.exists(fname_npz):
-        loadeddata = np.load(fname_npz)
-        X, Y = loadeddata["X"], loadeddata["Y"]
-        print(X.shape)
-    else:
-        x, y = loaddata(args.videos, vid3d, args.nclass,
-                        args.output, args.color, args.skip)
-        X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
-        Y = np_utils.to_categorical(y, nb_classes)
-
-        X = X.astype('float32')
-        np.savez(fname_npz, X=X, Y=Y)
-        print('Saved dataset to dataset.npz.')
-    print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
-
-    # Define model
+    #if os.path.exists(fname_npz):
+    #    loadeddata = np.load(fname_npz)
+    #    X, Y = loadeddata["X"], loadeddata["Y"]
+    #    print(X.shape)
+    #else:
+    #    x, y = loaddata(args.videos, vid3d, args.nclass,
+    #                    args.output, args.color, args.skip)
+    #    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
+    #    Y = np_utils.to_categorical(y, nb_classes)
     model = Sequential()
     model.add(Conv3D(32, kernel_size=(3, 3, 3), input_shape=(
-        X.shape[1:]), border_mode='same'))
+        (112.112,16,3)), border_mode='same'))
     model.add(Activation('relu'))
     model.add(Conv3D(32, kernel_size=(3, 3, 3), border_mode='same'))
     model.add(Activation('softmax'))
@@ -168,27 +161,44 @@ def main():
     model.compile(loss=categorical_crossentropy,
                   optimizer=Adam(), metrics=['accuracy'])
     model.summary()
-    plot_model(model, show_shapes=True,
+
+    for j in range(72):
+        fname_npz = 'dataset_chunk_{}.npz'.format(j)
+        loadeddata = np.load(fname_npz)
+        X_, Y_ = loadeddata["X"], loadeddata["Y"]
+        Y= np_utils.to_categorical(Y_, nb_classes)
+        X = X_.reshape((X_.shape[0], img_rows, img_cols, frames, channel))
+        X = X.astype('float32')
+
+        print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
+        X_train, X_test, Y_train, Y_test = train_test_split(
+                X, Y, test_size=0.2, random_state=4)
+    #    np.savez(fname_npz, X=X, Y=Y)
+     #   print('Saved dataset to dataset.npz.')
+    #print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
+
+    # Define model
+        plot_model(model, show_shapes=True,
                to_file=os.path.join(args.output, 'model.png'))
 
-    X_train, X_test, Y_train, Y_test = train_test_split(
-        X, Y, test_size=0.2, random_state=43)
+   # X_train, X_test, Y_train, Y_test = train_test_split(
+   #     X, Y, test_size=0.2, random_state=43)
 
-    history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=args.batch,
+        history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=args.batch,
                         epochs=args.epoch, verbose=1, shuffle=True)
-    model.evaluate(X_test, Y_test, verbose=0)
-    model_json = model.to_json()
-    if not os.path.isdir(args.output):
-        os.makedirs(args.output)
-    with open(os.path.join(args.output, 'ucf101_3dcnnmodel.json'), 'w') as json_file:
-        json_file.write(model_json)
-    model.save_weights(os.path.join(args.output, 'ucf101_3dcnnmodel.hd5'))
+        model.evaluate(X_test, Y_test, verbose=0)
+    #model_json = model.to_json()
+    #if not os.path.isdir(args.output):
+     #   os.makedirs(args.output)
+    #with open(os.path.join(args.output, 'ucf101_3dcnnmodel.json'), 'w') as json_file:
+     #   json_file.write(model_json)
+    #model.save_weights(os.path.join(args.output, 'ucf101_3dcnnmodel.hd5'))
 
-    loss, acc = model.evaluate(X_test, Y_test, verbose=0)
-    print('Test loss:', loss)
-    print('Test accuracy:', acc)
-    plot_history(history, args.output)
-    save_history(history, args.output)
+        loss, acc = model.evaluate(X_test, Y_test, verbose=0)
+        print('Test loss:', loss)
+        print('Test accuracy:', acc)
+    #plot_history(history, args.output)
+    #save_history(history, args.output)
 
 
 if __name__ == '__main__':
