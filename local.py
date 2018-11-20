@@ -73,28 +73,22 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
             temp = vid3d.video3d(name, skip=skip)
             if temp.shape[0] == 16:
                 X.append(temp)
-                if rows == '.DS_Store':
-                    continue
-                label = rows.split(' ')[2]
+                label = rows.split(' ')[2].split('\n')[0]
                 #print(label)
-                if label not in labellist:
-                    if len(labellist) >= nclass:
-                        continue
-                    labellist.append(label.split('\n')[0])
+ #               if label not in labellist:
+ #                   if len(labellist) >= nclass:
+ #                       continue
+ #                   labellist.append(label)
                 labels.append(label.split('\n')[0])
         print(labels)
-        print(labellist)
+  #     print(labellist)
 
                     #print(labellist)
 
         #print(len(labels))
         #print(labels)
-        for num, label1 in enumerate(labellist):
-            #print(num, label1)
-            for i in range(len(labels)):
-                if label1 == labels[i]:
-                    labels[i] = num
-        print(labels)
+        label = np.asarray(labels,dtype=int)
+        print(label)
         fname_npz = 'dataset_chunk_{}.npz'.format(i)
         np.savez(fname_npz, X=np.array(X).transpose((0, 1, 4, 2, 3)), Y= labels)
     pbar.close()
