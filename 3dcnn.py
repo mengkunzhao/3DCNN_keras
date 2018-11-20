@@ -165,11 +165,11 @@ def main():
     model.add(Dropout(0.5))
     model.add(Dense(nb_classes, activation='softmax'))
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
-    sgd = optimizers.SGD(lr=0.1, momentum=0.9, decay=0.001, nesterov=True)
+    sgd = optimizers.SGD(lr=0.01, momentum=0.9, decay=0.001, nesterov=True)
     ada = optimizers.Adagrad(lr=0.01, epsilon=None, decay=0.0)
     nadam = optimizers.Nadam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=None, schedule_decay=0.004)
     model.compile(loss= 'categorical_crossentropy',
-                  optimizer=nadam, metrics=['accuracy'])
+                  optimizer=sgd, metrics=['accuracy'])
     model.summary()
 
     for j in range(72):
@@ -182,7 +182,7 @@ def main():
 
         print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
         X_train, X_test, Y_train, Y_test = train_test_split(
-                X, Y, test_size=0.1, random_state=42)
+                X, Y, test_size=0.2, random_state=42)
     #    np.savez(fname_npz, X=X, Y=Y)
      #   print('Saved dataset to dataset.npz.')
     #print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
