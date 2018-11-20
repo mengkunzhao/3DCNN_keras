@@ -146,18 +146,18 @@ def main():
     img_rows, img_cols, frames = 112, 112, args.depth
     channel = 3
 
-    vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
+    #vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
     #fname_npz = 'dataset_{}_{}_{}.npz'.format(args.nclass, args.depth, args.skip)
-    loaddata(args.videos, vid3d, args.nclass,args.output, args.skip)
+    #loaddata(args.videos, vid3d, args.nclass,args.output, args.skip)
     #X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
     #Y = np_utils.to_categorical(y, nb_classes)
     #    if os.path.exists(fname_npz):
-    '''
+
     models=[]
     accuracy = []
     loss_ = []
-    for j in range(34):
+    for j in range(72):
         fname_npz = 'dataset_chunk_{}.npz'.format(j)
         loadeddata = np.load(fname_npz)
         X_, Y = loadeddata["X"], loadeddata["Y"]
@@ -218,6 +218,6 @@ def main():
     print('merged model:')
     print('Test loss:', loss1)
     print('Test accuracy:', acc1)
-'''
+    
 if __name__ == '__main__':
     main()
