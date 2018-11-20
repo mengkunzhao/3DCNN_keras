@@ -136,7 +136,7 @@ def main():
     #    Y = np_utils.to_categorical(y, nb_classes)
     model = Sequential()
     model.add(Conv3D(32, kernel_size=(3, 3, 3), input_shape=(
-        (112.112,16,3)), border_mode='same'))
+        (112,112,16,3)), border_mode='same'))
     model.add(Activation('relu'))
     model.add(Conv3D(32, kernel_size=(3, 3, 3), border_mode='same'))
     model.add(Activation('softmax'))
