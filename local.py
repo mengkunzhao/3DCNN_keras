@@ -76,12 +76,12 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                 if rows == '.DS_Store':
                     continue
                 label = rows.split(' ')[2]
-                print(label)
+                #print(label)
                 if label not in labellist:
                     if len(labellist) >= nclass:
                         continue
                     labellist.append(label.split('\n')[0])
-                    print(labellist)
+                    #print(labellist)
 
         #print(len(labels))
         #print(labels)
@@ -89,7 +89,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
             for i in range(len(labels)):
                 if label == labels[i]:
                     labels[i] = num
-        #print(len(labels))
+        print(len(labels))
         fname_npz = 'dataset_chunk_{}.npz'.format(i)
         np.savez(fname_npz, X=np.array(X).transpose((0, 1, 4, 2, 3)), Y= labels)
     pbar.close()
