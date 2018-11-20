@@ -174,11 +174,12 @@ def main():
             adam = optimizers.Adam(lr=0.001, decay=0.0001, amsgrad=False)
             models[-1].compile(loss='categorical_crossentropy',
                                optimizer=adam, metrics=['accuracy'])
-            print("model compiled")
     # Define model
-            '''
             history_ = models[-1].fit(X_train, Y_train, validation_data=(
                 X_test, Y_test), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True)
+            print("model fitted")
+
+            '''
             hist.append(history_)
             print(len(hist))
             print(history_.shape)
