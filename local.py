@@ -80,7 +80,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                 if label not in labellist:
                     if len(labellist) >= nclass:
                         continue
-                    labellist.append(label.split('/')[0])
+                    labellist.append(label.split('\')[0])
                     print(labellist)
 
         #print(len(labels))
