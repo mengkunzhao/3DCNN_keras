@@ -160,7 +160,8 @@ def main():
     for j in range(72):
         fname_npz = 'dataset_chunk_{}.npz'.format(j)
         loadeddata = np.load(fname_npz)
-        X_, Y = loadeddata["X"], loadeddata["Y"]
+        X_, Y_ = loadeddata["X"], loadeddata["Y"]
+        Y= np_utils.to_categorical(Y_, nb_classes)
         X = X_.reshape((X_.shape[0], img_rows, img_cols, frames, channel))
         print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
         X_train, X_test, Y_train, Y_test = train_test_split(
@@ -218,6 +219,6 @@ def main():
     print('merged model:')
     print('Test loss:', loss1)
     print('Test accuracy:', acc1)
-    
+
 if __name__ == '__main__':
     main()
