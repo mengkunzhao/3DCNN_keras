@@ -89,7 +89,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                     labels[i] = num
         print(len(labels))
         fname_npz = 'dataset_chunk_{}.npz'.format(i)
-        np.savez(fname_npz, X=np.array(X).transpose((0, 1, 4, 2, 3)), Y= labels
+        np.savez(fname_npz, X=np.array(X).transpose((0, 1, 4, 2, 3)), Y= labels)
     pbar.close()
 
     #return np.array(X), labels
