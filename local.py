@@ -91,7 +91,7 @@ def create_3dcnn(input_shape, nb_classes):
     model.add(Conv3D(64, kernel_size=(3, 3, 3), activation='relu', input_shape=(input_shape), padding='same',
                      name='conv1', strides=(1, 1, 1)))
     #  input_shape=(3, 16, 112, 112)))
-    #model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2), padding='valid', name='pool1'))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), padding='valid', name='pool1'))
 
     # 2nd layer group
     model.add(Conv3D(128, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv2', strides=(1, 1, 1)))
