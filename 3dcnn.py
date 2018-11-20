@@ -154,9 +154,10 @@ def main():
     model.add(Dense(512, activation='sigmoid'))
     model.add(Dropout(0.5))
     model.add(Dense(nb_classes, activation='softmax'))
+    adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
 
-    model.compile(loss=categorical_crossentropy,
-                  optimizer=Adam(), metrics=['accuracy'])
+    model.compile(loss= 'categorical_crossentropy',
+                  optimizer=adam, metrics=['accuracy'])
     model.summary()
 
     for j in range(72):
