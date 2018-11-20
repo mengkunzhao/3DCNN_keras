@@ -137,25 +137,29 @@ def main():
     #    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
     #    Y = np_utils.to_categorical(y, nb_classes)
     model = Sequential()
-    model.add(Conv3D(64, kernel_size=(3, 3, 3), input_shape=(
+    model.add(Conv3D(32, kernel_size=(3, 3, 3), input_shape=(
         (112,112,16,3)), border_mode='same'))
     model.add(Activation('relu'))
-    model.add(Conv3D(128, kernel_size=(3, 3, 3), border_mode='same'))
+    model.add(Conv3D(64, kernel_size=(3, 3, 3), border_mode='same'))
     model.add(Activation('relu'))
-    model.add(MaxPooling3D(pool_size=(3, 3, 3), border_mode='same'))
-    model.add(Dropout(0.25))
+    model.add(MaxPooling3D(pool_size=(2,2,2), border_mode='same'))
+    model.add(Dropout(0.5))
 
     model.add(Conv3D(128, kernel_size=(3, 3, 3), border_mode='same'))
     model.add(Activation('relu'))
-    model.add(Conv3D(512, kernel_size=(3, 3, 3), border_mode='same'))
+    model.add(MaxPooling3D(pool_size=(3, 3, 3), border_mode='same'))
+    model.add(Dropout(0.5))
+
+    model.add(Conv3D(128, kernel_size=(3, 3, 3), border_mode='same'))
+    model.add(Activation('relu'))
+    model.add(Conv3D(512, kernel_size=(2,2,2), border_mode='same'))
     model.add(Activation('relu'))
     model.add(MaxPooling3D(pool_size=(3, 3, 3), border_mode='same'))
-    model.add(Dropout(0.25))
+    model.add(Dropout(0.5))
 
     model.add(Flatten())
     model.add(BatchNormalization())
-
-    model.add(Dense(4096, activation='sigmoid'))
+    model.add(Dense(4096, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(nb_classes, activation='softmax'))
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
