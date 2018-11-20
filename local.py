@@ -65,7 +65,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         X = []
         labels = []
         print(chunk_size*i, (i+1)*chunk_size-1)
-        if i == 36:
+        if i == 18:
             upper = len(vid_dirs)
         else:
             upper = (i+1)*chunk_size-1
