@@ -158,7 +158,7 @@ def main():
     model.add(Dropout(0.5))
     model.add(Dense(nb_classes, activation='softmax'))
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
-    sgd = optimizers.SGD(lr=0.1, momentum=0.9, decay=0.001, nesterov=True)
+    sgd = optimizers.SGD(lr=0.1)
     model.compile(loss= 'categorical_crossentropy',
                   optimizer=sgd, metrics=['accuracy'])
     model.summary()

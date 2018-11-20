@@ -4,3 +4,5 @@ UCF-101
 dataset
 *.npz
 caffeweights
+caffe_weights
+testvid
