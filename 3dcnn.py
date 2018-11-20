@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from keras.datasets import cifar10
 from keras.layers import (Activation, Conv3D, Dense, Dropout, Flatten,
-                          MaxPooling3D)
+                          MaxPooling3D,BatchNormalization)
 from keras.layers.advanced_activations import LeakyReLU
 from keras.losses import categorical_crossentropy
 from keras.models import Sequential
@@ -154,12 +154,13 @@ def main():
 
     model.add(Flatten())
     model.add(Dense(512, activation='sigmoid'))
+    model.add(BatchNormalization())
     model.add(Dropout(0.5))
     model.add(Dense(nb_classes, activation='softmax'))
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
 
     model.compile(loss= 'categorical_crossentropy',
-                  optimizer=adam, metrics=['accuracy'])
+                  optimizer='rmsprop', metrics=['accuracy'])
     model.summary()
 
     for j in range(72):
