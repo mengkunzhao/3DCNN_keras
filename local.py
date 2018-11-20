@@ -86,6 +86,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         #print(len(labels))
         #print(labels)
         for num, label1 in enumerate(labellist):
+            print(num, label1)
             for i in range(len(labels)):
                 if label1 == labels[i]:
                     labels[i] = num
