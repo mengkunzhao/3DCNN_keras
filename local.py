@@ -57,7 +57,7 @@ def save_history(history, result_dir, name):
 def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     dir = '/tank/gesrecog/chalearn/train/'
     vid_dirs = list(open(os.path.join(dir + video_list), 'r'))
-    chunk_size = 10
+    chunk_size = 1000
     chunk_range = int(len(vid_dirs) / chunk_size)
     print(chunk_range)
     pbar = tqdm(total=len(vid_dirs))
@@ -75,10 +75,10 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                 labels.append(label.split('\n')[0])
         print(labels)
 
-        label = np.asarray(labels,dtype=int)
-        print(label-1)
+        label = np.asarray(labels,dtype=int) -1
+        print(len(label))
         fname_npz = 'dataset_chunk_{}.npz'.format(i)
-        np.savez(fname_npz, X=np.array(X).transpose((0, 1, 4, 2, 3)), Y= labels)
+        np.savez(fname_npz, X=np.array(X).transpose((0, 1, 4, 2, 3)), Y= label)
     pbar.close()
 
     #return np.array(X), labels
