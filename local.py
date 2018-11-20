@@ -163,61 +163,69 @@ def main():
 
     #    if os.path.exists(fname_npz):
     models=[]
-    for i in range(args.nmodel):
-        accuracy = []
-        loss_ = []
-        val_accuracy = []
-        val_loss_ = []
-        print('model{}:'.format(i))
-        models.append(create_3dcnn((img_rows, img_cols, 16, 3), nb_classes))
-        adam = optimizers.Adam(lr=0.001, decay=0.0001, amsgrad=False)
-        models[-1].compile(loss='categorical_crossentropy',
-                           optimizer=adam, metrics=['accuracy'])
-        for j in range(34):
-            fname_npz = 'dataset_chunk_{}.npz'.format(j)
-            loadeddata = np.load(fname_npz)
-            X_, Y = loadeddata["X"], loadeddata["Y"]
-            X = X_.reshape((X_.shape[0], img_rows, img_cols, frames, channel))
-            print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
-            X_train, X_test, Y_train, Y_test=train_test_split(
-                X, Y, test_size=0.2, random_state=4)
+    accuracy = []
+    loss_ = []
+    for j in range(34):
+        fname_npz = 'dataset_chunk_{}.npz'.format(j)
+        loadeddata = np.load(fname_npz)
+        X_, Y = loadeddata["X"], loadeddata["Y"]
+        X = X_.reshape((X_.shape[0], img_rows, img_cols, frames, channel))
+        print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
+        X_train, X_test, Y_train, Y_test = train_test_split(
+            X, Y, test_size=0.2, random_state=4)
+        for i in range(args.nmodel):
+            hist = []
+            print('model{}:'.format(i))
+            models.append(create_3dcnn((img_rows, img_cols, 16, 3), nb_classes))
+            adam = optimizers.Adam(lr=0.001, decay=0.0001, amsgrad=False)
+            models[-1].compile(loss='categorical_crossentropy',
+                               optimizer=adam, metrics=['accuracy'])
+
     # Define model
-            history = models[-1].fit(X_train, Y_train, validation_data=(
+            history_ = models[-1].fit(X_train, Y_train, validation_data=(
                 X_test, Y_test), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True)
-            accuracy.append(history.history(['acc']))
-            loss_.append(history.history['loss'])
-            val_loss_.append(history.history['val_loss'])
-            val_accuracy.append(history.history['val_acc'])
-        loss1 = sum(loss_)/len(loss_)
-        acc1 = sum(accuracy)/len(accuracy)
-        val_accuracy1 =  sum(val_accuracy)/len(val_accuracy)
-        val_loss1 = sum(val_loss_)/len(val_loss_)
+            hist.append(history_)
+            print(len(hist))
+            print(history_.shape)
+            plot_history(hist , args.output, '{}_{}'.format(j,i))
+            save_history(hist, args.output, '{}_{}'.format(j, i))
+            #accuracy.append(history.history(['acc']))
+            #loss_.append(history.history['loss'])
+            #val_loss_.append(history.history['val_loss'])
+            #val_accuracy.append(history.history['val_acc'])
+        #loss1 = sum(loss_)/len(loss_)
+        #acc1 = sum(accuracy)/len(accuracy)
+        #val_accuracy1 =  sum(val_accuracy)/len(val_accuracy)
+        #val_loss1 = sum(val_loss_)/len(val_loss_)
 
             #plot_history(history , args.output, '{}_{}'.format(i,j))
             #save_history(history, args.output, '{}_{}'.format(i,j))
 
-    model_inputs = [Input(shape=X.shape[1:]) for _ in range (args.nmodel)]
-    model_outputs = [models[i](model_inputs[i]) for i in range (args.nmodel)]
-    model_outputs = average(inputs=model_outputs)
-    model = Model(inputs=model_inputs, outputs=model_outputs)
-    model.compile(loss='categorical_crossentropy', optimizer= adam, metrics=['accuracy'])
+        model_inputs = [Input(shape=X.shape[1:]) for _ in range (args.nmodel)]
+        model_outputs = [models[i](model_inputs[i]) for i in range (args.nmodel)]
+        model_outputs = average(inputs=model_outputs)
+        model = Model(inputs=model_inputs, outputs=model_outputs)
+        model.compile(loss='categorical_crossentropy', optimizer= adam, metrics=['accuracy'])
+        model.summary()
+        plot_model(model, show_shapes=True,
+            to_file=os.path.join(args.output, 'model.png'))
 
-    model.summary()
-    plot_model(model, show_shapes=True,
-         to_file=os.path.join(args.output, 'model.png'))
+   # model_json=model.to_json()
+   # with open(os.path.join(args.output, 'Chalearn_3dcnnmodel.json'), 'w') as json_file:
+   #     json_file.write(model_json)
+   # model.save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel.hd5'))
 
-    model_json=model.to_json()
-    with open(os.path.join(args.output, 'Chalearn_3dcnnmodel.json'), 'w') as json_file:
-        json_file.write(model_json)
-    model.save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel.hd5'))
-
-    loss, acc=model.evaluate([X_test]*args.nmodel, Y_test, verbose=0)
+        loss, acc=model.evaluate([X_test]*args.nmodel, Y_test, verbose=0)
+        loss_.append(loss)
+        accuracy.append(acc)
+    acc1 = sum(accuracy)/len(accuracy)
+    loss1 = sum(loss_)/len(loss_)
     with open(os.path.join(args.output, 'result.txt'), 'w') as f:
-        f.write('Test loss: {}\nTest accuracy:{}'.format(loss, acc))
+            f.write('Test loss: {}\nTest accuracy:{}'.format(loss1, acc1))
 
     print('merged model:')
-    print('Test loss:', loss)
-    print('Test accuracy:', acc)
+    print('Test loss:', loss1)
+    print('Test accuracy:', acc1)
 
 if __name__ == '__main__':
     main()
