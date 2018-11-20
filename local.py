@@ -82,6 +82,8 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                         continue
                     labellist.append(label.split('\n')[0])
                 labels.append(label.split('\n')[0])
+        print(labels)
+        print(labellist)
 
                     #print(labellist)
 
