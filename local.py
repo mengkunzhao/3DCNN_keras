@@ -170,13 +170,13 @@ def main():
         for i in range(args.nmodel):
             hist = []
             print('model{}:'.format(i))
-            '''
             models.append(create_3dcnn((img_rows, img_cols, 16, 3), nb_classes))
             adam = optimizers.Adam(lr=0.001, decay=0.0001, amsgrad=False)
             models[-1].compile(loss='categorical_crossentropy',
                                optimizer=adam, metrics=['accuracy'])
-
+            print("model compiled")
     # Define model
+            '''
             history_ = models[-1].fit(X_train, Y_train, validation_data=(
                 X_test, Y_test), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True)
             hist.append(history_)
