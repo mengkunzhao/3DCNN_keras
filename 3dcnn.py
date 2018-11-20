@@ -158,9 +158,9 @@ def main():
     model.add(Dropout(0.5))
     model.add(Dense(nb_classes, activation='softmax'))
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
-
-    model.compile(loss= 'categorical_hinge',
-                  optimizer='rmsprop', metrics=['accuracy'])
+    sgd = optimizers.SGD(lr=0.01, momentum=0.9, decay=0.0001, nesterov=True)
+    model.compile(loss= 'categorical_crossentropy',
+                  optimizer=sgd, metrics=['accuracy'])
     model.summary()
 
     for j in range(72):
