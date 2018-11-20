@@ -182,7 +182,7 @@ def main():
 
         print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
         X_train, X_test, Y_train, Y_test = train_test_split(
-                X, Y, test_size=0.2, random_state=4)
+                X, Y, test_size=0.1, random_state=42)
     #    np.savez(fname_npz, X=X, Y=Y)
      #   print('Saved dataset to dataset.npz.')
     #print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
