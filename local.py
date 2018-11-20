@@ -81,7 +81,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                     if len(labellist) >= nclass:
                         continue
                     labellist.append(label)
-                    #print(len(labellist))
+                    print(labellist)
 
         #print(len(labels))
         #print(labels)
