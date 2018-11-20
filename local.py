@@ -85,9 +85,9 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
 
         #print(len(labels))
         #print(labels)
-        for num, label in enumerate(labellist):
+        for num, label1 in enumerate(labellist):
             for i in range(len(labels)):
-                if label == labels[i]:
+                if label1 == labels[i]:
                     labels[i] = num
         print(len(labels))
         fname_npz = 'dataset_chunk_{}.npz'.format(i)
