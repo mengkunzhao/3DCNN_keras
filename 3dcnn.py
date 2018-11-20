@@ -159,7 +159,7 @@ def main():
     model.add(Dense(nb_classes, activation='softmax'))
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
 
-    model.compile(loss= 'categorical_crossentropy',
+    model.compile(loss= 'categorical_hinge',
                   optimizer='rmsprop', metrics=['accuracy'])
     model.summary()
 
