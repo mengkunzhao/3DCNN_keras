@@ -166,10 +166,11 @@ def main():
         print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
         X_train, X_test, Y_train, Y_test = train_test_split(
             X, Y, test_size=0.2, random_state=4)
-        print(X_test.shape, X_train.shape, Y_train.shape, Y_test.shape)
-        '''        for i in range(args.nmodel):
+#        print(X_test.shape, X_train.shape, Y_train.shape, Y_test.shape)
+        for i in range(args.nmodel):
             hist = []
             print('model{}:'.format(i))
+            '''
             models.append(create_3dcnn((img_rows, img_cols, 16, 3), nb_classes))
             adam = optimizers.Adam(lr=0.001, decay=0.0001, amsgrad=False)
             models[-1].compile(loss='categorical_crossentropy',
