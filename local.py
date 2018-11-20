@@ -164,6 +164,7 @@ def main():
         Y= np_utils.to_categorical(Y_, nb_classes)
         X = X_.reshape((X_.shape[0], img_rows, img_cols, frames, channel))
         print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
+        break
         X_train, X_test, Y_train, Y_test = train_test_split(
             X, Y, test_size=0.2, random_state=4)
         for i in range(args.nmodel):
