@@ -87,9 +87,9 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
             for i in range(len(labels)):
                 if label == labels[i]:
                     labels[i] = num
-
+        print(len(labels))
         fname_npz = 'dataset_chunk_{}.npz'.format(i)
-        np.savez(fname_npz, X=np.array(X).transpose((0, 1, 4, 2, 3)), Y= np_utils.to_categorical(labels, 248))
+        np.savez(fname_npz, X=np.array(X).transpose((0, 1, 4, 2, 3)), Y= labels
     pbar.close()
 
     #return np.array(X), labels
@@ -160,7 +160,9 @@ def main():
     vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
     #fname_npz = 'dataset_{}_{}_{}.npz'.format(args.nclass, args.depth, args.skip)
-
+    x, y = loaddata(args.videos, vid3d, args.nclass,args.output, args.skip)
+    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
+    Y = np_utils.to_categorical(y, nb_classes)
     #    if os.path.exists(fname_npz):
     models=[]
     accuracy = []
