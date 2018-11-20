@@ -10,10 +10,8 @@ class Videoto3D:
         self.depth = depth
 
     def video3d(self, filename, skip=True):
-        #print(filename)
         cap = cv2.VideoCapture(filename)
-        ver = []
-        #print(cap)
+
         nframe = cap.get(cv2.CAP_PROP_FRAME_COUNT)
         if skip:
             frames = [x * nframe / self.depth for x in range(self.depth)]
@@ -24,19 +22,12 @@ class Videoto3D:
             cap.set(cv2.CAP_PROP_POS_FRAMES, frames[i])
             ret, frame = cap.read()
             if ret == False:
-                ver = filename
                 framearray = []
                 break
-
-            #print(frame.shape)
             frame_temp = cv2.resize(frame, (self.height, self.width))
             framearray.append(frame_temp/255)
 
         cap.release()
         return np.array(framearray)
 
-
-
-    def get_UCF_classname(self, filename):
-        return filename[filename.find('_') + 1:filename.find('_', 2)]
 

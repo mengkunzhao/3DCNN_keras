@@ -57,15 +57,15 @@ def save_history(history, result_dir, name):
 def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     dir = '/tank/gesrecog/chalearn/train/'
     vid_dirs = list(open(os.path.join(dir + video_list), 'r'))
-    chunk_size = 1000
+    chunk_size = 2000
     chunk_range = int(len(vid_dirs) / chunk_size)
     print(chunk_range)
     pbar = tqdm(total=len(vid_dirs))
-    for i in range(chunk_range):
+    for i in range(chunk_range+1):
         X = []
         labels = []
         print(chunk_size*i, (i+1)*chunk_size-1)
-        if ((i+1)*chunk_size-1) > len(vid_dirs):
+        if i == 36:
             upper = len(vid_dirs)
         else:
             upper = (i+1)*chunk_size-1
