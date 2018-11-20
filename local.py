@@ -91,7 +91,7 @@ def create_3dcnn(input_shape, nb_classes):
     model.add(Conv3D(64, kernel_size=(3, 3, 3), activation='relu', input_shape=(input_shape), padding='same',
                      name='conv1', strides=(1, 1, 1)))
     #  input_shape=(3, 16, 112, 112)))
-    model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2), padding='valid', name='pool1'))
+    #model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2), padding='valid', name='pool1'))
 
     # 2nd layer group
     model.add(Conv3D(128, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv2', strides=(1, 1, 1)))
@@ -104,9 +104,9 @@ def create_3dcnn(input_shape, nb_classes):
     model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), padding='valid', name='pool3'))
 
     # 4th layer group
-    model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv4a', strides=(1, 1, 1)))
+    #model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv4a', strides=(1, 1, 1)))
     #model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv4b', strides=(1, 1, 1)))
-    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), padding='valid', name='pool4'))
+    #model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), padding='valid', name='pool4'))
 
     # 5th layer group
     model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv5a', strides=(1, 1, 1)))
@@ -171,7 +171,7 @@ def main():
             hist = []
             print('model{}:'.format(i))
             models.append(create_3dcnn((img_rows, img_cols, 16, 3), nb_classes))
-            adam = optimizers.Adam(lr=0.001, decay=0.0001, amsgrad=False)
+            adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
             models[-1].compile(loss='categorical_crossentropy',
                                optimizer=adam, metrics=['accuracy'])
     # Define model
