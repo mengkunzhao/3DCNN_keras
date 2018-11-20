@@ -76,10 +76,12 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
                 if rows == '.DS_Store':
                     continue
                 label = rows.split(' ')[2].split('/')[0]
+                print(len(label))
                 if label not in labellist:
                     if len(labellist) >= nclass:
                         continue
                     labellist.append(label)
+                    print(len(labellist))
 
         #print(len(labels))
         #print(labels)
