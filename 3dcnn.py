@@ -18,6 +18,8 @@ from sklearn.model_selection import train_test_split
 import tensorflow as tf
 import videoto3d
 from tqdm import tqdm
+from keras import optimizers
+
 from tensorflow.python.client import device_lib
 print(device_lib.list_local_devices())
 
