@@ -89,7 +89,7 @@ def loaddata(vid_list, vid3d, nclass, result_dir, color=False, skip=True):
                 continue
             labellist.append(label)
         labels.append(label)
-        X.append(vid3d.video3d(name, color=color, skip=skip))
+        X.append(vid3d.video3d(name, skip=skip))
 
     pbar.close()
     with open(os.path.join(result_dir, 'classes.txt'), 'w') as fp:
