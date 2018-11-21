@@ -134,7 +134,7 @@ def main():
 
 
     X_train, X_test, Y_train, Y_test = train_test_split(
-                X, Y, test_size=0.2, random_state=42)
+                X, Y, test_size=0.3, random_state=43)
 
 
 # Define model
@@ -172,13 +172,13 @@ def main():
 
 #List of Optimizers we used:
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
-    sgd = optimizers.SGD(lr=0.001, momentum=0.9, decay=0.001, nesterov=True)
+    sgd = optimizers.SGD(lr=0.01, momentum=0.9, decay=0.001, nesterov=True)
     ada = optimizers.Adagrad(lr=0.01, epsilon=None, decay=0.0)
     nadam = optimizers.Nadam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, schedule_decay=0.004)
 
 #Compiling and fitting the model
     model.compile(loss= 'categorical_crossentropy',
-                  optimizer=nadam, metrics=['accuracy'])
+                  optimizer=sgd, metrics=['accuracy'])
     history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=args.batch,
                         epochs=args.epoch, verbose=1, shuffle=True)
 
