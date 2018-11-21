@@ -129,12 +129,12 @@ def main():
 
     vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
-    loadeddata = np.load(fname_npz)
- #   x, y = loaddata(args.videos, vid3d, args.nclass, args.output, args.skip)
- #   Y= np_utils.to_categorical(y, nb_classes)
- #   X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
- #   X = X.astype('float32')
-    X, Y = loadeddata["X"], loadeddata["Y"]
+ #   loadeddata = np.load(fname_npz)
+    x, y = loaddata(args.videos, vid3d, args.nclass, args.output, args.skip)
+    Y= np_utils.to_categorical(y, nb_classes)
+    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
+    X = X.astype('float32')
+ #   X, Y = loadeddata["X"], loadeddata["Y"]
 
     print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
     X_train, X_test, Y_train, Y_test = train_test_split(
