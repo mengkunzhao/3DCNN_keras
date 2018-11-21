@@ -129,17 +129,17 @@ def main():
 
     vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
- #   loadeddata = np.load(fname_npz)
-    x, y = loaddata(args.videos, vid3d, args.nclass, args.output, args.skip)
-    Y= np_utils.to_categorical(y, nb_classes)
-    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
-    X = X.astype('float32')
- #   X, Y = loadeddata["X"], loadeddata["Y"]
+    loadeddata = np.load(fname_npz)
+ #   x, y = loaddata(args.videos, vid3d, args.nclass, args.output, args.skip)
+ #   Y= np_utils.to_categorical(y, nb_classes)
+ #   X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
+ #   X = X.astype('float32')
+    X, Y = loadeddata["X"], loadeddata["Y"]
 
     print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
     X_train, X_test, Y_train, Y_test = train_test_split(
                 X, Y, test_size=0.2, random_state=42)
-    np.savez(fname_npz, X=X, Y=Y)
+ #   np.savez(fname_npz, X=X, Y=Y)
 
     print('Saved dataset to dataset.npz.')
     #print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
@@ -192,18 +192,18 @@ def main():
     history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=args.batch,
                         epochs=args.epoch, verbose=1, shuffle=True)
     model.evaluate(X_test, Y_test, verbose=0)
-    #model_json = model.to_json()
+    model_json = model.to_json()
     #if not os.path.isdir(args.output):
      #   os.makedirs(args.output)
-    #with open(os.path.join(args.output, 'ucf101_3dcnnmodel.json'), 'w') as json_file:
-     #   json_file.write(model_json)
-    #model.save_weights(os.path.join(args.output, 'ucf101_3dcnnmodel.hd5'))
+    with open(os.path.join(args.output, 'ucf101_3dcnnmodel.json'), 'w') as json_file:
+        json_file.write(model_json)
+    model.save_weights(os.path.join(args.output, 'ucf101_3dcnnmodel.hd5'))
 
     loss, acc = model.evaluate(X_test, Y_test, verbose=0)
     print('Test loss:', loss)
     print('Test accuracy:', acc)
-    #plot_history(history, args.output)
-    #save_history(history, args.output)
+    plot_history(history, args.output)
+    save_history(history, args.output)
 
 
 if __name__ == '__main__':
