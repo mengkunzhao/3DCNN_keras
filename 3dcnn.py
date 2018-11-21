@@ -84,6 +84,7 @@ def loaddata(vid_list, vid3d, nclass, result_dir, color=False, skip=True):
             continue
         name = os.path.join(vid_list, filename)
         label = vid3d.get_UCF_classname(filename)
+        print(label)
         if label not in labellist:
             if len(labellist) >= nclass:
                 continue
@@ -127,8 +128,8 @@ def main():
 
     vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
-    loadeddata = np.load(fname_npz)
-#    x, y = loaddata(args.videos, vid3d, args.nclass, args.output, args.skip)
+ #   loadeddata = np.load(fname_npz)
+    x, y = loaddata(args.videos, vid3d, args.nclass, args.output, args.skip)
  #   Y= np_utils.to_categorical(y, nb_classes)
  #   X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
  #   X = X.astype('float32')
