@@ -77,7 +77,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     labels = []
     labellist = []
 
-    pbar = tqdm(total=len(files))
+    pbar = tqdm(total=len(vid_dirs))
 
     for rows in vid_dirs:
         pbar.update(1)
