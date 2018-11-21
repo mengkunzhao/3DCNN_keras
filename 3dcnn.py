@@ -122,8 +122,8 @@ def main():
 
     img_rows, img_cols, frames = 32, 32, args.depth
     channel = 3 #if args.color else 1
-    #fname_npz = 'dataset_{}_{}_{}.npz'.format(
-    #    args.nclass, args.depth, args.skip)
+    fname_npz = 'dataset_{}_{}_{}.npz'.format(
+        args.nclass, args.depth, args.skip)
 
     vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
