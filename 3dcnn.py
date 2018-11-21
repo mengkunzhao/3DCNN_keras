@@ -132,7 +132,7 @@ def main():
     #    X, Y = loadeddata["X"], loadeddata["Y"]
     #    print(X.shape)
     #else:
-    x, y = loaddata(args.videos, vid3d, args.nclass, args.output, args.color, args.skip)
+    x, y = loaddata(args.videos, vid3d, args.nclass, args.output, args.skip)
     #    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
     #    Y = np_utils.to_categorical(y, nb_classes)
     model = Sequential()
