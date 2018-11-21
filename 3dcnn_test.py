@@ -64,9 +64,9 @@ def save_history(history, result_dir):
 
 # Helper function to load data from video file
 def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
-    dir = '/tank/gesrecog/chalearn/train/'
+    dir = '/tank/gesrecog/chalearn/Testset/'
     output = open("Test_list_sorted.txt", 'w')
-    test1ist = list(sorted(open(os.path.join(dir + video_list), 'r')))
+    test1ist = list(sorted(open(video_list, 'r')))
     for line in sorted(test1ist, key=lambda line: int(line.split(' ')[2])):
         print(line)
         output.write(line)
@@ -129,8 +129,8 @@ def main():
     print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 
 # Define model
-    model = model_from_json(open('3dcnn_500_32_adam.json', 'r').read())
-    model.load_weights('3dcnn_500_32_adam.h5')
+    model = model_from_json(open('3dcnnresult/3cnn_trained_500.json', 'r').read())
+    model.load_weights('3dcnnresult/3cnn_trained_500.h5')
     model.summary()
     print("Loaded model from disk")
 
