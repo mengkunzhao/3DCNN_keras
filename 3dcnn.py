@@ -117,7 +117,8 @@ def main():
     output = open("train_list2.txt", 'w')
     dir = '/tank/gesrecog/chalearn/train/'
     test1 = list(sorted(open(os.path.join(dir + 'train_list.txt'), 'r')))
-    for line in sorted(test1, key=lambda line: int(line.split(' ')[1])):
+    for line in sorted(test1, key=lambda line: int(line.split(' ')[2])):
+        print(line)
         output.write(line)
 
 
