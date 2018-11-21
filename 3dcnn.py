@@ -140,7 +140,7 @@ def main():
     model.add(Conv3D(32, kernel_size=(3, 3, 3), input_shape=(
         (112,112,16,3)), border_mode='same'))
     model.add(Activation('relu'))
-    model.add(Conv3D(32, kernel_size=(3, 3, 3), border_mode='same'))
+    model.add(Conv3D(128, kernel_size=(3, 3, 3), border_mode='same'))
     model.add(Activation('relu'))
     model.add(MaxPooling3D(pool_size=(2,2,2), border_mode='same'))
     #model.add(Dropout(0.5))
