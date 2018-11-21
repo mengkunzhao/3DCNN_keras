@@ -145,10 +145,10 @@ def main():
                   optimizer=adam, metrics=['accuracy'])
 
 #Evaluating the model on the test_set
-    score = model.evaluate(X, Y, verbose=1)
-    print('Test loss:', score[0])
-    print('Test accuracy:', score[1])
-    save_history(score, args.output)
+    loss, acc = model.evaluate(X, Y, verbose=1)
+    print('Test loss:', loss)
+    print('Test accuracy:', acc)
+    #save_history(score, args.output)
 
 if __name__ == '__main__':
     main()
