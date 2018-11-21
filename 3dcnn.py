@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from keras.datasets import cifar10
 from keras.layers import (Activation, Conv3D, Dense, Dropout, Flatten,
-                          MaxPooling3D,BatchNormalization)
+                          MaxPooling3D,ZeroPadding3D)
 from keras.layers.advanced_activations import LeakyReLU
 from keras.losses import categorical_crossentropy
 from keras.models import Sequential
@@ -127,14 +127,19 @@ def main():
 
     vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
-    #if os.path.exists(fname_npz):
-    #    loadeddata = np.load(fname_npz)
-    #    X, Y = loadeddata["X"], loadeddata["Y"]
-    #    print(X.shape)
-    #else:
     x, y = loaddata(args.videos, vid3d, args.nclass, args.output, args.skip)
-    #    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
-    #    Y = np_utils.to_categorical(y, nb_classes)
+    Y= np_utils.to_categorical(y, nb_classes)
+    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
+    X = X.astype('float32')
+
+    print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
+    X_train, X_test, Y_train, Y_test = train_test_split(
+                X, Y, test_size=0.2, random_state=42)
+    np.savez(fname_npz, X=X, Y=Y)
+    print('Saved dataset to dataset.npz.')
+    #print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
+
+    # Define model
     model = Sequential()
     # 1st layer group
     model.add(Conv3D(64, kernel_size=(3, 3, 3), activation='relu', input_shape=(X.shape[1:]), padding='same',
@@ -170,8 +175,7 @@ def main():
     model.add(Dense(4096, activation='relu', name='fc7'))
     model.add(Dropout(.5))
     model.add(Dense(nb_classes, activation='softmax', name='fc8'))
-    print(model.summary())
-    return model
+
 
 
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
@@ -181,24 +185,6 @@ def main():
     model.compile(loss= 'categorical_crossentropy',
                   optimizer=sgd, metrics=['accuracy'])
     model.summary()
-
-#    fname_npz = 'dataset_chunk_{}.npz'.format(j)
-#    loadeddata = np.load(fname_npz)
-    #x, y = loaddata(args.videos, vid3d, args.nclass,
-     #               args.output, args.color, args.skip)
-    #X_, Y_ = loadeddata["X"], loadeddata["Y"]
-    Y= np_utils.to_categorical(y, nb_classes)
-    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
-    X = X.astype('float32')
-
-    print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
-    X_train, X_test, Y_train, Y_test = train_test_split(
-                X, Y, test_size=0.2, random_state=42)
-    #    np.savez(fname_npz, X=X, Y=Y)
-     #   print('Saved dataset to dataset.npz.')
-    #print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
-
-    # Define model
     plot_model(model, show_shapes=True,
           to_file=os.path.join(args.output, 'model.png'))
 
