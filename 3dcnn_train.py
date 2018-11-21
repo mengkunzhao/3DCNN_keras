@@ -171,14 +171,14 @@ def main():
           to_file=os.path.join(args.output, 'model.png'))
 
 #List of Optimizers we used:
-    adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
-    sgd = optimizers.SGD(lr=0.01, momentum=0.9, decay=0.001, nesterov=True)
+    adam = optimizers.Adam(lr=0.01, decay=0.001, amsgrad=False)
+    sgd = optimizers.SGD(lr=0.01, momentum=0.9, decay=0.005, nesterov=True)
     ada = optimizers.Adagrad(lr=0.01, epsilon=None, decay=0.0)
     nadam = optimizers.Nadam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, schedule_decay=0.004)
 
 #Compiling and fitting the model
     model.compile(loss= 'categorical_crossentropy',
-                  optimizer=sgd, metrics=['accuracy'])
+                  optimizer=adam, metrics=['accuracy'])
     history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=args.batch,
                         epochs=args.epoch, verbose=1, shuffle=True)
 
