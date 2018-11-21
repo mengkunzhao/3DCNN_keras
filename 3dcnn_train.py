@@ -168,11 +168,11 @@ def main():
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
     sgd = optimizers.SGD(lr=0.001, momentum=0.9, decay=0.001, nesterov=True)
     ada = optimizers.Adagrad(lr=0.01, epsilon=None, decay=0.0)
-    nadam = optimizers.Nadam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=None, schedule_decay=0.004)
+    nadam = optimizers.Nadam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, schedule_decay=0.004)
 
 #Compiling and fitting the model
     model.compile(loss= 'categorical_crossentropy',
-                  optimizer=adam, metrics=['accuracy'])
+                  optimizer=nadam, metrics=['accuracy'])
     history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=args.batch,
                         epochs=args.epoch, verbose=1, shuffle=True)
 
@@ -180,9 +180,9 @@ def main():
     model_json = model.to_json()
     if not os.path.isdir(args.output):
         os.makedirs(args.output)
-    with open(os.path.join(args.output,'3dcnn_{}_{}_adam.json'.format(args.epoch,args.batch)) , 'w') as json_file:
+    with open(os.path.join(args.output,'3dcnn_{}_{}_nadam.json'.format(args.epoch,args.batch)) , 'w') as json_file:
         json_file.write(model_json)
-    model.save_weights(os.path.join(args.output,'3dcnn_{}_{}_adam.h5'.format(args.epoch,args.batch)))
+    model.save_weights(os.path.join(args.output,'3dcnn_{}_{}_nadam.h5'.format(args.epoch,args.batch)))
 
 #Evaluation on test data if available
     loss, acc = model.evaluate(X_test, Y_test, verbose=0)
