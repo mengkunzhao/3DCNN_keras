@@ -114,12 +114,12 @@ def main():
     args = parser.parse_args()
 
 
-#    output = open("train_list2.txt", 'w')
-#    dir = '/tank/gesrecog/chalearn/train/'
-#    test1 = list(sorted(open(os.path.join(dir + 'train_list.txt'), 'r')))
-#    for line in sorted(test1, key=lambda line: int(line.split(' ')[2])):
-#        print(line)
-#        output.write(line)
+    output = open("train_list1.txt", 'w')
+    dir = '/tank/gesrecog/chalearn/train/'
+    test1 = list(sorted(open(os.path.join(dir + 'train_list.txt'), 'r')))
+    for line in sorted(test1, key=lambda line: int(line.split(' ')[2])):
+        print(line)
+        output.write(line)
 
 
     img_rows, img_cols, frames = 32, 32, args.depth
