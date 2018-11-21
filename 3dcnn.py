@@ -87,7 +87,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         temp = vid3d.video3d(name, skip=skip)
         if temp.shape[0] == 16:
             X.append(temp)
-            label = rows.split(' ')[2].split('\n')[0]
+            label = rows.split(' ')[2]
             labels.append(label.split('\n')[0])
     label = np.asarray(labels,dtype=int) -1
 
@@ -114,9 +114,9 @@ def main():
     args = parser.parse_args()
 
 
-    output = open("train_list1.txt", 'w')
+    output = open("train_list2.txt", 'w')
     dir = '/tank/gesrecog/chalearn/train/'
-    test1 = list(sorted(open(os.path.join(dir + 'train_list1.txt'), 'r')))
+    test1 = list(sorted(open(os.path.join(dir + 'train_list.txt'), 'r')))
     for line in sorted(test1, key=lambda line: int(line.split(' ')[2])):
         print(line)
         output.write(line)
