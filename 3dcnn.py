@@ -120,50 +120,60 @@ def main():
     parser.add_argument('--depth', type=int, default=16)
     args = parser.parse_args()
 
-    img_rows, img_cols, frames = 112, 112, args.depth
+    img_rows, img_cols, frames = 32, 32, args.depth
     channel = 3 #if args.color else 1
     #fname_npz = 'dataset_{}_{}_{}.npz'.format(
     #    args.nclass, args.depth, args.skip)
 
-    #vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
+    vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
     #if os.path.exists(fname_npz):
     #    loadeddata = np.load(fname_npz)
     #    X, Y = loadeddata["X"], loadeddata["Y"]
     #    print(X.shape)
     #else:
-    #    x, y = loaddata(args.videos, vid3d, args.nclass,
-    #                    args.output, args.color, args.skip)
+    x, y = loaddata(args.videos, vid3d, args.nclass, args.output, args.color, args.skip)
     #    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
     #    Y = np_utils.to_categorical(y, nb_classes)
     model = Sequential()
-    model.add(Conv3D(32, kernel_size=(3, 3, 3), input_shape=(
-        (112,112,16,3)), border_mode='same'))
-    model.add(Activation('relu'))
-    model.add(Conv3D(128, kernel_size=(3, 3, 3), border_mode='same'))
-    model.add(Activation('relu'))
-    model.add(MaxPooling3D(pool_size=(2,2,2), border_mode='same'))
-    #model.add(Dropout(0.5))
+    # 1st layer group
+    model.add(Conv3D(64, kernel_size=(3, 3, 3), activation='relu', input_shape=(X.shape[1:]), padding='same',
+                     name='conv1', strides=(1, 1, 1)))
+    #  input_shape=(3, 16, 112, 112)))
+    model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2), padding='valid', name='pool1'))
 
-    #model.add(Conv3D(64, kernel_size=(3, 3, 3), border_mode='same'))
-    #model.add(Activation('relu'))
-    #model.add(MaxPooling3D(pool_size=(3, 3, 3), border_mode='same'))
-    #model.add(Dropout(0.5))
-    #model.add(Conv3D(64, kernel_size=(3, 3, 3), border_mode='same'))
-    #model.add(Activation('relu'))
-    #model.add(MaxPooling3D(pool_size=(3, 3, 3), border_mode='same'))
-    #model.add(Dropout(0.5))
+    # 2nd layer group
+    model.add(Conv3D(128, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv2', strides=(1, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(1, 2, 2), padding='valid', name='pool2'))
 
-    #model.add(Conv3D(128, kernel_size=(2,2,2), border_mode='same'))
-    #model.add(Activation('relu'))
-    #model.add(MaxPooling3D(pool_size=(3, 3, 3), border_mode='same'))
-    #model.add(Dropout(0.5))
+    # 3rd layer group
 
+    model.add(Conv3D(256, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv3a', strides=(1, 1, 1)))
+    model.add(Conv3D(256, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv3b', strides=(1, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), padding='valid', name='pool3'))
+
+    # 4th layer group
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv4a', strides=(1, 1, 1)))
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv4b', strides=(1, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), padding='valid', name='pool4'))
+
+    # 5th layer group
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv5a', strides=(1, 1, 1)))
+    model.add(Conv3D(512, kernel_size=(3, 3, 3), activation='relu', padding='same', name='conv5b', strides=(1, 1, 1)))
+    model.add(ZeroPadding3D(padding=(0, 1, 1)))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), padding='valid', name='pool5'))
     model.add(Flatten())
-    model.add(BatchNormalization())
-    model.add(Dense(4096, activation='relu'))
-    model.add(Dropout(0.5))
-    model.add(Dense(nb_classes, activation='softmax'))
+
+    # FC layers group
+    model.add(Dense(4096, activation='relu', name='fc6'))
+    model.add(Dropout(.5))
+    model.add(Dense(4096, activation='relu', name='fc7'))
+    model.add(Dropout(.5))
+    model.add(Dense(nb_classes, activation='softmax', name='fc8'))
+    print(model.summary())
+    return model
+
+
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
     sgd = optimizers.SGD(lr=0.1, momentum=0.9, decay=0.001, nesterov=True)
     ada = optimizers.Adagrad(lr=0.01, epsilon=None, decay=0.0)
@@ -172,31 +182,32 @@ def main():
                   optimizer=sgd, metrics=['accuracy'])
     model.summary()
 
-    for j in range(72):
-        fname_npz = 'dataset_chunk_{}.npz'.format(j)
-        loadeddata = np.load(fname_npz)
-        X_, Y_ = loadeddata["X"], loadeddata["Y"]
-        Y= np_utils.to_categorical(Y_, nb_classes)
-        X = X_.reshape((X_.shape[0], img_rows, img_cols, frames, channel))
-        X = X.astype('float32')
+#    fname_npz = 'dataset_chunk_{}.npz'.format(j)
+#    loadeddata = np.load(fname_npz)
+    #x, y = loaddata(args.videos, vid3d, args.nclass,
+     #               args.output, args.color, args.skip)
+    #X_, Y_ = loadeddata["X"], loadeddata["Y"]
+    Y= np_utils.to_categorical(y, nb_classes)
+    X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
+    X = X.astype('float32')
 
-        print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
-        X_train, X_test, Y_train, Y_test = train_test_split(
+    print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
+    X_train, X_test, Y_train, Y_test = train_test_split(
                 X, Y, test_size=0.2, random_state=42)
     #    np.savez(fname_npz, X=X, Y=Y)
      #   print('Saved dataset to dataset.npz.')
     #print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 
     # Define model
-        plot_model(model, show_shapes=True,
-               to_file=os.path.join(args.output, 'model.png'))
+    plot_model(model, show_shapes=True,
+          to_file=os.path.join(args.output, 'model.png'))
 
    # X_train, X_test, Y_train, Y_test = train_test_split(
    #     X, Y, test_size=0.2, random_state=43)
 
-        history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=args.batch,
+    history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=args.batch,
                         epochs=args.epoch, verbose=1, shuffle=True)
-        model.evaluate(X_test, Y_test, verbose=0)
+    model.evaluate(X_test, Y_test, verbose=0)
     #model_json = model.to_json()
     #if not os.path.isdir(args.output):
      #   os.makedirs(args.output)
@@ -204,9 +215,9 @@ def main():
      #   json_file.write(model_json)
     #model.save_weights(os.path.join(args.output, 'ucf101_3dcnnmodel.hd5'))
 
-        loss, acc = model.evaluate(X_test, Y_test, verbose=0)
-        print('Test loss:', loss)
-        print('Test accuracy:', acc)
+    loss, acc = model.evaluate(X_test, Y_test, verbose=0)
+    print('Test loss:', loss)
+    print('Test accuracy:', acc)
     #plot_history(history, args.output)
     #save_history(history, args.output)
 
