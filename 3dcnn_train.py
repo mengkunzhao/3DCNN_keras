@@ -154,14 +154,15 @@ def main():
     model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
     model.add(Dropout(0.25))
 
-    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
+    model.add(Conv3D(128, padding="same", kernel_size=(3, 3, 3)))
     model.add(LeakyReLU())
-    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
+    model.add(Conv3D(128, padding="same", kernel_size=(3, 3, 3)))
     model.add(LeakyReLU())
     model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
     model.add(Dropout(0.25))
 
     model.add(Flatten())
+    model.add(Dense(2048, activation='relu'))
     model.add(Dense(512, activation='relu'))
     model.add(BatchNormalization())
     model.add(Dropout(0.5))
