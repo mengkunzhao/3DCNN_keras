@@ -72,7 +72,7 @@ def save_history(history, result_dir):
 
 def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
     dir = '/tank/gesrecog/chalearn/train/'
-    vid_dirs = list(open(os.path.join(dir + video_list), 'r'))
+    vid_dirs = list(open(video_list, 'r'))
     X = []
     labels = []
     labellist = []
