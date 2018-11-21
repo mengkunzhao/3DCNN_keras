@@ -70,7 +70,7 @@ def save_history(history, result_dir):
 def loaddata(video_list, vid3d, skip=True):
     dir = '/tank/gesrecog/chalearn/train/'
     output = open("Train_list_sorted.txt", 'w')
-    train1ist = list(sorted(open(video_list, 'r')))
+    train1ist = list(sorted(open(os.path.join(dir, video_list), 'r')))
     for line in sorted(train1ist, key=lambda line: int(line.split(' ')[2])):
         print(line)
         output.write(line)
