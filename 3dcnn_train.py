@@ -67,9 +67,15 @@ def save_history(history, result_dir):
 
 
 # Helper function to load data from video file
-def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
+def loaddata(video_list, vid3d, skip=True):
     dir = '/tank/gesrecog/chalearn/train/'
-    vid_dirs = list(open(video_list, 'r'))
+    output = open("Train_list_sorted.txt", 'w')
+    train1ist = list(sorted(open(video_list, 'r')))
+    for line in sorted(train1ist, key=lambda line: int(line.split(' ')[2])):
+        print(line)
+        output.write(line)
+
+    vid_dirs = list(open("Train_list_sorted.txt", 'r'))
     X = []
     labels = []
     pbar = tqdm(total=len(vid_dirs))
@@ -117,7 +123,7 @@ def main():
         X, Y = loadeddata["X"], loadeddata["Y"]
     else:
 #If not, we load the data with the helper function and save it for future use:
-        x, y = loaddata(args.videos, vid3d, args.nclass, args.output, args.skip)
+        x, y = loaddata(args.videos, vid3d, args.skip)
         Y= np_utils.to_categorical(y, nb_classes)
         X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
         X = X.astype('float32')
