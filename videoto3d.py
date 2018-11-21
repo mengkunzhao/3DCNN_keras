@@ -1,6 +1,7 @@
+#Helper Function to read video frames
+
 import numpy as np
 import cv2
-
 
 class Videoto3D:
 
@@ -30,5 +31,3 @@ class Videoto3D:
         cap.release()
         return np.array(framearray)
 
-    def get_UCF_classname(self, filename):
-        return filename[filename.find('_') + 1:filename.find('_', 2)]
