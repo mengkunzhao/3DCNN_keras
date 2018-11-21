@@ -70,41 +70,33 @@ def save_history(history, result_dir):
                 i, loss[i], acc[i], val_loss[i], val_acc[i]))
 
 
-def loaddata(vid_list, vid3d, nclass, result_dir, color=False, skip=True):
-    files = os.listdir(vid_list)
+def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
+    dir = '/tank/gesrecog/chalearn/train/'
+    vid_dirs = list(sorted(open(os.path.join(dir + video_list), 'r'),2))
     X = []
     labels = []
     labellist = []
 
     pbar = tqdm(total=len(files))
 
-    for filename in files:
+    for rows in vid_dirs:
         pbar.update(1)
-        if filename == '.DS_Store':
-            continue
-        name = os.path.join(vid_list, filename)
-        label = vid3d.get_UCF_classname(filename)
-        print(label)
-        if label not in labellist:
-            if len(labellist) >= nclass:
-                continue
-            labellist.append(label)
-        labels.append(label)
-        X.append(vid3d.video3d(name, skip=skip))
+        name = os.path.join(dir, rows.split(' ')[0])
+        #label = vid3d.get_UCF_classname(filename)
+        #print(label)
+        temp = vid3d.video3d(name, skip=skip)
+        if temp.shape[0] == 16:
+            X.append(temp)
+            label = rows.split(' ')[2].split('\n')[0]
+            labels.append(label.split('\n')[0])
+    label = np.asarray(labels,dtype=int) -1
 
     pbar.close()
     with open(os.path.join(result_dir, 'classes.txt'), 'w') as fp:
-        for i in range(len(labellist)):
-            fp.write('{}\n'.format(labellist[i]))
+        for i in range(len(label)):
+            fp.write('{}\n'.format(label[i]))
 
-    for num, label in enumerate(labellist):
-        for i in range(len(labels)):
-            if label == labels[i]:
-                labels[i] = num
-    if color:
-        return np.array(X).transpose((0, 2, 3, 4, 1)), labels
-    else:
-        return np.array(X).transpose((0, 2, 3, 1)), labels
+    return np.array(X).transpose((0, 2, 3, 4, 1)), label
 
 
 def main():
