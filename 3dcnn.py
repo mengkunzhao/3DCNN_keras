@@ -186,7 +186,7 @@ def main():
     ada = optimizers.Adagrad(lr=0.01, epsilon=None, decay=0.0)
     nadam = optimizers.Nadam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=None, schedule_decay=0.004)
     model.compile(loss= 'categorical_crossentropy',
-                  optimizer=sgd, metrics=['accuracy'])
+                  optimizer=adam, metrics=['accuracy'])
     model.summary()
     plot_model(model, show_shapes=True,
           to_file=os.path.join(args.output, 'model.png'))
