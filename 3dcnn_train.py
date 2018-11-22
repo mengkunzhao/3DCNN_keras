@@ -9,7 +9,7 @@ matplotlib.use('AGG')
 import matplotlib.pyplot as plt
 import numpy as np
 from keras.layers import (Activation, Conv3D, Dense, Dropout, Flatten,MaxPooling3D,ZeroPadding3D, BatchNormalization)
-from keras.layers.advanced_activations import LeakyReLU
+from keras.layers.advanced_activations import LeakyReLU, ReLU
 from keras.losses import categorical_crossentropy
 from keras.models import Sequential
 from keras.utils import np_utils
@@ -167,28 +167,28 @@ def main():
     model = Sequential()
     model.add(Conv3D(32, kernel_size=(3, 3, 3), input_shape=(
         X_train.shape[1:]), padding="same"))
-    model.add(LeakyReLU())
-    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
-    model.add(LeakyReLU())
+    model.add(ReLU())
+    model.add(Conv3D(32, padding="same", kernel_size=(3, 3, 3)))
+    model.add(ReLU())
     model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
     model.add(Dropout(0.5))
 
     model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
-    model.add(LeakyReLU())
+    model.add(ReLU())
     model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
-    model.add(LeakyReLU())
+    model.add(ReLU())
     model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
     model.add(Dropout(0.25))
 
-    model.add(Conv3D(128, padding="same", kernel_size=(3, 3, 3)))
-    model.add(LeakyReLU())
-    model.add(Conv3D(128, padding="same", kernel_size=(3, 3, 3)))
-    model.add(LeakyReLU())
+    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
+    model.add(ReLU())
+    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
+    model.add(ReLU())
     model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
     model.add(Dropout(0.5))
 
     model.add(Flatten())
-    model.add(Dense(1024, activation='relu'))
+    model.add(Dense(512, activation='relu'))
     model.add(BatchNormalization())
     model.add(Dense(512, activation='relu'))
     model.add(Dropout(0.5))
