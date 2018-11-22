@@ -184,7 +184,7 @@ def main():
     model.add(LeakyReLU())
     model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
     model.add(LeakyReLU())
-    model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
+    model.add(MaxPooling3D(pool_size=(2, 2, 2), padding="same"))
     model.add(Dropout(0.5))
 
     model.add(Flatten())
