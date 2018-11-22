@@ -121,6 +121,20 @@ def main():
         args.nclass, args.depth, args.skip)
     vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
 
+
+    if os.path.exists(fname_npz_valid):
+        loadeddata = np.load(fname_npz_valid)
+        Xv, Yv = loadeddata["X"], loadeddata["Y"]
+    else:
+    # If not, we load the data with the helper function and save it for future use:
+        xv, yv = loaddata(args.valid, vid3d, args.skip)
+        Yv = np_utils.to_categorical(yv, nb_classes)
+        Xv = xv.reshape((xv.shape[0], img_rows, img_cols, frames, channel))
+        Xv = Xv.astype('float32')
+        np.savez(fname_npz_train, X=Xv, Y=Yv)
+        print('Saved valid dataset to dataset_train.npz.')
+
+        
 #If the dataset is already stored in npz file:
     if os.path.exists(fname_npz_train):
         loadeddata = np.load(fname_npz_train)
@@ -135,17 +149,7 @@ def main():
         print('Saved training dataset to dataset_train.npz.')
 
 
-    if os.path.exists(fname_npz_valid):
-        loadeddata = np.load(fname_npz_valid)
-        Xv, Yv = loadeddata["X"], loadeddata["Y"]
-    else:
-    # If not, we load the data with the helper function and save it for future use:
-        xv, yv = loaddata(args.valid, vid3d, args.skip)
-        Yv = np_utils.to_categorical(yv, nb_classes)
-        Xv = xv.reshape((xv.shape[0], img_rows, img_cols, frames, channel))
-        Xv = Xv.astype('float32')
-        np.savez(fname_npz_train, X=Xv, Y=Yv)
-        print('Saved training dataset to dataset_train.npz.')
+
 
 
     print('Xt_shape:{}\nYt_shape:{}'.format(Xt.shape, Yt.shape))
