@@ -71,7 +71,7 @@ def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
         print(line)
         output.write(line)
 
-    vid_dirs = list(open("Test_list_sorted.txt", 'r'))
+    vid_dirs = list(open("Train_list_sorted.txt", 'r'))
     X = []
     labels = []
     pbar = tqdm(total=len(vid_dirs))
