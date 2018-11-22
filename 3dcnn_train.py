@@ -204,7 +204,7 @@ def main():
 
 #Compiling and fitting the model
     model.compile(loss= 'categorical_crossentropy',
-                  optimizer=sgd, metrics=['accuracy'])
+                  optimizer=adam, metrics=['accuracy'])
     history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=args.batch,
                         epochs=args.epoch, verbose=1, shuffle=True)
 
