@@ -171,6 +171,13 @@ def main():
     model.add(Conv3D(32, padding="same", kernel_size=(3, 3, 3)))
     model.add(LeakyReLU())
     model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
+    model.add(Dropout(0.5))
+
+    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
+    model.add(LeakyReLU())
+    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
+    model.add(LeakyReLU())
+    model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
     model.add(Dropout(0.25))
 
     model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
@@ -180,16 +187,10 @@ def main():
     model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
     model.add(Dropout(0.5))
 
-    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
-    model.add(LeakyReLU())
-    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
-    model.add(LeakyReLU())
-    model.add(BatchNormalization())
-    model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
-    model.add(Dropout(0.5))
-
     model.add(Flatten())
-    model.add(Dense(512, activation='relu'))
+    model.add(BatchNormalization())
+    model.add(Dense(512))
+    model.add(LeakyReLU())
     model.add(Dropout(0.5))
     model.add(Dense(nb_classes, activation='softmax'))
     model.summary()
@@ -197,7 +198,7 @@ def main():
           to_file=os.path.join(args.output, 'model.png'))
 
 #List of Optimizers we used:
-    adam = optimizers.Adam(lr=0.001, decay=0.001, amsgrad=False)
+    adam = optimizers.Adam(lr=0.01, decay=0.001, amsgrad=False)
     sgd = optimizers.SGD(lr=0.01, momentum=0.9, decay=0.005, nesterov=True)
     ada = optimizers.Adagrad(lr=0.01, epsilon=None, decay=0.0)
     nadam = optimizers.Nadam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=None, schedule_decay=0.004)
@@ -212,9 +213,9 @@ def main():
     model_json = model.to_json()
     if not os.path.isdir(args.output):
         os.makedirs(args.output)
-    with open(os.path.join(args.output,'3dcnn_{}_{}_nadam.json'.format(args.epoch,args.batch)) , 'w') as json_file:
+    with open(os.path.join(args.output,'3dcnn_{}_{}_adam2.json'.format(args.epoch,args.batch)) , 'w') as json_file:
         json_file.write(model_json)
-    model.save_weights(os.path.join(args.output,'3dcnn_{}_{}_nadam.h5'.format(args.epoch,args.batch)))
+    model.save_weights(os.path.join(args.output,'3dcnn_{}_{}_adam2.h5'.format(args.epoch,args.batch)))
 
 #Evaluation on test data if available
     loss, acc = model.evaluate(X_test, Y_test, verbose=1)
