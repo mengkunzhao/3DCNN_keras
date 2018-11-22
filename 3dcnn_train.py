@@ -74,6 +74,7 @@ def loaddata(video_list, vid3d, skip=True):
     output = open(out_name, 'w')
     trainlist = list(sorted(open(os.path.join(dir,video_list), 'r')))
     for line in sorted(trainlist, key=lambda line: int(line.split(' ')[2])):
+        print(line)
         output.write(line)
 
     vid_dirs = list(open(out_name, 'r'))
@@ -134,7 +135,7 @@ def main():
         np.savez(fname_npz_train, X=Xv, Y=Yv)
         print('Saved valid dataset to dataset_train.npz.')
 
-        
+
 #If the dataset is already stored in npz file:
     if os.path.exists(fname_npz_train):
         loadeddata = np.load(fname_npz_train)
@@ -162,7 +163,7 @@ def main():
 # Define model
     model = Sequential()
     model.add(Conv3D(32, kernel_size=(3, 3, 3), input_shape=(
-        X.shape[1:]), padding="same"))
+        X_train.shape[1:]), padding="same"))
     model.add(LeakyReLU())
     model.add(Conv3D(32, padding="same", kernel_size=(3, 3, 3)))
     model.add(LeakyReLU())
