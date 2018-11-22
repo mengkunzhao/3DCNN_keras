@@ -72,8 +72,8 @@ def loaddata(video_list, vid3d, skip=True):
     out_name = str(video_list.split('.')[0]+'_sorted.txt')
 
     output = open(out_name, 'w')
-    train1ist = list(sorted(open(video_list, 'r')))
-    for line in sorted(train1ist, key=lambda line: int(line.split(' ')[2])):
+    trainlist = list(sorted(open(os.path.join(dir,video_list), 'r')))
+    for line in sorted(trainlist, key=lambda line: int(line.split(' ')[2])):
         print(line)
         output.write(line)
 
@@ -141,7 +141,7 @@ def main():
         Xv, Yv = loadeddata["X"], loadeddata["Y"]
     else:
     # If not, we load the data with the helper function and save it for future use:
-        xv, yv = loaddata(args.videos, vid3d, args.skip)
+        xv, yv = loaddata(args.valid, vid3d, args.skip)
         Yv = np_utils.to_categorical(yv, nb_classes)
         Xv = xv.reshape((xv.shape[0], img_rows, img_cols, frames, channel))
         Xv = Xv.astype('float32')
