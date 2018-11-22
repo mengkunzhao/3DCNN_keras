@@ -77,7 +77,7 @@ def loaddata(video_list, vid3d, skip=True):
     #    print(line)
     #    output.write(line)
 
-    vid_dirs = list(open(video_list, 'r'))
+    vid_dirs = list(open(os.path.join(dir,video_list), 'r'))
     print(len(vid_dirs))
     X = []
     labels = []
