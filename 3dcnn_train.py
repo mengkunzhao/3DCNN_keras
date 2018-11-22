@@ -69,15 +69,16 @@ def save_history(history, result_dir):
 # Helper function to load data from video file
 def loaddata(video_list, vid3d, skip=True):
     dir = '/tank/gesrecog/chalearn/'
-    out_name = str(video_list.split('.')[0]+'_sorted.txt')
+    #out_name = str(video_list.split('.')[0]+'_sorted.txt')
 
-    output = open(out_name, 'w')
-    trainlist = list(sorted(open(os.path.join(dir,video_list), 'r')))
-    for line in sorted(trainlist, key=lambda line: int(line.split(' ')[2])):
-        print(line)
-        output.write(line)
+    #output = open(out_name, 'w')
+    #trainlist = list(sorted(open(os.path.join(dir,video_list), 'r')))
+    #for line in sorted(trainlist, key=lambda line: int(line.split(' ')[2])):
+    #    print(line)
+    #    output.write(line)
 
-    vid_dirs = list(open(out_name, 'r'))
+    vid_dirs = list(open(video_list, 'r'))
+    print(len(vid_dirs))
     X = []
     labels = []
     pbar = tqdm(total=len(vid_dirs))
