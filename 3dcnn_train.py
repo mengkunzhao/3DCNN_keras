@@ -91,7 +91,7 @@ def loaddata(video_list, vid3d, skip=True):
             X.append(temp)
             label = rows.split(' ')[2]
         #print(label)
-            labels.append(label)
+            labels.append(label.split('\n')[0])
     print(labels)
 # The original labels start from one, but our system needs them to start from 0
     label_ = np.asarray(labels,dtype=int) - 1
