@@ -178,17 +178,16 @@ def main():
     model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
     model.add(LeakyReLU())
     model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
-    model.add(Dropout(0.25))
+    model.add(Dropout(0.5))
 
-    model.add(Conv3D(128, padding="same", kernel_size=(3, 3, 3)))
+    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
     model.add(LeakyReLU())
-    model.add(Conv3D(128, padding="same", kernel_size=(3, 3, 3)))
+    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
     model.add(LeakyReLU())
     model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
-    model.add(Dropout(0.25))
+    model.add(Dropout(0.5))
 
     model.add(Flatten())
-    model.add(Dense(2048, activation='relu'))
     model.add(Dense(512, activation='relu'))
     model.add(BatchNormalization())
     model.add(Dropout(0.5))
@@ -205,7 +204,7 @@ def main():
 
 #Compiling and fitting the model
     model.compile(loss= 'categorical_crossentropy',
-                  optimizer=adam, metrics=['accuracy'])
+                  optimizer=nadam, metrics=['accuracy'])
     history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=args.batch,
                         epochs=args.epoch, verbose=1, shuffle=True)
 
@@ -218,7 +217,7 @@ def main():
     model.save_weights(os.path.join(args.output,'3dcnn_{}_{}_nadam.h5'.format(args.epoch,args.batch)))
 
 #Evaluation on test data if available
-    loss, acc = model.evaluate(X_test, Y_test, verbose=0)
+    loss, acc = model.evaluate(X_test, Y_test, verbose=1)
     print('Test loss:', loss)
     print('Test accuracy:', acc)
     plot_history(history, args.output)
