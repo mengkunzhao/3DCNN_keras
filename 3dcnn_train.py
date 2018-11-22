@@ -92,7 +92,7 @@ def loaddata(video_list, vid3d, skip=True):
             labels.append(label.split('\n')[0])
 # The original labels start from one, but our system needs them to start from 0
     label_ = np.asarray(labels,dtype=int) - 1
-
+    print(label_)
     pbar.close()
     return np.array(X).transpose((0, 2, 3, 4, 1)), label_
 
