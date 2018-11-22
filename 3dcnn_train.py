@@ -90,7 +90,7 @@ def loaddata(video_list, vid3d, skip=True):
         if temp.shape[0] == 16:
             X.append(temp)
             label = rows.split(' ')[2]
-            #print(label)
+            print(label)
             labels.append(label.split('\n')[0])
     print(labels)
 # The original labels start from one, but our system needs them to start from 0
