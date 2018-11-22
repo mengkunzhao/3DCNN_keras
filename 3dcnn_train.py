@@ -74,7 +74,6 @@ def loaddata(video_list, vid3d, skip=True):
     output = open(out_name, 'w')
     trainlist = list(sorted(open(os.path.join(dir,video_list), 'r')))
     for line in sorted(trainlist, key=lambda line: int(line.split(' ')[2])):
-        print(line)
         output.write(line)
 
     vid_dirs = list(open(out_name, 'r'))
@@ -92,10 +91,10 @@ def loaddata(video_list, vid3d, skip=True):
             label = rows.split(' ')[2]
             labels.append(label.split('\n')[0])
 # The original labels start from one, but our system needs them to start from 0
-    label = np.asarray(labels,dtype=int) - 1
+    label_ = np.asarray(labels,dtype=int) - 1
 
     pbar.close()
-    return np.array(X).transpose((0, 2, 3, 4, 1)), label
+    return np.array(X).transpose((0, 2, 3, 4, 1)), label_
 
 
 def main():
