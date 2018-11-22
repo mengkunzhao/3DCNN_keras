@@ -68,14 +68,16 @@ def save_history(history, result_dir):
 
 # Helper function to load data from video file
 def loaddata(video_list, vid3d, skip=True):
-    dir = '/tank/gesrecog/chalearn/train/'
-    output = open("Train_list_sorted.txt", 'w')
-    train1ist = list(sorted(open(os.path.join(dir, video_list), 'r')))
+    dir = '/tank/gesrecog/chalearn/'
+    out_name = str(video_list.split('.')[0]+'_sorted.txt')
+
+    output = open(out_name, 'w')
+    train1ist = list(sorted(open(video_list, 'r')))
     for line in sorted(train1ist, key=lambda line: int(line.split(' ')[2])):
         print(line)
         output.write(line)
 
-    vid_dirs = list(open("Train_list_sorted.txt", 'r'))
+    vid_dirs = list(open(out_name, 'r'))
     X = []
     labels = []
     pbar = tqdm(total=len(vid_dirs))
@@ -101,7 +103,8 @@ def main():
         description='simple 3D convolution for action recognition')
     parser.add_argument('--batch', type=int, default=32)
     parser.add_argument('--epoch', type=int, default=100)
-    parser.add_argument('--videos', type=str, default='UCF101', help='directory where videos are stored')
+    parser.add_argument('--train', type=str, default='train.txt')
+    parser.add_argument('--valid', type=str, default='valid.txt')
     parser.add_argument('--nclass', type=int, default=249)
     parser.add_argument('--output', type=str, required=True)
     parser.add_argument('--skip', type=bool, default=True)
@@ -113,28 +116,44 @@ def main():
     img_rows, img_cols, frames = 32, 32, args.depth
     channel = 3
     nb_classes = args.nclass
-    fname_npz = 'dataset_{}_{}_{}.npz'.format(
+    fname_npz_train = 'dataset_train_{}_{}_{}.npz'.format(
+        args.nclass, args.depth, args.skip)
+    fname_npz_valid = 'dataset_valid_{}_{}_{}.npz'.format(
         args.nclass, args.depth, args.skip)
     vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
 
 #If the dataset is already stored in npz file:
-    if os.path.exists(fname_npz):
-        loadeddata = np.load(fname_npz)
-        X, Y = loadeddata["X"], loadeddata["Y"]
+    if os.path.exists(fname_npz_train):
+        loadeddata = np.load(fname_npz_train)
+        Xt, Yt = loadeddata["X"], loadeddata["Y"]
     else:
 #If not, we load the data with the helper function and save it for future use:
-        x, y = loaddata(args.videos, vid3d, args.skip)
-        Y= np_utils.to_categorical(y, nb_classes)
-        X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
-        X = X.astype('float32')
-        np.savez(fname_npz, X=X, Y=Y)
-        print('Saved dataset to dataset.npz.')
-
-    print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
+        xt, yt = loaddata(args.train, vid3d, args.skip)
+        Yt= np_utils.to_categorical(yt, nb_classes)
+        Xt = xt.reshape((xt.shape[0], img_rows, img_cols, frames, channel))
+        Xt = Xt.astype('float32')
+        np.savez(fname_npz_train, X=Xt, Y=Yt)
+        print('Saved training dataset to dataset_train.npz.')
 
 
-    X_train, X_test, Y_train, Y_test = train_test_split(
-                X, Y, test_size=0.3, random_state=43)
+    if os.path.exists(fname_npz_valid):
+        loadeddata = np.load(fname_npz_valid)
+        Xv, Yv = loadeddata["X"], loadeddata["Y"]
+    else:
+    # If not, we load the data with the helper function and save it for future use:
+        xv, yv = loaddata(args.videos, vid3d, args.skip)
+        Yv = np_utils.to_categorical(yv, nb_classes)
+        Xv = xv.reshape((xv.shape[0], img_rows, img_cols, frames, channel))
+        Xv = Xv.astype('float32')
+        np.savez(fname_npz_train, X=Xv, Y=Yv)
+        print('Saved training dataset to dataset_train.npz.')
+
+
+    print('Xt_shape:{}\nYt_shape:{}'.format(Xt.shape, Yt.shape))
+    print('Xv_shape:{}\nYv_shape:{}'.format(Xv.shape, Yv.shape))
+
+
+    X_train, X_test, Y_train, Y_test = Xt, Xv, Yt, Yv
 
 
 # Define model

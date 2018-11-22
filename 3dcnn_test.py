@@ -64,7 +64,7 @@ def save_history(history, result_dir):
 
 # Helper function to load data from video file
 def loaddata(video_list, vid3d, nclass, result_dir, skip=True):
-    dir = '/tank/gesrecog/chalearn/test/'
+    dir = '/tank/gesrecog/chalearn/train/'
     output = open("Test_list_sorted.txt", 'w')
     test1ist = list(sorted(open(video_list, 'r')))
     for line in sorted(test1ist, key=lambda line: int(line.split(' ')[2])):
