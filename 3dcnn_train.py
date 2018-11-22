@@ -134,7 +134,7 @@ def main():
         Yv = np_utils.to_categorical(yv, nb_classes)
         Xv = xv.reshape((xv.shape[0], img_rows, img_cols, frames, channel))
         Xv = Xv.astype('float32')
-        np.savez(fname_npz_train, X=Xv, Y=Yv)
+        np.savez(fname_npz_valid, X=Xv, Y=Yv)
         print('Saved valid dataset to dataset_train.npz.')
 
 
