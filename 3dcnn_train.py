@@ -166,30 +166,30 @@ def main():
 # Define model
     model = Sequential()
     model.add(Conv3D(32, kernel_size=(3, 3, 3), input_shape=(
-        X_train.shape[1:]), padding="same",kernel_initializer='random_uniform'))
+        X_train.shape[1:]), padding="same"))
     model.add(LeakyReLU())
-    model.add(Conv3D(32, padding="same", kernel_size=(3, 3, 3),kernel_initializer='random_uniform'))
-    model.add(LeakyReLU())
-    model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
-    model.add(Dropout(0.25))
-
-    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3),kernel_initializer='random_uniform'))
-    model.add(LeakyReLU())
-    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3),kernel_initializer='random_uniform'))
+    model.add(Conv3D(32, padding="same", kernel_size=(3, 3, 3)))
     model.add(LeakyReLU())
     model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
     model.add(Dropout(0.25))
 
-    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3),kernel_initializer='random_uniform'))
+    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
     model.add(LeakyReLU())
-    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3),kernel_initializer='random_uniform'))
+    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
+    model.add(LeakyReLU())
+    model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
+    model.add(Dropout(0.25))
+
+    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
+    model.add(LeakyReLU())
+    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
     model.add(LeakyReLU())
     model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
     model.add(Dropout(0.5))
 
     model.add(Flatten())
+    model.add(Dense(512, activation='relu'))
     model.add(BatchNormalization())
-    model.add(Dense(256, activation='relu',kernel_initializer='random_uniform'))
     model.add(Dropout(0.5))
     model.add(Dense(nb_classes, activation='softmax'))
     model.summary()
@@ -204,7 +204,7 @@ def main():
 
 #Compiling and fitting the model
     model.compile(loss= 'categorical_crossentropy',
-                  optimizer=adam, metrics=['accuracy'])
+                  optimizer=sgd, metrics=['accuracy'])
     history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=args.batch,
                         epochs=args.epoch, verbose=1, shuffle=True)
 
