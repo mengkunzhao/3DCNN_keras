@@ -87,11 +87,11 @@ def loaddata(video_list, vid3d, skip=True):
         name = os.path.join(dir, rows.split(' ')[0])
         temp = vid3d.video3d(name, skip=skip)
 #Checking if the input video is broken or not
-        if temp.shape[0] == 16:
-            X.append(temp)
-            label = rows.split(' ')[2]
-            print(label)
-            labels.append(label.split('\n')[0])
+        #if temp.shape[0] == 16:
+        X.append(temp)
+        label = rows.split(' ')[2]
+        #print(label)
+        labels.append(label.split('\n')[0])
     print(labels)
 # The original labels start from one, but our system needs them to start from 0
     label_ = np.asarray(labels,dtype=int) - 1
