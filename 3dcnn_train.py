@@ -21,6 +21,7 @@ from tqdm import tqdm
 from keras import optimizers
 from tensorflow.python.client import device_lib
 import keras
+from keras.backend import eval
 
 
 # Setting the Keras to use GPU Acceleration
@@ -114,7 +115,7 @@ def main():
     parser.add_argument('--depth', type=int, default=16)
 
     args = parser.parse_args()
-
+    Lr = []
 #Initializing the dimentions of the frames
     img_rows, img_cols, frames = 32, 32, args.depth
     channel = 3
@@ -158,9 +159,10 @@ def main():
     print('Xt_shape:{}\nYt_shape:{}'.format(Xt.shape, Yt.shape))
     print('Xv_shape:{}\nYv_shape:{}'.format(Xv.shape, Yv.shape))
     print('X Shape: {}\nY Shape:{}'.format(X.shape, Y.shape))
-'''   
-    X_train, X_test, Y_train, Y_test = Xt, Xv, Yt, Yv
 
+    #X_train, X_test, Y_train, Y_test = Xt, Xv, Yt, Yv
+    X_train, X_test, Y_train, Y_test = train_test_split(
+        X, Y, test_size=0.2, random_state=43)
 
 # Define model
     model = Sequential()
@@ -204,6 +206,7 @@ def main():
 #Compiling and fitting the model
     model.compile(loss= 'categorical_crossentropy',
                   optimizer=adam, metrics=['accuracy'])
+    print(eval(model.optimizer.lr))
     history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=args.batch,
                         epochs=args.epoch, verbose=1, shuffle=True)
 
@@ -221,6 +224,6 @@ def main():
     print('Test accuracy:', acc)
     plot_history(history, args.output)
     save_history(history, args.output)
-'''
+
 if __name__ == '__main__':
     main()
