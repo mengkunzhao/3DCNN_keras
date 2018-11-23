@@ -1,7 +1,7 @@
 ########################################################################################################################
 #       Modified implementation of 3DCNN in Keras _ For Training gesture recognitions _ Calearn Isolated Gestures      #
 ########################################################################################################################
-
+from time import time
 import argparse
 import os
 import matplotlib
