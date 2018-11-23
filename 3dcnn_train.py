@@ -152,7 +152,7 @@ def main():
         np.savez(fname_npz_train, X=Xt, Y=Yt)
         print('Saved training dataset to dataset_train.npz.')
 
-    X = np.concatenate(Xt, Xv, 1)
+    X = np.concatenate(Xt, Xv, 2)
     Y = np.concatenate(Yt, Yv ,2)
 
     print('Xt_shape:{}\nYt_shape:{}'.format(Xt.shape, Yt.shape))
