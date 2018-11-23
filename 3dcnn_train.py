@@ -103,6 +103,21 @@ def loaddata(video_list, vid3d, skip=True):
     pbar.close()
     return np.array(X).transpose((0, 2, 3, 4, 1)), label_
 
+class XTensorBoard(TensorBoard):
+    def on_epoch_begin(self, epoch, logs=None):
+        # get values
+        lr = float(keras.get_value(self.model.optimizer.lr))
+        decay = float(keras.get_value(self.model.optimizer.decay))
+        # computer lr
+        lr = lr * (1. / (1 + decay * epoch))
+        keras.set_value(self.model.optimizer.lr, lr)
+
+    def on_epoch_end(self, epoch, logs=None):
+        logs = logs or {}
+        logs['lr'] = keras.get_value(self.model.optimizer.lr)
+
+        super().on_epoch_end(epoch, logs)
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -208,10 +223,11 @@ def main():
 #Compiling and fitting the model
     model.compile(loss= 'categorical_crossentropy',
                   optimizer=adam, metrics=['accuracy'])
-    tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
+    callbacks_list = [XTensorBoard('logs/{}'.format(time()))]
+    #tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
     print(eval(model.optimizer.lr))
     history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=args.batch,
-                        epochs=args.epoch, verbose=1, shuffle=True, callbacks=[tensorboard])
+                        epochs=args.epoch, verbose=1, shuffle=True, callbacks=callbacks_list)
 
 #Saving the model
     model_json = model.to_json()
