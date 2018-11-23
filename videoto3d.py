@@ -10,7 +10,7 @@ class Videoto3D:
         self.height = height
         self.depth = depth
 
-    def video3d(self, filename, skip=True):
+    def video3d(self, filename, skip=True, color= True):
         cap = cv2.VideoCapture(filename)
 
         nframe = cap.get(cv2.CAP_PROP_FRAME_COUNT)
@@ -26,7 +26,10 @@ class Videoto3D:
                 framearray = []
                 break
             frame_temp = cv2.resize(frame, (self.height, self.width))
-            framearray.append(frame_temp/255)
+            if color:
+                framearray.append(frame_temp/255)
+            else:
+                framearray.append(cv2.cvtColor(frame_temp, cv2.COLOR_BGR2GRAY)/255)
 
         cap.release()
         return np.array(framearray)
