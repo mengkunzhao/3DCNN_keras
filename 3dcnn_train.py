@@ -22,6 +22,8 @@ from keras import optimizers
 from tensorflow.python.client import device_lib
 import keras
 from keras.backend import eval
+from keras.callbacks import TensorBoard
+
 
 
 # Setting the Keras to use GPU Acceleration
@@ -206,9 +208,10 @@ def main():
 #Compiling and fitting the model
     model.compile(loss= 'categorical_crossentropy',
                   optimizer=adam, metrics=['accuracy'])
+    tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
     print(eval(model.optimizer.lr))
     history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=args.batch,
-                        epochs=args.epoch, verbose=1, shuffle=True)
+                        epochs=args.epoch, verbose=1, shuffle=True, callbacks=[tensorboard])
 
 #Saving the model
     model_json = model.to_json()
