@@ -152,14 +152,13 @@ def main():
         np.savez(fname_npz_train, X=Xt, Y=Yt)
         print('Saved training dataset to dataset_train.npz.')
 
-
-
-
+    X = np.concatenate(Xt, Xv)
+    Y = np.concatenate(Yt, Yv)
 
     print('Xt_shape:{}\nYt_shape:{}'.format(Xt.shape, Yt.shape))
     print('Xv_shape:{}\nYv_shape:{}'.format(Xv.shape, Yv.shape))
-
-
+    print('X Shape: {}\nY Shape:{}'.format(X.shape, Y.shape))
+'''   
     X_train, X_test, Y_train, Y_test = Xt, Xv, Yt, Yv
 
 
@@ -222,6 +221,6 @@ def main():
     print('Test accuracy:', acc)
     plot_history(history, args.output)
     save_history(history, args.output)
-
+'''
 if __name__ == '__main__':
     main()
