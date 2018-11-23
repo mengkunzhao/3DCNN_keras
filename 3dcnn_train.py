@@ -21,6 +21,7 @@ from tqdm import tqdm
 from keras import optimizers
 from tensorflow.python.client import device_lib
 import keras
+from keras.backend as K
 from keras.backend import eval
 from keras.callbacks import TensorBoard
 
@@ -106,15 +107,15 @@ def loaddata(video_list, vid3d, skip=True):
 class XTensorBoard(TensorBoard):
     def on_epoch_begin(self, epoch, logs=None):
         # get values
-        lr = float(keras.get_value(self.model.optimizer.lr))
-        decay = float(keras.get_value(self.model.optimizer.decay))
+        lr = float(K.get_value(self.model.optimizer.lr))
+        decay = float(K.get_value(self.model.optimizer.decay))
         # computer lr
         lr = lr * (1. / (1 + decay * epoch))
-        keras.set_value(self.model.optimizer.lr, lr)
+        K.set_value(self.model.optimizer.lr, lr)
 
     def on_epoch_end(self, epoch, logs=None):
         logs = logs or {}
-        logs['lr'] = keras.get_value(self.model.optimizer.lr)
+        logs['lr'] = K.get_value(self.model.optimizer.lr)
 
         super().on_epoch_end(epoch, logs)
 
