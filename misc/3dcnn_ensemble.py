@@ -204,41 +204,41 @@ def main():
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
     models[-1].compile(loss='categorical_crossentropy',
                        optimizer=adam, metrics=['accuracy'])
-    history = models[-1].fit(X_train_c, Y_train_c, validation_data=(
+    history1 = models[-1].fit(X_train_c, Y_train_c, validation_data=(
         X_test_c, Y_test_c), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True)
 
     models.append(create_3dcnn(Xtd.shape[1:], nb_classes))
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
     models[-1].compile(loss='categorical_crossentropy',
                        optimizer=adam, metrics=['accuracy'])
-    history = models[-1].fit(X_train_d, Y_train_d, validation_data=(
+    history2 = models[-1].fit(X_train_d, Y_train_d, validation_data=(
         X_test_d, Y_test_d), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True)
 
 
-    model_inputs_d = [Input(shape=Xtd.shape[1:])]
-    model_inputs_c = [Input(shape=Xtc.shape[1:])]
+    model_inputs = [Input(shape=Xtd.shape[1:]),Input(shape=Xtc.shape[1:])]
 
-    model_outputs = [models[0](model_inputs_c), models[1](model_inputs_d)]
+
+    model_outputs = [models[0](model_inputs[0]), models[1](model_inputs[1])]
     model_outputs = average(inputs=model_outputs)
-    #model = Model(inputs=model_inputs, outputs=model_outputs)
-    #model.compile(loss='categorical_crossentropy', optimizer= adam, metrics=['accuracy'])
+    model = Model(inputs=model_inputs, outputs=model_outputs)
+    model.compile(loss='categorical_crossentropy', optimizer= adam, metrics=['accuracy'])
 
-    #model.summary()
+    model.summary()
     #plot_model(model, show_shapes=True,
     #     to_file=os.path.join(args.output, 'model.png'))
 
-    model_json_c=models[0].to_json()
-    with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.json'), 'w') as json_file:
-        json_file.write(model_json_c)
-    models[0].save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.hd5'))
+    #model_json_c=models[0].to_json()
+    #with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.json'), 'w') as json_file:
+    #    json_file.write(model_json_c)
+    #models[0].save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.hd5'))
 
 
-    model_json_c=models[0].to_json()
-    with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.json'), 'w') as json_file:
-        json_file.write(model_json_c)
-    models[0].save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.hd5'))
+    #model_json_c=models[0].to_json()
+    #with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.json'), 'w') as json_file:
+    #    json_file.write(model_json_c)
+    #models[0].save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.hd5'))
 
-
+'''
     loss, acc=model.evaluate([X_test]*args.nmodel, Y_test, verbose=0)
     with open(os.path.join(args.output, 'result.txt'), 'w') as f:
         f.write('Test loss: {}\nTest accuracy:{}'.format(loss, acc))
@@ -246,7 +246,7 @@ def main():
     print('merged model:')
     print('Test loss:', loss)
     print('Test accuracy:', acc)
-
 '''
+
 if __name__ == '__main__':
     main()
