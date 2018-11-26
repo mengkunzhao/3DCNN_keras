@@ -72,7 +72,7 @@ def loaddata(video_list, vid3d, color , skip=True ):
         # Checking if the input video is broken or not
         if temp.shape[0] == 16:
             X.append(temp)
-            print(temp.shape)
+            #print(temp.shape)
             label = rows.split(' ')[2]
             # print(label)
             labels.append(label.split('\n')[0])
