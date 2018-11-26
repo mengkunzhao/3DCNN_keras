@@ -53,7 +53,7 @@ def save_history(history, result_dir, name):
                 i, loss[i], acc[i], val_loss[i], val_acc[i]))
 
 
-def loaddata(video_list, vid3d, skip=True, color = True):
+def loaddata(video_list, vid3d, color , skip=True ):
     dir = '/tank/gesrecog/chalearn/'
     vid_dirs = list(open(os.path.join(dir,video_list), 'r'))
     #files=os.listdir(vid_dirs)
@@ -68,7 +68,7 @@ def loaddata(video_list, vid3d, skip=True, color = True):
             name = os.path.join(dir, rows.split(' ')[1])
         else:
             name = os.path.join(dir, rows.split(' ')[0])
-        temp = vid3d.video3d(name, skip=skip , color = True)
+        temp = vid3d.video3d(name, color, skip=skip  )
         # Checking if the input video is broken or not
         if temp.shape[0] == 16:
             X.append(temp)
@@ -151,7 +151,7 @@ def main():
         Xvc, Yvc = loadeddata["X"], loadeddata["Y"]
     else:
     # If not, we load the data with the helper function and save it for future use:
-        xvc, yvc = loaddata(args.valid, vid3d, args.skip, color = True)
+        xvc, yvc = loaddata(args.valid, vid3d, color = True, skip =True)
         Yvc = np_utils.to_categorical(yvc, nb_classes)
         Xvc = xvc.reshape((xvc.shape[0], img_rows, img_cols, frames, channel_c))
         Xvc = Xvc.astype('float32')
@@ -163,7 +163,7 @@ def main():
         Xvd, Yvd = loadeddata["X"], loadeddata["Y"]
     else:
     # If not, we load the data with the helper function and save it for future use:
-        xvd, yvd = loaddata(args.valid, vid3d, args.skip, color = False)
+        xvd, yvd = loaddata(args.valid, vid3d,color = False, skip =True)
         Yvd = Yvc
         Xvd = xvd.reshape((xvd.shape[0], img_rows, img_cols, frames, channel_d))
         Xvd = Xvd.astype('float32')
@@ -175,7 +175,7 @@ def main():
         Xtc, Ytc = loadeddata["X"], loadeddata["Y"]
     else:
     # If not, we load the data with the helper function and save it for future use:
-        xtc, ytc = loaddata(args.valid, vid3d, args.skip ,color = True)
+        xtc, ytc = loaddata(args.valid, vid3d, color = True, skip =True)
         Ytc = np_utils.to_categorical(ytc, nb_classes)
         Xtc = xtc.reshape((xtc.shape[0], img_rows, img_cols, frames, channel_c))
         Xtc = Xtc.astype('float32')
@@ -187,7 +187,7 @@ def main():
         Xtd, Ytd = loadeddata["X"], loadeddata["Y"]
     else:
     # If not, we load the data with the helper function and save it for future use:
-        xtd, ytd = loaddata(args.valid, vid3d, args.skip ,color = False)
+        xtd, ytd = loaddata(args.valid, vid3d,color = False,  )
         Ytd = Ytc
         Xtd = xtd.reshape((xtd.shape[0], img_rows, img_cols, frames, channel_d))
         Xtd = Xtd.astype('float32')
