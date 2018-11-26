@@ -5,9 +5,8 @@ import matplotlib
 matplotlib.use('AGG')
 import matplotlib.pyplot as plt
 import numpy as np
-from keras.datasets import cifar10
-from keras.layers import (Input, Activation, Conv3D, Dense, Dropout, Flatten,
-                          MaxPooling3D, Input, average, ZeroPadding3D)
+from keras.layers import (Activation, Conv3D, Dense, Dropout, Flatten,MaxPooling3D,ZeroPadding3D, BatchNormalization)
+from keras.layers.advanced_activations import LeakyReLU
 from keras.models import Model
 from keras.models import Sequential
 from keras.utils import np_utils
@@ -118,8 +117,8 @@ def main():
         description='simple 3D convolution for action recognition')
     parser.add_argument('--batch', type=int, default=128)
     parser.add_argument('--epoch', type=int, default=100)
-    parser.add_argument('--videos', type=str, default='UCF101',
-                        help='directory where videos are stored')
+    parser.add_argument('--train', type=str, default='train.txt')
+    parser.add_argument('--valid', type=str, default='valid.txt')
     parser.add_argument('--nclass', type=int, default=249)
     parser.add_argument('--output', type=str, required=True)
     parser.add_argument('--skip', type=bool, default=True)
