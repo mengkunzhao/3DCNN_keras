@@ -53,7 +53,7 @@ def save_history(history, result_dir, name):
                 i, loss[i], acc[i], val_loss[i], val_acc[i]))
 
 
-def loaddata(video_list, vid3d, nclass, result_dir, skip=True, color = True):
+def loaddata(video_list, vid3d, skip=True, color = True):
     dir = '/tank/gesrecog/chalearn/'
     vid_dirs = list(open(os.path.join(dir,video_list), 'r'))
     #files=os.listdir(vid_dirs)
@@ -150,7 +150,7 @@ def main():
         Xvc, Yvc = loadeddata["X"], loadeddata["Y"]
     else:
     # If not, we load the data with the helper function and save it for future use:
-        xvc, yvc = loaddata(args.valid, vid3d, args.skip)
+        xvc, yvc = loaddata(args.valid, vid3d, args.skip, color = True)
         Yvc = np_utils.to_categorical(yv, nb_classes)
         Xvc = xvc.reshape((xvc.shape[0], img_rows, img_cols, frames, channel_c))
         Xvc = Xvc.astype('float32')
