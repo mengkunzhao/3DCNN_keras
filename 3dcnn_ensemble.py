@@ -151,7 +151,7 @@ def main():
     else:
     # If not, we load the data with the helper function and save it for future use:
         xvc, yvc = loaddata(args.valid, vid3d, args.skip, color = True)
-        Yvc = np_utils.to_categorical(yv, nb_classes)
+        Yvc = np_utils.to_categorical(yvc, nb_classes)
         Xvc = xvc.reshape((xvc.shape[0], img_rows, img_cols, frames, channel_c))
         Xvc = Xvc.astype('float32')
         np.savez(fname_npz_valid_c, X=Xvc, Y=Yvc)
