@@ -175,24 +175,24 @@ def main():
         Xtc, Ytc = loadeddata["X"], loadeddata["Y"]
     else:
     # If not, we load the data with the helper function and save it for future use:
-        xtc, ytc = loaddata(args.valid, vid3d, color = True, skip =True)
+        xtc, ytc = loaddata(args.train, vid3d, color = True, skip =True)
         Ytc = np_utils.to_categorical(ytc, nb_classes)
         Xtc = xtc.reshape((xtc.shape[0], img_rows, img_cols, frames, channel_c))
         Xtc = Xtc.astype('float32')
         np.savez(fname_npz_train_c, X=Xtc, Y=Ytc)
-        print('Saved valid dataset to dataset_train.npz.')
+        print('Saved train dataset to dataset_train.npz.')
 
     if os.path.exists(fname_npz_train_d):
         loadeddata = np.load(fname_npz_train_d)
         Xtd, Ytd = loadeddata["X"], loadeddata["Y"]
     else:
     # If not, we load the data with the helper function and save it for future use:
-        xtd, ytd = loaddata(args.valid, vid3d,color = False,  )
+        xtd, ytd = loaddata(args.train, vid3d,color = False,  )
         Ytd = Ytc
         Xtd = xtd.reshape((xtd.shape[0], img_rows, img_cols, frames, channel_d))
         Xtd = Xtd.astype('float32')
         np.savez(fname_npz_train_d, X=Xtd, Y=Ytd)
-        print('Saved valid dataset to dataset_train.npz.')
+        print('Saved train dataset to dataset_train.npz.')
 
 
     X_train_c, X_test_c, Y_train_c, Y_test_c= Xtc, Xvc, Ytc, Yvc
