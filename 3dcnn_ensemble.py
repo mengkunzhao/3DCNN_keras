@@ -5,7 +5,7 @@ import matplotlib
 matplotlib.use('AGG')
 import matplotlib.pyplot as plt
 import numpy as np
-from keras.layers import (Activation, Conv3D, Dense, Dropout, Flatten,MaxPooling3D,ZeroPadding3D, BatchNormalization)
+from keras.layers import (Input, Conv3D, Dense, Dropout, Flatten,MaxPooling3D,ZeroPadding3D, BatchNormalization)
 from keras.layers.advanced_activations import LeakyReLU
 from keras.models import Model
 from keras.models import Sequential
@@ -15,6 +15,10 @@ from sklearn.model_selection import train_test_split
 from keras import optimizers
 from tqdm import tqdm
 import videoto3d
+from keras.callbacks import TensorBoard
+import keras
+import  keras.backend
+from time import time
 
 
 def plot_history(history, result_dir, name):
@@ -86,7 +90,20 @@ def loaddata(video_list, vid3d, color , skip=True ):
     else:
         return np.array(X).transpose((0, 2, 3, 1)), label_
 
+class XTensorBoard(TensorBoard):
+    def on_epoch_begin(self, epoch, logs=None):
+        # get values
+        lr = float(keras.backend.get_value(self.model.optimizer.lr))
+        decay = float(keras.backend.get_value(self.model.optimizer.decay))
+        # computer lr
+        lr = lr * (1. / (1 + decay * epoch))
+        keras.backend.set_value(self.model.optimizer.lr, lr)
 
+    def on_epoch_end(self, epoch, logs=None):
+        logs = logs or {}
+        logs['lr'] =keras.backend.get_value(self.model.optimizer.lr)
+
+        super().on_epoch_end(epoch, logs)
 
 def create_3dcnn(input_shape, nb_classes):
     model = Sequential()
@@ -204,25 +221,37 @@ def main():
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
     models[-1].compile(loss='categorical_crossentropy',
                        optimizer=adam, metrics=['accuracy'])
+    models[-1].summary()
+    callbacks_list = [XTensorBoard('logs/{}'.format(time()))]
+
     history1 = models[-1].fit(X_train_c, Y_train_c, validation_data=(
-        X_test_c, Y_test_c), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True)
+        X_test_c, Y_test_c), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True,
+                              callbacks=callbacks_list)
+
+    model_json_c=models[-1].to_json()
+    with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.json'), 'w') as json_file:
+        json_file.write(model_json_c)
+    models[-1].save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.hd5'))
 
     models.append(create_3dcnn(Xtd.shape[1:], nb_classes))
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
     models[-1].compile(loss='categorical_crossentropy',
                        optimizer=adam, metrics=['accuracy'])
+    models[-1].summary()
+
     history2 = models[-1].fit(X_train_d, Y_train_d, validation_data=(
-        X_test_d, Y_test_d), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True)
+        X_test_d, Y_test_d), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True,
+                              callbacks=callbacks_list)
 
-
+    model_json_c=models[-1].to_json()
+    with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_d.json'), 'w') as json_file:
+        json_file.write(model_json_c)
+    models[-1].save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel_d.hd5'))
     model_inputs = [Input(shape=Xtd.shape[1:]),Input(shape=Xtc.shape[1:])]
-
-
     model_outputs = [models[0](model_inputs[0]), models[1](model_inputs[1])]
     model_outputs = average(inputs=model_outputs)
     model = Model(inputs=model_inputs, outputs=model_outputs)
     model.compile(loss='categorical_crossentropy', optimizer= adam, metrics=['accuracy'])
-
     model.summary()
     #plot_model(model, show_shapes=True,
     #     to_file=os.path.join(args.output, 'model.png'))
