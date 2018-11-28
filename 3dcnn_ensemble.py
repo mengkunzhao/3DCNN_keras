@@ -236,7 +236,7 @@ def main():
     x = Dropout(0.5)(x)
     x = Dense(nb_classes, activation='softmax', name='output')
 
-    model = Model(inputs=[input1, input2], outputs=[x])
+    model = Model(inputs=[input_color, input_depth], outputs=[x])
     model.summary()
     # Define model
 
