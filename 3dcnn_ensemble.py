@@ -216,7 +216,7 @@ def main():
     x_1 = Dropout(0.25)(x_1)
 
     x_1 = Flatten()(x_1)
-    x_1 = Dense(512, activation='relu', name='dense1')(x_1)
+    x_1 = Dense(256, activation='relu', name='dense1')(x_1)
 
     x_2 = Conv3D(32, kernel_size=(3, 3, 3), padding="same")(input_depth)
     x_2 = LeakyReLU()(x_2)
@@ -240,7 +240,7 @@ def main():
     x_2 = Dropout(0.25)(x_2)
 
     x_2 = Flatten()(x_2)
-    x_2 = Dense(512, activation='relu', name='dense2')(x_2)
+    x_2 = Dense(256, activation='relu', name='dense2')(x_2)
 
     x = keras.layers.concatenate([x_1, x_2])
     x = BatchNormalization()(x)
