@@ -217,6 +217,8 @@ def main():
 
     x_1 = Flatten()(x_1)
     x_1 = Dense(256, activation='relu', name='dense1')(x_1)
+    model1 = Model(inputs=input_color, outputs= x_1)
+    model1.summary()
 
     x_2 = Conv3D(32, kernel_size=(3, 3, 3), padding="same")(input_depth)
     x_2 = LeakyReLU()(x_2)
@@ -241,15 +243,22 @@ def main():
 
     x_2 = Flatten()(x_2)
     x_2 = Dense(256, activation='relu', name='dense2')(x_2)
+    model2 = Model(inputs=input_depth, outputs=x_2)
+    model2.summary()
 
-    x = keras.layers.concatenate([x_1, x_2])
-    x = BatchNormalization()(x)
+
+    m = keras.layers.concatenate([model1.output, model2.output, ], axis=-1)
+    x = Dense(512, activation='relu')(m)
     x = Dropout(0.5)(x)
     x = Dense(nb_classes, activation='softmax', name='output')(x)
 
+
+
     model = Model(inputs=[input_color, input_depth], outputs=x)
     model.summary()
-    # Define model
+
+
+
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
     model.compile(loss='categorical_crossentropy',
                        optimizer=adam, metrics=['accuracy'])
