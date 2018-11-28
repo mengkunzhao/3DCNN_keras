@@ -5,7 +5,7 @@ import matplotlib
 matplotlib.use('AGG')
 import matplotlib.pyplot as plt
 import numpy as np
-from keras.layers import (Merge, Input, Conv3D, Dense, Dropout, Flatten,MaxPooling3D,ZeroPadding3D, BatchNormalization)
+from keras.layers import (Input, Conv3D, Dense, Dropout, Flatten,MaxPooling3D,ZeroPadding3D, BatchNormalization)
 from keras.layers.advanced_activations import LeakyReLU
 from keras.models import Model
 from keras.models import Sequential
