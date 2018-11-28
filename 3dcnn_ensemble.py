@@ -247,7 +247,7 @@ def main():
     x = keras.layers.concatenate([x_1, x_2])
     x = BatchNormalization()(x)
     x = Dropout(0.5)(x)
-    x = Dense(nb_classes, activation='softmax', name='output')
+    x = Dense(nb_classes, activation='softmax', name='output')(x)
 
     model = Model(inputs=[input_color,input_depth], outputs=x)
     model.summary()
