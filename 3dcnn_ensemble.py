@@ -242,7 +242,7 @@ def main():
     x_2 = Dropout(0.25)(x_2)
 
     x_2 = Flatten()(x_2)
-    x_2 = Dense(512, activation='relu', name='dense1')(x_2)
+    x_2 = Dense(512, activation='relu', name='dense2')(x_2)
 
     x = keras.layers.concatenate([x_1, x_2])
     x = BatchNormalization()(x)
