@@ -196,7 +196,7 @@ def main():
     input_color = Input(shape=X_train_c.shape[1:], dtype='float32', name='input_color')
     print(input_color)
     input_depth = Input(shape=X_train_d.shape[1:], dtype='float32', name='input_depth')
-    x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(input_color)
+    x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", activation='LeakyReLU')(input_color)
     x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(x_1)
     x_1 = MaxPooling3D(kernel_size=(3, 3, 3), padding="same")(x_1)
     x_1 = Dropout(0.25)(x_1)
