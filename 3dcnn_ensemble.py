@@ -250,13 +250,15 @@ def main():
     model = Model(inputs=[input_color, input_depth], outputs=x)
     model.summary()
     # Define model
-
+    validation_data = ({'input_color': X_test_c,
+                        'input_depth': X_test_d},
+                       {'output': Y_test_c})
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
     model.compile(loss='categorical_crossentropy',
                        optimizer=adam, metrics=['accuracy'])
     callbacks_list = [XTensorBoard('logs/{}'.format(time()))]
 
-    history = model.fit([X_train_c, X_train_d], Y_train_c, valivalidation_data=([X_test_c,X_test_d], Y_test_c), batch_size=args.batch,nb_epoch=args.epoch, verbose=1, shuffle=True , callbacks=callbacks_list)
+    history = model.fit([X_train_c, X_train_d], Y_train_c, valivalidation_data=validation_data, batch_size=args.batch,nb_epoch=args.epoch, verbose=1, shuffle=True , callbacks=callbacks_list)
 
     model_json=model.to_json()
     with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_ensemble.json'), 'w') as json_file:
