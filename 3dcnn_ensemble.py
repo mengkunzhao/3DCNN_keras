@@ -256,7 +256,7 @@ def main():
                        optimizer=adam, metrics=['accuracy'])
     callbacks_list = [XTensorBoard('logs/{}'.format(time()))]
 
-    history = model.fit( [np.array(X_train_c), np.array(X_train_d)], y =Y_train_c,validation_data=[np.array(X_test_c),  np.array(X_test_d)], batch_size=args.batch,nb_epoch=args.epoch, verbose=1, shuffle=True , callbacks=callbacks_list)
+    history = model.fit( [np.array(X_train_c), np.array(X_train_d)], y =Y_train_c, batch_size=args.batch,nb_epoch=args.epoch, verbose=1, shuffle=True , callbacks=callbacks_list)
 
     model_json=model.to_json()
     with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_ensemble.json'), 'w') as json_file:
