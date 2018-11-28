@@ -206,14 +206,14 @@ def main():
     x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_4')(x_1)
     x_1 = LeakyReLU()(x_1)
     x_1 = MaxPooling3D(pool_size=(3, 3, 3), padding="same", name= 'max_c_2')(x_1)
-    x_1 = Dropout(0.25)(x_1)
+    #x_1 = Dropout(0.25)(x_1)
 
     x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_5')(x_1)
     x_1 = LeakyReLU()(x_1)
     x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_6')(x_1)
     x_1 = LeakyReLU()(x_1)
     x_1 = MaxPooling3D(pool_size=(3, 3, 3), padding="same", name= 'max_c_3')(x_1)
-    x_1 = Dropout(0.25)(x_1)
+    #x_1 = Dropout(0.25)(x_1)
 
     x_1 = Flatten()(x_1)
     x_1 = Dense(256, activation='relu', name='dense1')(x_1)
@@ -225,7 +225,7 @@ def main():
     x_2 = Conv3D(32, kernel_size=(3, 3, 3), padding="same")(x_2)
     x_2 = LeakyReLU()(x_2)
     x_2 = MaxPooling3D(pool_size=(3, 3, 3), padding="same")(x_2)
-    #x_2 = Dropout(0.25)(x_2)
+    x_2 = Dropout(0.25)(x_2)
 
     x_2 = Conv3D(64, kernel_size=(3, 3, 3), padding="same")(x_2)
     x_2 = LeakyReLU()(x_2)
