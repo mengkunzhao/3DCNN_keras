@@ -247,7 +247,7 @@ def main():
     x = Dropout(0.5)(x)
     x = Dense(nb_classes, activation='softmax', name='output')(x)
 
-    model = Model(inputs=[input_color,input_depth], outputs=x)
+    model = Model(inputs=[input_color, input_depth], outputs=x)
     model.summary()
     # Define model
 
@@ -256,7 +256,7 @@ def main():
                        optimizer=adam, metrics=['accuracy'])
     callbacks_list = [XTensorBoard('logs/{}'.format(time()))]
 
-    history = model.fit([X_train_c, X_train_d], Y_train_c,validation_data=[X_test_c,  X_test_d], batch_size=args.batch,nb_epoch=args.epoch, verbose=1, shuffle=True , callbacks=callbacks_list)
+    history = model.fit({X_train_c, X_train_d}, Y_train_c,validation_data=[X_test_c,  X_test_d], batch_size=args.batch,nb_epoch=args.epoch, verbose=1, shuffle=True , callbacks=callbacks_list)
 
     model_json=model.to_json()
     with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_ensemble.json'), 'w') as json_file:
