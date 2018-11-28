@@ -235,7 +235,7 @@ def main():
     x = keras.layers.concatenate([x_1, x_2])
     x = BatchNormalization()(x)
     x = Dropout(0.5)(x)
-    x = Dense(nb_classes, activation='softmax')
+    x = Dense(nb_classes, activation='softmax', name='output')
 
     model = Model(inputs=[input1, input2], outputs=[x])
     model.summary()
@@ -246,9 +246,10 @@ def main():
                        optimizer=adam, metrics=['accuracy'])
     callbacks_list = [XTensorBoard('logs/{}'.format(time()))]
 
-    history = model.fit(X_train_c, Y_train_c, validation_data=(
-        X_test_c, Y_test_c), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True,
-                              callbacks=callbacks_list)
+    history = model.fit({'input_color': X_train_c, 'input_depth': X_train_d}, {'output': Y_train_c},
+                        validation_data={'input_color': X_test_c, 'input_depth': X_test_d}, batch_size=args.batch,
+                        nb_epoch=args.epoch, verbose=1, shuffle=True,
+                        callbacks=callbacks_list)
 
     model_json=model.to_json()
     with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_ensemble.json'), 'w') as json_file:
