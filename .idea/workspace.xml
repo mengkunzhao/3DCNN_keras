@@ -55,8 +55,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/3dcnn_ensemble.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="840">
-                  <caret line="260" column="95" selection-start-line="260" selection-start-column="95" selection-end-line="260" selection-end-column="95" />
+                <state relative-caret-position="810">
+                  <caret line="258" column="58" selection-start-line="258" selection-start-column="58" selection-end-line="258" selection-end-column="58" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
                   </folding>
@@ -275,8 +275,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/3dcnn_ensemble.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="260" column="95" selection-start-line="260" selection-start-column="95" selection-end-line="260" selection-end-column="95" />
+        <state relative-caret-position="810">
+          <caret line="258" column="58" selection-start-line="258" selection-start-column="58" selection-end-line="258" selection-end-column="58" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
