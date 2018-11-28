@@ -193,7 +193,7 @@ def main():
     X_train_c, X_test_c, Y_train_c, Y_test_c= Xtc, Xvc, Ytc, Yvc
     X_train_d, X_test_d, Y_train_d, Y_test_d= Xtd, Xvd, Ytd, Yvd
 
-    input_color = Input(shape=X_train_c.shape, dtype='float32', name='input_color')
+    input_color = Input(shape=X_train_c.shape[1:], dtype='float32', name='input_color')
     print(input_color)
     input_depth = Input(shape=X_train_d.shape[1:], dtype='float32', name='input_depth')
     x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(input_color)
@@ -212,7 +212,7 @@ def main():
     x_1 = Dropout(0.25)(x_1)
 
     x_1 = Flatten()(x_1)
-    x_1 = Dense(512, activation='relu', name='dense1')
+    x_1 = Dense(512, activation='relu', name='dense1')(x_1)
 
     x_2 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(input_depth)
     x_2 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(x_2)
@@ -230,7 +230,7 @@ def main():
     x_2 = Dropout(0.25)(x_2)
 
     x_2 = Flatten()(x_2)
-    x_2 = Dense(512, activation='relu', name='dense1')
+    x_2 = Dense(512, activation='relu', name='dense1')(x_2)
 
     x = keras.layers.concatenate([x_1, x_2])
     x = BatchNormalization()(x)
