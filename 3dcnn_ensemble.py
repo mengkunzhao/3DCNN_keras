@@ -194,8 +194,8 @@ def main():
     X_train_d, X_test_d, Y_train_d, Y_test_d= Xtd, Xvd, Ytd, Yvd
 
 
-    input1 = Input(X_train_c.shape[1:], dtype='int32', name='input_color')
-    input2 = Input(X_train_d.shape[1:], dtype='int32', name='input_depth')
+    input1 = Input(X_train_c.shape[1:], dtype='float32', name='input_color')
+    input2 = Input(X_train_d.shape[1:], dtype='float32', name='input_depth')
     x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(input1)
     x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(x_1)
     x_1 = MaxPooling3D(kernel_size=(3, 3, 3), padding="same")(x_1)
