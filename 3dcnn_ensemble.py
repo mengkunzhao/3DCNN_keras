@@ -5,7 +5,7 @@ import matplotlib
 matplotlib.use('AGG')
 import matplotlib.pyplot as plt
 import numpy as np
-from keras.layers import (Input, Conv3D, Dense, Dropout, Flatten,MaxPooling3D,ZeroPadding3D, BatchNormalization)
+from keras.layers import (Merge, Input, Conv3D, Dense, Dropout, Flatten,MaxPooling3D,ZeroPadding3D, BatchNormalization)
 from keras.layers.advanced_activations import LeakyReLU
 from keras.models import Model
 from keras.models import Sequential
@@ -19,7 +19,7 @@ from keras.callbacks import TensorBoard
 import keras
 import  keras.backend
 from time import time
-
+import keras.utils
 
 def plot_history(history, result_dir, name):
     plt.plot(history.history['acc'], marker='.')
@@ -105,30 +105,8 @@ class XTensorBoard(TensorBoard):
 
         super().on_epoch_end(epoch, logs)
 
-def create_3dcnn(input_shape, nb_classes):
-    model = Sequential()
-    model.add(Conv3D(32, kernel_size=(3, 3, 3), input_shape=(
-        input_shape), padding="same"))
-    model.add(LeakyReLU())
-    model.add(Conv3D(32, padding="same", kernel_size=(3, 3, 3)))
-    model.add(LeakyReLU())
-    model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
-    model.add(Dropout(0.25))
 
-    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
-    model.add(LeakyReLU())
-    model.add(Conv3D(64, padding="same", kernel_size=(3, 3, 3)))
-    model.add(LeakyReLU())
-    model.add(MaxPooling3D(pool_size=(3, 3, 3), padding="same"))
-    model.add(Dropout(0.25))
 
-    model.add(Flatten())
-    model.add(Dense(512, activation='relu'))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.5))
-    model.add(Dense(nb_classes, activation='softmax'))
-    model.summary()
-    return model
 
 def main():
     parser = argparse.ArgumentParser(
@@ -215,44 +193,69 @@ def main():
     X_train_c, X_test_c, Y_train_c, Y_test_c= Xtc, Xvc, Ytc, Yvc
     X_train_d, X_test_d, Y_train_d, Y_test_d= Xtd, Xvd, Ytd, Yvd
 
+
+    input1 = Input(X_train_c.shape[1:], dtype='int32', name='input_color')
+    input2 = Input(X_train_d.shape[1:], dtype='int32', name='input_depth')
+    x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(input1)
+    x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(x_1)
+    x_1 = MaxPooling3D(kernel_size=(3, 3, 3), padding="same")(x_1)
+    x_1 = Dropout(0.25)(x_1)
+
+    x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(x_1)
+    x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(x_1)
+    x_1 = MaxPooling3D(kernel_size=(3, 3, 3), padding="same")(x_1)
+    x_1 = Dropout(0.25)(x_1)
+
+    x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(x_1)
+    x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(x_1)
+    x_1 = MaxPooling3D(kernel_size=(3, 3, 3), padding="same")(x_1)
+    x_1 = Dropout(0.25)(x_1)
+
+    x_1 = Flatten()(x_1)
+    x_1 = Dense(512, activation='relu', name='dense1')
+
+    x_2 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(input2)
+    x_2 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(x_2)
+    x_2 = MaxPooling3D(kernel_size=(3, 3, 3), padding="same")(x_2)
+    x_2 = Dropout(0.25)(x_2)
+
+    x_2 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(x_2)
+    x_2 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(x_2)
+    x_2 = MaxPooling3D(kernel_size=(3, 3, 3), padding="same")(x_2)
+    x_2 = Dropout(0.25)(x_2)
+
+    x_2 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(x_2)
+    x_2 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(x_2)
+    x_2 = MaxPooling3D(kernel_size=(3, 3, 3), padding="same")(x_2)
+    x_2 = Dropout(0.25)(x_2)
+
+    x_2 = Flatten()(x_2)
+    x_2 = Dense(512, activation='relu', name='dense1')
+
+    x = keras.layers.concatenate([x_1, x_2])
+    x = BatchNormalization()(x)
+    x = Dropout(0.5)(x)
+    x = Dense(nb_classes, activation='softmax')
+
+    model = Model(inputs=[input1, input2], outputs=[x])
+    model.summary()
     # Define model
-    models=[]
-    models.append(create_3dcnn(Xtc.shape[1:], nb_classes))
+
     adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
-    models[-1].compile(loss='categorical_crossentropy',
+    model.compile(loss='categorical_crossentropy',
                        optimizer=adam, metrics=['accuracy'])
-    models[-1].summary()
     callbacks_list = [XTensorBoard('logs/{}'.format(time()))]
 
-    history1 = models[-1].fit(X_train_c, Y_train_c, validation_data=(
+    history = model.fit(X_train_c, Y_train_c, validation_data=(
         X_test_c, Y_test_c), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True,
                               callbacks=callbacks_list)
 
-    model_json_c=models[-1].to_json()
-    with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.json'), 'w') as json_file:
-        json_file.write(model_json_c)
-    models[-1].save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.hd5'))
+    model_json=model.to_json()
+    with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_ensemble.json'), 'w') as json_file:
+        json_file.write(model_json)
+    model.save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel_ensemble.hd5'))
 
-    models.append(create_3dcnn(Xtd.shape[1:], nb_classes))
-    adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
-    models[-1].compile(loss='categorical_crossentropy',
-                       optimizer=adam, metrics=['accuracy'])
-    models[-1].summary()
 
-    history2 = models[-1].fit(X_train_d, Y_train_d, validation_data=(
-        X_test_d, Y_test_d), batch_size=args.batch, nb_epoch=args.epoch, verbose=1, shuffle=True,
-                              callbacks=callbacks_list)
-
-    model_json_c=models[-1].to_json()
-    with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_d.json'), 'w') as json_file:
-        json_file.write(model_json_c)
-    models[-1].save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel_d.hd5'))
-    model_inputs = [Input(shape=Xtd.shape[1:]),Input(shape=Xtc.shape[1:])]
-    model_outputs = [models[0](model_inputs[0]), models[1](model_inputs[1])]
-    model_outputs = average(inputs=model_outputs)
-    model = Model(inputs=model_inputs, outputs=model_outputs)
-    model.compile(loss='categorical_crossentropy', optimizer= adam, metrics=['accuracy'])
-    model.summary()
     #plot_model(model, show_shapes=True,
     #     to_file=os.path.join(args.output, 'model.png'))
 
