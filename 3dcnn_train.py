@@ -133,54 +133,68 @@ def main():
     parser.add_argument('--depth', type=int, default=16)
 
     args = parser.parse_args()
-    Lr = []
 #Initializing the dimentions of the frames
     img_rows, img_cols, frames = 32, 32, args.depth
     channel = 3
     nb_classes = args.nclass
-    fname_npz_train = 'dataset_train_{}_{}_{}.npz'.format(
+    fname_npz_train_c = 'dataset_trainc_{}_{}_{}.npz'.format(
         args.nclass, args.depth, args.skip)
-    fname_npz_valid = 'dataset_valid_{}_{}_{}.npz'.format(
+    fname_npz_train_d= 'dataset_traind_{}_{}_{}.npz'.format(
         args.nclass, args.depth, args.skip)
+    fname_npz_valid_c = 'dataset_validc_{}_{}_{}.npz'.format(
+        args.nclass, args.depth, args.skip)
+    fname_npz_valid_d= 'dataset_validd_{}_{}_{}.npz'.format(
+        args.nclass, args.depth, args.skip)
+    #fname_npz_train = 'dataset_train_{}_{}_{}.npz'.format(
+    #    args.nclass, args.depth, args.skip)
+    #fname_npz_valid = 'dataset_valid_{}_{}_{}.npz'.format(
+    #    args.nclass, args.depth, args.skip)
+    loadeddata = np.load(fname_npz_valid_c)
+    Xvc, Yvc = loadeddata["X"], loadeddata["Y"]
+    loadeddata = np.load(fname_npz_train_c)
+    Xtc, Ytc = loadeddata["X"], loadeddata["Y"]
+
+
+
     vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
 
 
-    if os.path.exists(fname_npz_valid):
-        loadeddata = np.load(fname_npz_valid)
-        Xv, Yv = loadeddata["X"], loadeddata["Y"]
-    else:
+    #if os.path.exists(fname_npz_valid):
+    #    loadeddata = np.load(fname_npz_valid)
+    #    Xv, Yv = loadeddata["X"], loadeddata["Y"]
+    #else:
     # If not, we load the data with the helper function and save it for future use:
-        xv, yv = loaddata(args.valid, vid3d, args.skip)
-        Yv = np_utils.to_categorical(yv, nb_classes)
-        Xv = xv.reshape((xv.shape[0], img_rows, img_cols, frames, channel))
-        Xv = Xv.astype('float32')
-        np.savez(fname_npz_valid, X=Xv, Y=Yv)
-        print('Saved valid dataset to dataset_train.npz.')
+    #    xv, yv = loaddata(args.valid, vid3d, args.skip)
+    #    Yv = np_utils.to_categorical(yv, nb_classes)
+    #    Xv = xv.reshape((xv.shape[0], img_rows, img_cols, frames, channel))
+    #    Xv = Xv.astype('float32')
+    #    np.savez(fname_npz_valid, X=Xv, Y=Yv)
+    #    print('Saved valid dataset to dataset_train.npz.')
 
 
 #If the dataset is already stored in npz file:
-    if os.path.exists(fname_npz_train):
-        loadeddata = np.load(fname_npz_train)
-        Xt, Yt = loadeddata["X"], loadeddata["Y"]
-    else:
+    #if os.path.exists(fname_npz_train):
+    #    loadeddata = np.load(fname_npz_train)
+    #    Xt, Yt = loadeddata["X"], loadeddata["Y"]
+    #else:
 #If not, we load the data with the helper function and save it for future use:
-        xt, yt = loaddata(args.train, vid3d, args.skip)
-        Yt= np_utils.to_categorical(yt, nb_classes)
-        Xt = xt.reshape((xt.shape[0], img_rows, img_cols, frames, channel))
-        Xt = Xt.astype('float32')
-        np.savez(fname_npz_train, X=Xt, Y=Yt)
-        print('Saved training dataset to dataset_train.npz.')
+    #    xt, yt = loaddata(args.train, vid3d, args.skip)
+    #    Yt= np_utils.to_categorical(yt, nb_classes)
+    #    Xt = xt.reshape((xt.shape[0], img_rows, img_cols, frames, channel))
+    #    Xt = Xt.astype('float32')
+    #    np.savez(fname_npz_train, X=Xt, Y=Yt)
+    #    print('Saved training dataset to dataset_train.npz.')
 
-    X = np.append(Xt, Xv, 0)
-    Y = np.append(Yt, Yv, 0)
+    #X = np.append(Xt, Xv, 0)
+    #Y = np.append(Yt, Yv, 0)
 
-    print('Xt_shape:{}\nYt_shape:{}'.format(Xt.shape, Yt.shape))
-    print('Xv_shape:{}\nYv_shape:{}'.format(Xv.shape, Yv.shape))
-    print('X Shape: {}\nY Shape:{}'.format(X.shape, Y.shape))
+    print('Xt_shape:{}\nYt_shape:{}'.format(Xtc.shape, Ytc.shape))
+    print('Xv_shape:{}\nYv_shape:{}'.format(Xvc.shape, Yvc.shape))
+    #print('X Shape: {}\nY Shape:{}'.format(X.shape, Y.shape))
 
-    #X_train, X_test, Y_train, Y_test = Xt, Xv, Yt, Yv
-    X_train, X_test, Y_train, Y_test = train_test_split(
-        X, Y, test_size=0.2, random_state=43)
+    X_train, X_test, Y_train, Y_test = Xtc, Xvc, Ytc, Yvc
+    #X_train, X_test, Y_train, Y_test = train_test_split(
+    #    X, Y, test_size=0.2, random_state=43)
 
 # Define model
     model = Sequential()
@@ -216,7 +230,7 @@ def main():
           to_file=os.path.join(args.output, 'model.png'))
 
 #List of Optimizers we used:
-    adam = optimizers.Adam(lr=0.01, decay=0.001, amsgrad=False)
+    adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
     sgd = optimizers.SGD(lr=0.01, momentum=0.9, decay=0.005, nesterov=True)
     ada = optimizers.Adagrad(lr=0.01, epsilon=None, decay=0.0)
     nadam = optimizers.Nadam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=None, schedule_decay=0.004)
@@ -234,9 +248,9 @@ def main():
     model_json = model.to_json()
     if not os.path.isdir(args.output):
         os.makedirs(args.output)
-    with open(os.path.join(args.output,'3dcnn_{}_{}_adam2.json'.format(args.epoch,args.batch)) , 'w') as json_file:
+    with open(os.path.join(args.output,'3dcnn_{}_{}_color.json'.format(args.epoch,args.batch)) , 'w') as json_file:
         json_file.write(model_json)
-    model.save_weights(os.path.join(args.output,'3dcnn_{}_{}_adam2.h5'.format(args.epoch,args.batch)))
+    model.save_weights(os.path.join(args.output,'3dcnn_{}_{}_color.h5'.format(args.epoch,args.batch)))
 
 #Evaluation on test data if available
     loss, acc = model.evaluate(X_test, Y_test, verbose=1)

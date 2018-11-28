@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="97125079-1a56-417e-9869-1dccea0fa2bf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/3dcnn_ensemble.py" beforeDir="false" afterPath="$PROJECT_DIR$/3dcnn_ensemble.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/3dcnn_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/3dcnn_train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,11 +41,11 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/3dcnn_train.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="818">
-                  <caret line="229" column="57" selection-start-line="229" selection-start-column="42" selection-end-line="229" selection-end-column="57" />
+                <state relative-caret-position="683">
+                  <caret line="205" column="42" lean-forward="true" selection-start-line="205" selection-start-column="42" selection-end-line="205" selection-end-column="42" />
                   <folding>
                     <element signature="e#363#384#0" expanded="true" />
                   </folding>
@@ -52,11 +53,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/3dcnn_ensemble.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="698">
-                  <caret line="261" column="32" lean-forward="true" selection-start-line="261" selection-start-column="32" selection-end-line="261" selection-end-column="32" />
+                <state relative-caret-position="488">
+                  <caret line="166" selection-start-line="166" selection-end-line="167" selection-end-column="51" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
                   </folding>
@@ -123,6 +124,7 @@
         <option value="$PROJECT_DIR$/videoto3d.py" />
         <option value="$PROJECT_DIR$/misc/twostr.py" />
         <option value="$PROJECT_DIR$/3dcnn_ensemble.py" />
+        <option value="$PROJECT_DIR$/3dcnn_train.py" />
       </list>
     </option>
   </component>
@@ -276,16 +278,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/3dcnn_train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="818">
-          <caret line="229" column="57" selection-start-line="229" selection-start-column="42" selection-end-line="229" selection-end-column="57" />
-          <folding>
-            <element signature="e#363#384#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/misc/twostr.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1223">
@@ -298,10 +290,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/3dcnn_ensemble.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="698">
-          <caret line="261" column="32" lean-forward="true" selection-start-line="261" selection-start-column="32" selection-end-line="261" selection-end-column="32" />
+        <state relative-caret-position="488">
+          <caret line="166" selection-start-line="166" selection-end-line="167" selection-end-column="51" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3dcnn_train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="683">
+          <caret line="205" column="42" lean-forward="true" selection-start-line="205" selection-start-column="42" selection-end-line="205" selection-end-column="42" />
+          <folding>
+            <element signature="e#363#384#0" expanded="true" />
           </folding>
         </state>
       </provider>
