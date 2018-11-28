@@ -194,6 +194,7 @@ def main():
     X_train_d, X_test_d, Y_train_d, Y_test_d= Xtd, Xvd, Ytd, Yvd
 
     input_color = Input(shape=X_train_c.shape[1:], dtype='float32', name='input_color')
+    print(input_color)
     input_depth = Input(shape=X_train_d.shape[1:], dtype='float32', name='input_depth')
     x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(input_color)
     x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", activation=LeakyReLU)(x_1)
