@@ -5,13 +5,11 @@ import matplotlib
 matplotlib.use('AGG')
 import matplotlib.pyplot as plt
 import numpy as np
-from keras.layers import (Input, Conv3D, Dense, Dropout, Flatten,MaxPooling3D,ZeroPadding3D, BatchNormalization)
+from keras.layers import (Input, Conv3D, Dense, Dropout, Flatten,MaxPooling3D, BatchNormalization)
 from keras.layers.advanced_activations import LeakyReLU
 from keras.models import Model
-from keras.models import Sequential
 from keras.utils import np_utils
 from keras.utils.vis_utils import plot_model
-from sklearn.model_selection import train_test_split
 from keras import optimizers
 from tqdm import tqdm
 import videoto3d
@@ -261,7 +259,7 @@ def main():
     history = model.fit({'input_color': X_train_c, 'input_depth': X_train_d}, {'output': Y_train_c},
                         validation_data={'input_color': X_test_c, 'input_depth': X_test_d}, batch_size=args.batch,
                         nb_epoch=args.epoch, verbose=1, shuffle=True,
-                        callbacks=callbacks_list)
+                        )
 
     model_json=model.to_json()
     with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_ensemble.json'), 'w') as json_file:
