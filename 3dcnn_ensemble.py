@@ -259,7 +259,7 @@ def main():
 
 
 
-    adam = optimizers.Adam(lr=0.01, decay=0.0001, amsgrad=False)
+    adam = optimizers.Adam(lr=0.01, decay=0.001, amsgrad=False)
     model.compile(loss='categorical_crossentropy',
                        optimizer=adam, metrics=['accuracy'])
     callbacks_list = [XTensorBoard('logs/{}'.format(time()))]
