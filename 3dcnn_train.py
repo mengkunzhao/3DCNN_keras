@@ -149,9 +149,9 @@ def main():
     #    args.nclass, args.depth, args.skip)
     #fname_npz_valid = 'dataset_valid_{}_{}_{}.npz'.format(
     #    args.nclass, args.depth, args.skip)
-    loadeddata = np.load(fname_npz_valid_c)
+    loadeddata = np.load(fname_npz_valid_d)
     Xvc, Yvc = loadeddata["X"], loadeddata["Y"]
-    loadeddata = np.load(fname_npz_train_c)
+    loadeddata = np.load(fname_npz_train_d)
     Xtc, Ytc = loadeddata["X"], loadeddata["Y"]
 
 
@@ -248,9 +248,9 @@ def main():
     model_json = model.to_json()
     if not os.path.isdir(args.output):
         os.makedirs(args.output)
-    with open(os.path.join(args.output,'3dcnn_{}_{}_color.json'.format(args.epoch,args.batch)) , 'w') as json_file:
+    with open(os.path.join(args.output,'3dcnn_{}_{}_depth.json'.format(args.epoch,args.batch)) , 'w') as json_file:
         json_file.write(model_json)
-    model.save_weights(os.path.join(args.output,'3dcnn_{}_{}_color.h5'.format(args.epoch,args.batch)))
+    model.save_weights(os.path.join(args.output,'3dcnn_{}_{}_depth.h5'.format(args.epoch,args.batch)))
 
 #Evaluation on test data if available
     loss, acc = model.evaluate(X_test, Y_test, verbose=1)
