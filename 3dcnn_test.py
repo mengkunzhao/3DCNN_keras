@@ -129,8 +129,8 @@ def main():
     print('X_shape:{}\nY_shape:{}'.format(X.shape, Y.shape))
 
 # Define model
-    model = model_from_json(open('3dcnnresult/3cnn_trained_500.json', 'r').read())
-    model.load_weights('3dcnnresult/3cnn_trained_500.hd5')
+    model = model_from_json(open('3dcnnresult/3dcnn_500_32_adam2.json', 'r').read())
+    model.load_weights('3dcnnresult/3dcnn_500_32_adam2.h5')
     model.summary()
     print("Loaded model from disk")
 
