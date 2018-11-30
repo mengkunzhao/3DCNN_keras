@@ -203,7 +203,7 @@ def main():
     model1.layers.pop()
     model1.outputs = [model1.layers[-1].output]
     model1.layers[-1].outbound_nodes = []
-    model1 = Model(inputs=input_color, outputs= model1.outputs)
+    model1_1 = Model(inputs=input_color, outputs= model1.outputs)
 
 
     model2 = model_from_json(open('3dcnnresult/3Chalearn_3dcnnmodel_d.json', 'r').read())
@@ -211,10 +211,10 @@ def main():
     model2.layers.pop()
     model2.outputs = [model2.layers[-1].output]
     model2.layers[-1].outbound_nodes = []
-    model2 = Model(inputs=input_depth, outputs=model2.outputs)
+    model2_2 = Model(inputs=input_depth, outputs=model2.outputs)
 
 
-    m = keras.layers.concatenate([model1.output, model2.output], axis=-1)
+    m = keras.layers.concatenate([model1_1.output, model2_2.output], axis=-1)
     x = Dense(512, activation='relu')(m)
     x = Dropout(0.5)(x)
     x = Dense(nb_classes, activation='softmax', name='output')(x)
