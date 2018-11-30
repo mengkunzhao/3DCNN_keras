@@ -194,60 +194,7 @@ def main():
     X_train_d, X_test_d, Y_train_d, Y_test_d= Xtd, Xvd, Ytd, Yvd
 
     input_color = Input(shape=X_train_c.shape[1:], dtype='float32', name='input_color')
-    print(input_color)
     input_depth = Input(shape=X_train_d.shape[1:], dtype='float32', name='input_depth')
-    x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_1')(input_color)
-    x_1 = LeakyReLU()(x_1)
-    x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_2')(x_1)
-    x_1 = LeakyReLU()(x_1)
-    x_1 = MaxPooling3D(pool_size=(3, 3, 3), padding="same", name= 'max_c_1')(x_1)
-    x_1 = Dropout(0.25)(x_1)
-
-    x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_3')(x_1)
-    x_1 = LeakyReLU()(x_1)
-    x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_4')(x_1)
-    x_1 = LeakyReLU()(x_1)
-    x_1 = MaxPooling3D(pool_size=(3, 3, 3), padding="same", name= 'max_c_2')(x_1)
-    x_1 = Dropout(0.25)(x_1)
-
-    #x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_5')(x_1)
-    #x_1 = LeakyReLU()(x_1)
-    #x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_6')(x_1)
-    #x_1 = LeakyReLU()(x_1)
-    #x_1 = MaxPooling3D(pool_size=(3, 3, 3), padding="same", name= 'max_c_3')(x_1)
-    #x_1 = Dropout(0.25)(x_1)
-
-    x_1 = Flatten()(x_1)
-    x_1 = Dense(256, activation='relu', name='dense1')(x_1)
-    model1 = Model(inputs=input_color, outputs= x_1)
-    model1.summary()
-
-    x_2 = Conv3D(32, kernel_size=(3, 3, 3), padding="same")(input_depth)
-    x_2 = LeakyReLU()(x_2)
-    x_2 = Conv3D(32, kernel_size=(3, 3, 3), padding="same")(x_2)
-    x_2 = LeakyReLU()(x_2)
-    x_2 = MaxPooling3D(pool_size=(3, 3, 3), padding="same")(x_2)
-    x_2 = Dropout(0.25)(x_2)
-
-    x_2 = Conv3D(64, kernel_size=(3, 3, 3), padding="same")(x_2)
-    x_2 = LeakyReLU()(x_2)
-    x_2 = Conv3D(64, kernel_size=(3, 3, 3), padding="same")(x_2)
-    x_2 = LeakyReLU()(x_2)
-    x_2 = MaxPooling3D(pool_size=(3, 3, 3), padding="same")(x_2)
-    x_2 = Dropout(0.25)(x_2)
-
-    x_2 = Conv3D(64, kernel_size=(3, 3, 3), padding="same")(x_2)
-    x_2 = LeakyReLU()(x_2)
-    x_2 = Conv3D(64, kernel_size=(3, 3, 3), padding="same")(x_2)
-    x_2 = LeakyReLU()(x_2)
-    x_2 = MaxPooling3D(pool_size=(3, 3, 3), padding="same")(x_2)
-    x_2 = Dropout(0.25)(x_2)
-
-    x_2 = Flatten()(x_2)
-    x_2 = Dense(512, activation='relu', name='dense2')(x_2)
-    model2 = Model(inputs=input_depth, outputs=x_2)
-    model2.summary()
-
 
     adam = optimizers.Adam(lr=0.01, decay=0.001, amsgrad=False)
 
@@ -309,6 +256,60 @@ def main():
     print('merged model:')
     print('Test loss:', loss)
     print('Test accuracy:', acc)
+'''
+'''    print(input_color)
+    input_depth = Input(shape=X_train_d.shape[1:], dtype='float32', name='input_depth')
+    x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_1')(input_color)
+    x_1 = LeakyReLU()(x_1)
+    x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_2')(x_1)
+    x_1 = LeakyReLU()(x_1)
+    x_1 = MaxPooling3D(pool_size=(3, 3, 3), padding="same", name= 'max_c_1')(x_1)
+    x_1 = Dropout(0.25)(x_1)
+
+    x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_3')(x_1)
+    x_1 = LeakyReLU()(x_1)
+    x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_4')(x_1)
+    x_1 = LeakyReLU()(x_1)
+    x_1 = MaxPooling3D(pool_size=(3, 3, 3), padding="same", name= 'max_c_2')(x_1)
+    x_1 = Dropout(0.25)(x_1)
+
+    #x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_5')(x_1)
+    #x_1 = LeakyReLU()(x_1)
+    #x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_6')(x_1)
+    #x_1 = LeakyReLU()(x_1)
+    #x_1 = MaxPooling3D(pool_size=(3, 3, 3), padding="same", name= 'max_c_3')(x_1)
+    #x_1 = Dropout(0.25)(x_1)
+
+    x_1 = Flatten()(x_1)
+    x_1 = Dense(256, activation='relu', name='dense1')(x_1)
+    model1 = Model(inputs=input_color, outputs= x_1)
+    model1.summary()
+
+    x_2 = Conv3D(32, kernel_size=(3, 3, 3), padding="same")(input_depth)
+    x_2 = LeakyReLU()(x_2)
+    x_2 = Conv3D(32, kernel_size=(3, 3, 3), padding="same")(x_2)
+    x_2 = LeakyReLU()(x_2)
+    x_2 = MaxPooling3D(pool_size=(3, 3, 3), padding="same")(x_2)
+    x_2 = Dropout(0.25)(x_2)
+
+    x_2 = Conv3D(64, kernel_size=(3, 3, 3), padding="same")(x_2)
+    x_2 = LeakyReLU()(x_2)
+    x_2 = Conv3D(64, kernel_size=(3, 3, 3), padding="same")(x_2)
+    x_2 = LeakyReLU()(x_2)
+    x_2 = MaxPooling3D(pool_size=(3, 3, 3), padding="same")(x_2)
+    x_2 = Dropout(0.25)(x_2)
+
+    x_2 = Conv3D(64, kernel_size=(3, 3, 3), padding="same")(x_2)
+    x_2 = LeakyReLU()(x_2)
+    x_2 = Conv3D(64, kernel_size=(3, 3, 3), padding="same")(x_2)
+    x_2 = LeakyReLU()(x_2)
+    x_2 = MaxPooling3D(pool_size=(3, 3, 3), padding="same")(x_2)
+    x_2 = Dropout(0.25)(x_2)
+
+    x_2 = Flatten()(x_2)
+    x_2 = Dense(512, activation='relu', name='dense2')(x_2)
+    model2 = Model(inputs=input_depth, outputs=x_2)
+    model2.summary()
 '''
 
 if __name__ == '__main__':
