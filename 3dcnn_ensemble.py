@@ -213,7 +213,7 @@ def main():
 #    model2_2 = Model(inputs=input_depth, outputs=model2.outputs)
 
 
-    m = keras.layers.concatenate([model1_1.output, model2_2.output], axis=-1)
+    m = keras.layers.concatenate([model1.output, model2.output], axis=-1)
     x = Dense(512, activation='relu')(m)
     x = Dropout(0.5)(x)
     x = Dense(nb_classes, activation='softmax', name='output')(x)
