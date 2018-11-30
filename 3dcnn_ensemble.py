@@ -225,11 +225,11 @@ def main():
     x = Dense(512, activation='relu')(m)
     x = Dropout(0.5)(x)
     x = Dense(nb_classes, activation='softmax', name='output')(x)
-    x.summary()
 
     input_color = Input(shape=X_train_c.shape[1:], dtype='float32', name='input_color')
     input_depth = Input(shape=X_train_d.shape[1:], dtype='float32', name='input_depth')
     model = Model(inputs=[input_color, input_depth], outputs=x)
+    model.summary()
 
     model.compile(loss='categorical_crossentropy',
                        optimizer=adam, metrics=['accuracy'])
