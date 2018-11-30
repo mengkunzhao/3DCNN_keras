@@ -205,7 +205,7 @@ def main():
  #   model1_1 = Model(inputs=input_color, outputs= model1.outputs)
 
 
-    model2 = model_from_json(open('3dcnnresult/3Chalearn_3dcnnmodel_d.json', 'r').read())
+    model2 = model_from_json(open('3dcnnresult/Chalearn_3dcnnmodel_d.json', 'r').read())
     model2.load_weights('3dcnnresult/Chalearn_3dcnnmodel_d.hd5')
     model2.layers.pop()
     model2.outputs = [model2.layers[-1].output]
