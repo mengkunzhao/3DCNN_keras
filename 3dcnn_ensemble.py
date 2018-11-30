@@ -18,6 +18,8 @@ import keras
 import  keras.backend
 from time import time
 import keras.utils
+from keras.models import model_from_json
+
 
 def plot_history(history, result_dir, name):
     plt.plot(history.history['acc'], marker='.')
@@ -247,19 +249,32 @@ def main():
     model2.summary()
 
 
-    m = keras.layers.concatenate([model1.output, model2.output, ], axis=-1)
+    adam = optimizers.Adam(lr=0.01, decay=0.001, amsgrad=False)
+
+    model1 = model_from_json(open('3dcnnresult/3dcnn_500_32_adam2.json', 'r').read())
+    model1.load_weights('3dcnnresult/3dcnn_500_32_adam2.h5')
+    model1.layers.pop()
+    model1.outputs = [model1.layers[-1].output]
+    model1.layers[-1].outbound_nodes = []
+    model1 = Model(inputs=input_color, outputs= model1.outputs)
+
+
+    model2 = model_from_json(open('3dcnnresult/3dcnn_500_32_adam2.json', 'r').read())
+    model2.load_weights('3dcnnresult/3dcnn_500_32_adam2.h5')
+    model2.layers.pop()
+    model2.outputs = [model2.layers[-1].output]
+    model2.layers[-1].outbound_nodes = []
+    model2 = Model(inputs=input_depth, outputs=model2.outputs)
+
+
+    m = keras.layers.concatenate([model1.output, model2.output], axis=-1)
     x = Dense(512, activation='relu')(m)
     x = Dropout(0.5)(x)
     x = Dense(nb_classes, activation='softmax', name='output')(x)
 
-
-
     model = Model(inputs=[input_color, input_depth], outputs=x)
     model.summary()
 
-
-
-    adam = optimizers.Adam(lr=0.1, decay=0.001, amsgrad=False)
     model.compile(loss='categorical_crossentropy',
                        optimizer=adam, metrics=['accuracy'])
     callbacks_list = [XTensorBoard('logs/{}'.format(time()))]
@@ -275,10 +290,10 @@ def main():
     #plot_model(model, show_shapes=True,
     #     to_file=os.path.join(args.output, 'model.png'))
 
-    #model_json_c=models[0].to_json()
-    #with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.json'), 'w') as json_file:
-    #    json_file.write(model_json_c)
-    #models[0].save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.hd5'))
+    model_json_c=model.to_json()
+    with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_ensemble.json'), 'w') as json_file:
+        json_file.write(model_json_c)
+    model.save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel_ensemble.hd5'))
 
 
     #model_json_c=models[0].to_json()
