@@ -1,6 +1,6 @@
 import argparse
 import os
-
+from keras.models import Sequential
 import matplotlib
 matplotlib.use('AGG')
 import matplotlib.pyplot as plt
@@ -199,6 +199,10 @@ def main():
 
     model1 = model_from_json(open('3dcnnresult/Chalearn_3dcnnmodel_c.json', 'r').read())
     model1.load_weights('3dcnnresult/Chalearn_3dcnnmodel_c.hd5')
+    t = Sequential()
+    for layer in model1.layers[0:5]:
+        t.add(layer)
+    t.summary()
     model1.layers.pop()
     model1.outputs = [model1.layers[-1].output]
     #model1.layers[-1].outbound_nodes = []
