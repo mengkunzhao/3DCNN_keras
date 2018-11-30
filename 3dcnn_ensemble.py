@@ -200,7 +200,7 @@ def main():
     model1 = model_from_json(open('3dcnnresult/Chalearn_3dcnnmodel_c.json', 'r').read())
     model1.load_weights('3dcnnresult/Chalearn_3dcnnmodel_c.hd5')
     t = Sequential()
-    for layer in model1.layers[0:20]:
+    for layer in model1.layers[0:13]:
         t.add(layer)
     t.summary()
     model1.layers.pop()
