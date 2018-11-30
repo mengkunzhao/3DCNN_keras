@@ -202,7 +202,7 @@ def main():
     model1.load_weights('3dcnnresult/Chalearn_3dcnnmodel_c.hd5')
     model1.layers.pop()
     model1.outputs = [model1.layers[-1].output]
-    model1.layers[-1].outbound_nodes = []
+    #model1.layers[-1].outbound_nodes = []
     model1_1 = Model(inputs=input_color, outputs= model1.outputs)
 
 
@@ -210,7 +210,7 @@ def main():
     model2.load_weights('3dcnnresult/Chalearn_3dcnnmodel_d.hd5')
     model2.layers.pop()
     model2.outputs = [model2.layers[-1].output]
-    model2.layers[-1].outbound_nodes = []
+    #model2.layers[-1].outbound_nodes = []
     model2_2 = Model(inputs=input_depth, outputs=model2.outputs)
 
 
