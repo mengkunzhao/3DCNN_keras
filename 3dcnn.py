@@ -58,6 +58,7 @@ def save_history(history, result_dir):
 
 def loaddata(video_dir, vid3d, nclass, result_dir, color=False, skip=True):
     files = os.listdir(video_dir)
+    print(files)
     X = []
     labels = []
     labellist = []
