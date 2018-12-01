@@ -72,7 +72,7 @@ def loaddata(video_dir, vid3d, nclass, result_dir, color=False, skip=True):
             continue
         name = os.path.join(video_dir, filename)
         label = vid3d.get_UCF_classname(filename)
-        print(name)
+        #print(name)
         if label not in labellist:
             if len(labellist) >= nclass:
                 continue
