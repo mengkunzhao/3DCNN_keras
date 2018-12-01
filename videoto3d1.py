@@ -21,7 +21,7 @@ class Videoto3D:
         for i in range(self.depth):
             cap.set(cv2.CAP_PROP_POS_FRAMES, frames[i])
             ret, frame = cap.read()
-            frame = cv2.resize(frame, (self.height, self.width))
+            frame = cv2.resize(frame, (32, 32))
             if color:
                 framearray.append(frame)
             else:
