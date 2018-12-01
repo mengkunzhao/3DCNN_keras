@@ -59,8 +59,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/3dcnn_ensemble.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="519">
-                  <caret line="216" column="40" selection-start-line="216" selection-start-column="40" selection-end-line="216" selection-end-column="40" />
+                <state relative-caret-position="497">
+                  <caret line="202" column="24" lean-forward="true" selection-start-line="202" selection-start-column="24" selection-end-line="202" selection-end-column="24" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
                   </folding>
@@ -113,6 +113,8 @@
       <find>os.</find>
       <find>os.pa</find>
       <find>valid</find>
+      <find>input</find>
+      <find>channel_d</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -149,6 +151,11 @@
             <path>
               <item name="3DCNN" type="b2602c69:ProjectViewProjectNode" />
               <item name="3DCNN" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="3DCNN" type="b2602c69:ProjectViewProjectNode" />
+              <item name="3DCNN" type="462c0819:PsiDirectoryNode" />
+              <item name="3dcnnresult" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="3DCNN" type="b2602c69:ProjectViewProjectNode" />
@@ -199,7 +206,7 @@
     <frame x="4052" y="28" width="1948" height="1388" extended-state="4" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.22300886" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2225689" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="SonarLint" />
@@ -305,10 +312,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/3dcnnresult/3dcnn_300_32_depth.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="641" selection-start-column="636" selection-end-column="641" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/3dcnn_ensemble.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="519">
-          <caret line="216" column="40" selection-start-line="216" selection-start-column="40" selection-end-line="216" selection-end-column="40" />
+        <state relative-caret-position="497">
+          <caret line="202" column="24" lean-forward="true" selection-start-line="202" selection-start-column="24" selection-end-line="202" selection-end-column="24" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
