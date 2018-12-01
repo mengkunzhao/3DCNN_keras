@@ -209,15 +209,14 @@ def main():
     new_model = Model(model1.input, output)
     new_model.summary()
 
-
     model2 = model_from_json(open('3dcnnresult/Chalearn_3dcnnmodel_d.json', 'r').read())
     model2.load_weights('3dcnnresult/Chalearn_3dcnnmodel_d.hd5')
     model2.layers.pop()
     model2.layers[-1].outbound_nodes = []
     model2.outputs = [model2.layers[-1].output]
-    output = model1.get_layer(index = 11).output
-    output = Flatten()(output)
-    new_model2 = Model(model2.input, output)
+    output2 = model1.get_layer(index = 11).output
+    output2 = Flatten()(output)
+    new_model2 = Model(model2.input, output2)
     new_model2.summary()
 
     m = keras.layers.concatenate([new_model.output, new_model2.output], axis=-1)
