@@ -225,7 +225,7 @@ def main():
 
     newModel2_dummy.summary()
 
-    m = keras.layers.concatenate([new_model.output, new_model2.output], axis=-1)
+    m = keras.layers.concatenate([new_model.output, newModel2_dummy.output], axis=-1)
     x = Dense(1024, activation='relu')(m)
     x = Dropout(0.5)(x)
     x = Dense(512, activation='relu')(x)
