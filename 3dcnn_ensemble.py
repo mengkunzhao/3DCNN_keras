@@ -195,7 +195,7 @@ def main():
 
 
 
-    adam = optimizers.Adam(lr=0.1, decay=0.001, amsgrad=False)
+    adam = optimizers.Adam(lr=0.01, decay=0.001, amsgrad=False)
     input_color = Input(shape=X_train_c.shape[1:], dtype='float32', name='input_color')
     input_depth = Input(shape=X_train_d.shape[1:], dtype='float32', name='input_depth')
 
@@ -220,8 +220,8 @@ def main():
     model2.layers.pop()
     model2.layers[-1].outbound_nodes = []
     model2.outputs = [model2.layers[-1].output]
-    output2 = model2.get_layer(index = 19).output
-   # output2 = Flatten()(output2)
+    output2 = model2.get_layer(index = 13).output
+    output2 = Flatten()(output2)
     print(model2.input.shape)
     new_model2 = Model(inputs = model2.input, outputs = output2)
     output_dummy = new_model2(input_depth)
