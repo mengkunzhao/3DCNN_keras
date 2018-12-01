@@ -203,6 +203,8 @@ def main():
     t = Sequential()
     for layer in model1.layers[0:13]:
         t.add(layer)
+    t.compile(loss='categorical_crossentropy',
+                      optimizer=adam, metrics=['accuracy'])
     t.summary()
     #model1.layers.pop()
     #model1.outputs = [model1.layers[-1].output]
