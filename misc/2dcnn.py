@@ -4,7 +4,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import os
-import videoto3d
+import videoto3d1
 from sklearn.cross_validation import train_test_split
 from tqdm import tqdm
 
@@ -99,7 +99,7 @@ def main():
 
     img_rows, img_cols = 32, 32
 
-    vid3d = videoto3d.Videoto3D(img_rows, img_cols, 1)
+    vid3d = videoto3d1.Videoto3D(img_rows, img_cols, 1)
     x, y = loaddata(args.videos, vid3d, args.nclass, args.output)
     X = x.reshape(x.shape[0], img_cols, img_rows, 1)
     nb_classes = max(y) + 1

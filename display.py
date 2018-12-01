@@ -3,7 +3,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import os
-from videoto3d import Videoto3D
+from videoto3d1 import Videoto3D
 
 
 def main():

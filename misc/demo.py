@@ -22,7 +22,7 @@ import numpy as np
 >>>>>>> a52b20b0df797c1eb77990a8f388a7efa104661a
 from keras.models import model_from_json
 
-import videoto3d
+import videoto3d1
 from tqdm import tqdm
 
 def loaddata_test(video_dir, vid3d, color=False, skip=True):

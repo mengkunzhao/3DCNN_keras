@@ -12,7 +12,7 @@ from keras.utils import np_utils
 from keras.utils.vis_utils import plot_model
 from keras import optimizers
 from tqdm import tqdm
-import videoto3d
+import videoto3d1
 from keras.callbacks import TensorBoard
 import keras
 import  keras.backend
@@ -129,7 +129,7 @@ def main():
     img_rows, img_cols, frames= 32, 32, args.depth
     channel_c = 3
     channel_d = 1
-    vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
+    vid3d = videoto3d1.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
     fname_npz_train_c = 'dataset_trainc_{}_{}_{}.npz'.format(
         args.nclass, args.depth, args.skip)

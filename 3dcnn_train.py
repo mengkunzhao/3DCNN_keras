@@ -16,7 +16,7 @@ from keras.utils import np_utils
 from keras.utils.vis_utils import plot_model
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
-import videoto3d
+import videoto3d1
 from tqdm import tqdm
 from keras import optimizers
 from tensorflow.python.client import device_lib
@@ -156,7 +156,7 @@ def main():
 
 
 
-    vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
+    vid3d = videoto3d1.Videoto3D(img_rows, img_cols, frames)
 
 
     #if os.path.exists(fname_npz_valid):

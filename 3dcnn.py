@@ -16,7 +16,7 @@ from keras.utils import np_utils
 from keras.utils.vis_utils import plot_model
 from sklearn.model_selection import train_test_split
 
-import videoto3d
+import videoto3d1
 from tqdm import tqdm
 
 
@@ -111,7 +111,7 @@ def main():
     fname_npz = 'dataset_{}_{}_{}.npz'.format(
         args.nclass, args.depth, args.skip)
 
-    vid3d = videoto3d.Videoto3D(img_rows, img_cols, frames)
+    vid3d = videoto3d1.Videoto3D(img_rows, img_cols, frames)
     nb_classes = args.nclass
     if os.path.exists(fname_npz):
         loadeddata = np.load(fname_npz)
