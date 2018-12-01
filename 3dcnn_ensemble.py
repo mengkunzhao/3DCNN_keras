@@ -240,7 +240,7 @@ def main():
 
     model = Model(inputs=[input_color, input_depth], outputs=x)
     model.summary()
-'''
+
     model.compile(loss='categorical_crossentropy',
                        optimizer=adam, metrics=['accuracy'])
     callbacks_list = [XTensorBoard('logs/{}'.format(time()))]
@@ -266,7 +266,7 @@ def main():
     #with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.json'), 'w') as json_file:
     #    json_file.write(model_json_c)
     #models[0].save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.hd5'))
-
+'''
 '''
     loss, acc=model.evaluate([X_test]*args.nmodel, Y_test, verbose=0)
     with open(os.path.join(args.output, 'result.txt'), 'w') as f:
