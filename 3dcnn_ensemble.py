@@ -217,7 +217,7 @@ def main():
     output2 = model1.get_layer(index = 11).output
     output2 = Flatten()(output2)
     print(model2.input.shape)
-    new_model2 = Model(model2.input, output2)
+    new_model2 = Model(input_depth, output2)
     new_model2.summary()
 
     m = keras.layers.concatenate([new_model.output, new_model2.output], axis=-1)
