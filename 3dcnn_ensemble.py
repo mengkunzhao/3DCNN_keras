@@ -209,8 +209,8 @@ def main():
     new_model = Model(model1.input, output)
     new_model.summary()
 
-    model2 = model_from_json(open('3dcnnresult/Chalearn_3dcnnmodel_d.json', 'r').read())
-    model2.load_weights('3dcnnresult/Chalearn_3dcnnmodel_d.hd5')
+    model2 = model_from_json(open('3dcnnresult/3dcnn_300_32_depth.json', 'r').read())
+    model2.load_weights('3dcnnresult/3dcnn_300_32_depth.h5  ')
     model2.layers.pop()
     model2.layers[-1].outbound_nodes = []
     model2.outputs = [model2.layers[-1].output]
