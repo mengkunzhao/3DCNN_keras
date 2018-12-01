@@ -218,8 +218,9 @@ def main():
     model2.outputs = [model2.layers[-1].output]
     output2 = model2.get_layer(index = 11).output
     output2 = Flatten()(output2)
+    newOutputs = model2(input_depth)
     print(model2.input.shape)
-    new_model2 = Model(inputs = model2.input, outputs = output2)
+    new_model2 = Model(inputs = input_depth, outputs = newOutputs)
     new_model2.summary()
 
     m = keras.layers.concatenate([new_model.output, new_model2.output], axis=-1)
@@ -228,7 +229,7 @@ def main():
     x = Dense(512, activation='relu')(x)
     x = Dropout(0.5)(x)
     x = Dense(nb_classes, activation='softmax', name='output')(x)
-    model = Model(inputs=[model1.input, model2.input], outputs=x)
+    model = Model(inputs=[model1.input, input_depth], outputs=x)
     model.summary()
 
 '''
