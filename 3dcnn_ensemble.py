@@ -197,9 +197,32 @@ def main():
 
     adam = optimizers.Adam(lr=0.01, decay=0.001, amsgrad=False)
     input_color = Input(shape=X_train_c.shape[1:], dtype='float32', name='input_color')
+    x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_1')(input_color)
+    x_1 = LeakyReLU()(x_1)
+    x_1 = Conv3D(32, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_2')(x_1)
+    x_1 = LeakyReLU()(x_1)
+    x_1 = MaxPooling3D(pool_size=(3, 3, 3), padding="same", name= 'max_c_1')(x_1)
+    x_1 = Dropout(0.25)(x_1)
 
-    model1 = model_from_json(open('3dcnnresult/Chalearn_3dcnnmodel_c.json', 'r').read())
+    x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_3')(x_1)
+    x_1 = LeakyReLU()(x_1)
+    x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_4')(x_1)
+    x_1 = LeakyReLU()(x_1)
+    x_1 = MaxPooling3D(pool_size=(3, 3, 3), padding="same", name= 'max_c_2')(x_1)
+    x_1 = Dropout(0.25)(x_1)
+
+    x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_5')(x_1)
+    x_1 = LeakyReLU()(x_1)
+    x_1 = Conv3D(64, kernel_size=(3, 3, 3), padding="same", name= 'conv_c_6')(x_1)
+    x_1 = LeakyReLU()(x_1)
+    x_1 = MaxPooling3D(pool_size=(3, 3, 3), padding="same", name= 'max_c_3')(x_1)
+    x_1 = Dropout(0.25)(x_1)
+
+    x_1 = Flatten()(x_1)
+    x_1 = Dense(256, activation='relu', name='dense1')(x_1)
+    model1 = Model(inputs=input_color, outputs= x_1)
     model1.load_weights('3dcnnresult/Chalearn_3dcnnmodel_c.hd5')
+    model1.summary()
     t = Sequential()
     for layer in model1.layers[0:13]:
         t.add(layer)
