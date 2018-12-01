@@ -195,7 +195,7 @@ def main():
 
 
 
-    adam = optimizers.Adam(lr=0.01, decay=0.001, amsgrad=False)
+    adam = optimizers.Adam(lr=0.01, decay=0.0002, amsgrad=False)
     input_color = Input(shape=X_train_c.shape[1:], dtype='float32', name='input_color')
     input_depth = Input(shape=X_train_d.shape[1:], dtype='float32', name='input_depth')
 
@@ -203,6 +203,8 @@ def main():
     model1.load_weights('3dcnnresult/Chalearn_3dcnnmodel_c.hd5')
     for layer in model1.layers:
         layer.name = layer.name + str("_2")
+        layer.trainable = False
+
     model1.layers.pop()
     model1.layers[-1].outbound_nodes = []
     model1.outputs = [model1.layers[-1].output]
@@ -213,7 +215,8 @@ def main():
 
     model2 = model_from_json(open('3dcnnresult/3dcnn_300_32_depth.json', 'r').read())
     model2.load_weights('3dcnnresult/3dcnn_300_32_depth.h5')
-
+    for layer in model1.layers:
+        layer.trainable = False
     model2.layers.pop()
     model2.layers[-1].outbound_nodes = []
     model2.outputs = [model2.layers[-1].output]
@@ -228,8 +231,6 @@ def main():
 
     m = keras.layers.concatenate([new_model.output, newModel2_dummy.output], axis=-1)
     x = Dense(1024, activation='relu')(m)
-    x = Dropout(0.5)(x)
-    x = Dense(512, activation='relu')(x)
     x = Dropout(0.5)(x)
     x = Dense(nb_classes, activation='softmax', name='output')(x)
     model = Model(inputs=[model1.input, newModel2_dummy.input], outputs=x)
