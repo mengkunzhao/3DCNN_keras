@@ -206,8 +206,9 @@ def main():
     output = model1.get_layer(index = 11).output
     output = Flatten()(output)
     new_model = Model(model1.input, output)
-
     new_model.summary()
+
+'''
     t = Sequential()
     for layer in model1.layers[0:13]:
         t.add(layer)
@@ -239,7 +240,7 @@ def main():
 
     model = Model(inputs=[input_color, input_depth], outputs=x)
     model.summary()
-
+'''
     model.compile(loss='categorical_crossentropy',
                        optimizer=adam, metrics=['accuracy'])
     callbacks_list = [XTensorBoard('logs/{}'.format(time()))]
