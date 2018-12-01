@@ -201,7 +201,7 @@ def main():
 
     model1 = model_from_json(open('3dcnnresult/Chalearn_3dcnnmodel_c.json', 'r').read())
     model1.load_weights('3dcnnresult/Chalearn_3dcnnmodel_c.hd5')
-    for layer in model.layers:
+    for layer in model1.layers:
         layer.name = layer.name + str("_2")
         layer.trainable = False
 
