@@ -70,8 +70,7 @@ def loaddata(video_dir, vid3d, nclass, result_dir, color=False, skip=True):
         pbar.update(1)
         if filename == '.DS_Store':
             continue
-        files = os.listdir(filename)
-        name = os.path.join(video_dir, filename + files)
+        name = os.path.join(video_dir, filename)
         label = vid3d.get_UCF_classname(filename)
         print(name)
         if label not in labellist:
