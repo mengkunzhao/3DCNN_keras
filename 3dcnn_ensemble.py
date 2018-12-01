@@ -203,7 +203,7 @@ def main():
     model1.layers.pop()
     model1.layers[-1].outbound_nodes = []
     model1.outputs = [model1.layers[-1].output]
-    output = model1.get_layer(index = 13).output
+    output = model1.get_layer(index = 12).output
     output = Flatten()(output)
     new_model = Model(model1.input, output)
 
