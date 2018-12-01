@@ -16,7 +16,7 @@ from keras.utils import np_utils
 from keras.utils.vis_utils import plot_model
 from sklearn.model_selection import train_test_split
 
-import videoto3d1
+import videoto3d
 from tqdm import tqdm
 
 
