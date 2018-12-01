@@ -206,8 +206,8 @@ def main():
     model1.layers.pop()
     model1.layers[-1].outbound_nodes = []
     model1.outputs = [model1.layers[-1].output]
-    output = model1.get_layer(index = 11).output
-    output = Flatten()(output)
+    output = model1.get_layer(index = 13).output
+    #output = Flatten()(output)
     new_model = Model(model1.input, output)
     new_model.summary()
 
@@ -217,8 +217,8 @@ def main():
     model2.layers.pop()
     model2.layers[-1].outbound_nodes = []
     model2.outputs = [model2.layers[-1].output]
-    output2 = model2.get_layer(index = 11).output
-    output2 = Flatten()(output2)
+    output2 = model2.get_layer(index = 13).output
+   # output2 = Flatten()(output2)
     print(model2.input.shape)
     new_model2 = Model(inputs = model2.input, outputs = output2)
     output_dummy = new_model2(input_depth)
