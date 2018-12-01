@@ -194,7 +194,7 @@ def main():
     X_train_d, X_test_d, Y_train_d, Y_test_d= Xtd, Xvd, Ytd, Yvd
 
 
-
+    sgd = optimizers.SGD(lr=0.01, momentum=0.9, decay=0.005, nesterov=True)
     adam = optimizers.Adam(lr=0.01, decay=0.001, amsgrad=False)
     input_color = Input(shape=X_train_c.shape[1:], dtype='float32', name='input_color')
     input_depth = Input(shape=X_train_d.shape[1:], dtype='float32', name='input_depth')
@@ -237,7 +237,7 @@ def main():
     model.summary()
 
     model.compile(loss='categorical_crossentropy',
-                       optimizer=adam, metrics=['accuracy'])
+                       optimizer=sgd, metrics=['accuracy'])
     callbacks_list = [XTensorBoard('logs/{}'.format(time()))]
 
     model.fit([X_train_c, X_train_d], Y_train_c, validation_data=([X_test_c,X_test_d],Y_test_c), batch_size=args.batch,nb_epoch=args.epoch, verbose=1, shuffle=True , callbacks=callbacks_list)
