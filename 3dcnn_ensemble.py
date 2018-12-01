@@ -196,41 +196,37 @@ def main():
 
 
     adam = optimizers.Adam(lr=0.01, decay=0.001, amsgrad=False)
+    input_color = Input(shape=X_train_c.shape[1:], dtype='float32', name='input_color')
 
     model1 = model_from_json(open('3dcnnresult/Chalearn_3dcnnmodel_c.json', 'r').read())
     model1.load_weights('3dcnnresult/Chalearn_3dcnnmodel_c.hd5')
     t = Sequential()
-    t.add(Conv3D(32, kernel_size=(3, 3, 3), activation='relu', input_shape=(X_train_d.shape[1:]), padding='same',
-                     name='conv1', strides=(1, 1, 1)))
-    for layer in model1.layers[1:13]:
+    for layer in model1.layers[0:13]:
         t.add(layer)
     t.summary()
     #model1.layers.pop()
     #model1.outputs = [model1.layers[-1].output]
     #model1.layers[-1].outbound_nodes = []
- #   model1_1 = Model(inputs=input_color, outputs= model1.outputs)
+    model1_1 = Model(inputs=input_color, outputs= t.outputs)
+    input_depth = Input(shape=X_train_d.shape[1:], dtype='float32', name='input_depth')
 
-    input_color = Input(shape=X_train_c.shape[1:], dtype='float32', name='input_color')
     model2 = model_from_json(open('3dcnnresult/Chalearn_3dcnnmodel_d.json', 'r').read())
     model2.load_weights('3dcnnresult/Chalearn_3dcnnmodel_d.hd5')
     d = Sequential()
-    d.add(Conv3D(32, kernel_size=(3, 3, 3), activation='relu', input_shape=(X_train_d.shape[1:]), padding='same',
-                     name='conv1', strides=(1, 1, 1)))
-    for layer in model2.layers[1:13]:
+    for layer in model2.layers[0:13]:
         d.add(layer)
     d.summary()
     #model2.layers.pop()
     #model2.outputs = [model2.layers[-1].output]
     #model2.layers[-1].outbound_nodes = []
-#    model2_2 = Model(inputs=input_depth, outputs=model2.outputs)
+    model2_2 = Model(inputs=input_depth, outputs=d.outputs)
 
 
-    m = keras.layers.concatenate([t.output, d.output], axis=-1)
+    m = keras.layers.concatenate([model1_1.output, model2_2.output], axis=-1)
     x = Dense(512, activation='relu')(m)
     x = Dropout(0.5)(x)
     x = Dense(nb_classes, activation='softmax', name='output')(x)
 
-    input_depth = Input(shape=X_train_d.shape[1:], dtype='float32', name='input_depth')
     model = Model(inputs=[input_color, input_depth], outputs=x)
     model.summary()
 
