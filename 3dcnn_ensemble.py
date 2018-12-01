@@ -235,38 +235,6 @@ def main():
     model = Model(inputs=[model1.input, newModel2_dummy.input], outputs=x)
     model.summary()
 
-'''
-    t = Sequential()
-    for layer in model1.layers[0:13]:
-        t.add(layer)
-    t.compile(loss='categorical_crossentropy',
-                      optimizer=adam, metrics=['accuracy'])
-    t.summary()
-    #model1.layers.pop()
-    #model1.outputs = [model1.layers[-1].output]
-    #model1.layers[-1].outbound_nodes = []
-    model1_1 = Model(inputs=input_color, outputs= t.outputs)
-    input_depth = Input(shape=X_train_d.shape[1:], dtype='float32', name='input_depth')
-
-    model2 = model_from_json(open('3dcnnresult/Chalearn_3dcnnmodel_d.json', 'r').read())
-    model2.load_weights('3dcnnresult/Chalearn_3dcnnmodel_d.hd5')
-    d = Sequential()
-    for layer in model2.layers[0:13]:
-        d.add(layer)
-    d.summary()
-    #model2.layers.pop()
-    #model2.outputs = [model2.layers[-1].output]
-    #model2.layers[-1].outbound_nodes = []
-    model2_2 = Model(inputs=input_depth, outputs=d.outputs)
-
-
-    x = Dense(512, activation='relu')(m)
-    x = Dropout(0.5)(x)
-    x = Dense(nb_classes, activation='softmax', name='output')(x)
-
-    model = Model(inputs=[input_color, input_depth], outputs=x)
-    model.summary()
-
     model.compile(loss='categorical_crossentropy',
                        optimizer=adam, metrics=['accuracy'])
     callbacks_list = [XTensorBoard('logs/{}'.format(time()))]
@@ -292,7 +260,7 @@ def main():
     #with open(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.json'), 'w') as json_file:
     #    json_file.write(model_json_c)
     #models[0].save_weights(os.path.join(args.output, 'Chalearn_3dcnnmodel_c.hd5'))
-'''
+
 '''
     loss, acc=model.evaluate([X_test]*args.nmodel, Y_test, verbose=0)
     with open(os.path.join(args.output, 'result.txt'), 'w') as f:
