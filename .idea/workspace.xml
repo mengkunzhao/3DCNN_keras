@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="97125079-1a56-417e-9869-1dccea0fa2bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/3dcnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/3dcnn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/videoto3d1.py" beforeDir="false" afterPath="$PROJECT_DIR$/videoto3d1.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,7 +68,7 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/3dcnn.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="615">
@@ -80,11 +80,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/videoto3d1.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="420">
-                  <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+                <state relative-caret-position="375">
+                  <caret line="25" column="21" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
                   </folding>
@@ -95,8 +95,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/misc/videoto3d.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
-                  <caret line="6" column="16" lean-forward="true" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+                <state relative-caret-position="405">
+                  <caret line="27" column="21" lean-forward="true" selection-start-line="25" selection-start-column="12" selection-end-line="27" selection-end-column="21" />
                   <folding>
                     <element signature="e#40#58#0" expanded="true" />
                   </folding>
@@ -168,8 +168,8 @@
         <option value="$PROJECT_DIR$/misc/3dcnn.py" />
         <option value="$PROJECT_DIR$/videoto3d2.py" />
         <option value="$PROJECT_DIR$/misc/videoto3d.py" />
-        <option value="$PROJECT_DIR$/videoto3d1.py" />
         <option value="$PROJECT_DIR$/3dcnn.py" />
+        <option value="$PROJECT_DIR$/videoto3d1.py" />
       </list>
     </option>
   </component>
@@ -364,10 +364,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/3dcnn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="71" column="20" lean-forward="true" selection-start-line="71" selection-start-column="20" selection-end-line="71" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/misc/videoto3d.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="16" lean-forward="true" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+        <state relative-caret-position="405">
+          <caret line="27" column="21" lean-forward="true" selection-start-line="25" selection-start-column="12" selection-end-line="27" selection-end-column="21" />
           <folding>
             <element signature="e#40#58#0" expanded="true" />
           </folding>
@@ -376,20 +386,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/videoto3d1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+        <state relative-caret-position="375">
+          <caret line="25" column="21" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/3dcnn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="71" column="20" lean-forward="true" selection-start-line="71" selection-start-column="20" selection-end-line="71" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
