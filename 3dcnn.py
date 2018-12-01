@@ -117,8 +117,7 @@ def main():
         loadeddata = np.load(fname_npz)
         X, Y = loadeddata["X"], loadeddata["Y"]
     else:
-        x, y = loaddata(args.videos, vid3d, args.nclass,
-                        args.output, args.color, args.skip)
+        x, y = loaddata(args.videos, vid3d, args.nclass,args.output, args.color, args.skip)
         X = x.reshape((x.shape[0], img_rows, img_cols, frames, channel))
         Y = np_utils.to_categorical(y, nb_classes)
 
