@@ -211,6 +211,8 @@ def main():
 
     model2 = model_from_json(open('3dcnnresult/3dcnn_300_32_depth.json', 'r').read())
     model2.load_weights('3dcnnresult/3dcnn_300_32_depth.h5')
+    for layer in model2.layers:
+        layer.name = layer.name + str("_2")
     model2.layers.pop()
     model2.layers[-1].outbound_nodes = []
     model2.outputs = [model2.layers[-1].output]
