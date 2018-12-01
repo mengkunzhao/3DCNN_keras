@@ -197,6 +197,7 @@ def main():
 
     adam = optimizers.Adam(lr=0.01, decay=0.001, amsgrad=False)
     input_color = Input(shape=X_train_c.shape[1:], dtype='float32', name='input_color')
+    input_depth = Input(shape=X_train_d.shape[1:], dtype='float32', name='input_depth')
 
     model1 = model_from_json(open('3dcnnresult/Chalearn_3dcnnmodel_c.json', 'r').read())
     model1.load_weights('3dcnnresult/Chalearn_3dcnnmodel_c.hd5')
@@ -207,6 +208,26 @@ def main():
     output = Flatten()(output)
     new_model = Model(model1.input, output)
     new_model.summary()
+
+
+    model2 = model_from_json(open('3dcnnresult/Chalearn_3dcnnmodel_d.json', 'r').read())
+    model2.load_weights('3dcnnresult/Chalearn_3dcnnmodel_d.hd5')
+    model2.layers.pop()
+    model2.layers[-1].outbound_nodes = []
+    model2.outputs = [model2.layers[-1].output]
+    output = model1.get_layer(index = 11).output
+    output = Flatten()(output)
+    new_model2 = Model(model2.input, output)
+    new_model2.summary()
+
+    m = keras.layers.concatenate([new_model.output, new_model2.output], axis=-1)
+    x = Dense(1024, activation='relu')(m)
+    x = Dropout(0.5)(x)
+    x = Dense(512, activation='relu')(x)
+    x = Dropout(0.5)(x)
+    x = Dense(nb_classes, activation='softmax', name='output')(x)
+    model = Model(inputs=[input_color, input_depth], outputs=x)
+    model.summary()
 
 '''
     t = Sequential()
@@ -233,7 +254,6 @@ def main():
     model2_2 = Model(inputs=input_depth, outputs=d.outputs)
 
 
-    m = keras.layers.concatenate([model1_1.output, model2_2.output], axis=-1)
     x = Dense(512, activation='relu')(m)
     x = Dropout(0.5)(x)
     x = Dense(nb_classes, activation='softmax', name='output')(x)
