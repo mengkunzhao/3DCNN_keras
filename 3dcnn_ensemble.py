@@ -216,6 +216,7 @@ def main():
     model2.outputs = [model2.layers[-1].output]
     output2 = model1.get_layer(index = 11).output
     output2 = Flatten()(output2)
+    print(model2.input.shape)
     new_model2 = Model(model2.input, output2)
     new_model2.summary()
 

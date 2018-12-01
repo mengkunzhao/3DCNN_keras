@@ -135,7 +135,7 @@ def main():
     args = parser.parse_args()
 #Initializing the dimentions of the frames
     img_rows, img_cols, frames = 32, 32, args.depth
-    channel = 3
+    channel = 1
     nb_classes = args.nclass
     fname_npz_train_c = 'dataset_trainc_{}_{}_{}.npz'.format(
         args.nclass, args.depth, args.skip)
