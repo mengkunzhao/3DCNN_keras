@@ -217,7 +217,7 @@ def main():
     model2.layers.pop()
     model2.layers[-1].outbound_nodes = []
     model2.outputs = [model2.layers[-1].output]
-    output2 = model2.get_layer(index = 16).output
+    output2 = model2.get_layer(index = 19).output
    # output2 = Flatten()(output2)
     print(model2.input.shape)
     new_model2 = Model(inputs = model2.input, outputs = output2)
