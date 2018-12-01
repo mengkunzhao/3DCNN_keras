@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="97125079-1a56-417e-9869-1dccea0fa2bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/3dcnn_ensemble.py" beforeDir="false" afterPath="$PROJECT_DIR$/3dcnn_ensemble.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/misc/3dcnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/3dcnn.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -56,11 +57,23 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/3dcnn_ensemble.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="789">
-                  <caret line="239" column="36" selection-start-line="239" selection-start-column="36" selection-end-line="239" selection-end-column="36" />
+                  <caret line="239" selection-start-line="239" selection-end-line="240" />
+                  <folding>
+                    <element signature="e#0#15#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/3dcnn.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="105">
+                  <caret line="22" column="38" lean-forward="true" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
                   </folding>
@@ -130,6 +143,7 @@
         <option value="$PROJECT_DIR$/misc/twostr.py" />
         <option value="$PROJECT_DIR$/3dcnn_train.py" />
         <option value="$PROJECT_DIR$/3dcnn_ensemble.py" />
+        <option value="$PROJECT_DIR$/misc/3dcnn.py" />
       </list>
     </option>
   </component>
@@ -151,11 +165,6 @@
             <path>
               <item name="3DCNN" type="b2602c69:ProjectViewProjectNode" />
               <item name="3DCNN" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="3DCNN" type="b2602c69:ProjectViewProjectNode" />
-              <item name="3DCNN" type="462c0819:PsiDirectoryNode" />
-              <item name="3dcnnresult" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="3DCNN" type="b2602c69:ProjectViewProjectNode" />
@@ -322,7 +331,17 @@
     <entry file="file://$PROJECT_DIR$/3dcnn_ensemble.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="789">
-          <caret line="239" column="36" selection-start-line="239" selection-start-column="36" selection-end-line="239" selection-end-column="36" />
+          <caret line="239" selection-start-line="239" selection-end-line="240" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3dcnn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="22" column="38" lean-forward="true" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
