@@ -206,9 +206,9 @@ def main():
     model1.layers[-1].outbound_nodes = []
     model1.outputs = [model1.layers[-1].output]
     output = model1.get_layer(index = 11).output
-    for layer in model1.layers:
+    for layer in model1.layers[0:5]:
         layer.name = layer.name + str("_2")
-        layer.trainable = True
+        layer.trainable = False
     #output = Flatten()(output)
     new_model = Model(model1.input, output)
     new_model.summary()
