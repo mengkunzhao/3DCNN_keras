@@ -210,8 +210,8 @@ def main():
     model1.outputs = [model1.layers[-1].output]
     output = model1.get_layer(index = 11).output
     #output = Flatten()(output)
-    #new_model = Model(model1.input, output)
-    model1.summary()
+    new_model = Model(model1.input, output)
+    new_model.summary()
 
     x = Flatten(output)
     x = Dense(512, activation='relu')(x)
