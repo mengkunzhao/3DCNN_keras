@@ -201,9 +201,9 @@ def main():
 
     model1 = model_from_json(open('3dcnnresult/ucf101_3dcnnmodel.json', 'r').read())
     model1.load_weights('3dcnnresult/ucf101_3dcnnmodel.hd5')
-  #  for layer in model1.layers:
-  #      layer.name = layer.name + str("_2")
-  #      layer.trainable = False
+    for layer in model1.layers:
+        layer.name = layer.name + str("_2")
+        layer.trainable = False
 
     model1.layers.pop()
     model1.layers[-1].outbound_nodes = []
