@@ -195,7 +195,7 @@ def main():
 
 
     sgd = optimizers.SGD(lr=0.01, momentum=0.9, decay=0.005, nesterov=True)
-    adam = optimizers.Adam(lr=0.1, decay=0.001, amsgrad=False)
+    adam = optimizers.Adam(lr=0.001, decay=0.001, amsgrad=False)
     input_color = Input(shape=X_train_c.shape[1:], dtype='float32', name='input_color')
   #  input_depth = Input(shape=X_train_d.shape[1:], dtype='float32', name='input_depth')
 
