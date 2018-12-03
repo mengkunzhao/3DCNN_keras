@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="97125079-1a56-417e-9869-1dccea0fa2bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/3dcnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/3dcnn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/3dcnn_ensemble.py" beforeDir="false" afterPath="$PROJECT_DIR$/3dcnn_ensemble.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,7 +19,7 @@
               <file pinned="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/3dcnn_test.py">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="398">
+                    <state relative-caret-position="593">
                       <caret line="149" selection-start-line="149" selection-end-line="149" />
                     </state>
                   </provider>
@@ -32,7 +32,7 @@
               <file pinned="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/3dcnn_test.py">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="424">
+                    <state relative-caret-position="438">
                       <caret line="149" selection-start-line="149" selection-end-line="149" />
                     </state>
                   </provider>
@@ -47,8 +47,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/3dcnn_train.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="668">
-                  <caret line="233" column="13" lean-forward="true" selection-start-line="233" selection-end-line="234" />
+                <state relative-caret-position="819">
+                  <caret line="243" selection-start-line="243" selection-end-line="244" selection-end-column="93" />
                   <folding>
                     <element signature="e#363#384#0" expanded="true" />
                   </folding>
@@ -56,11 +56,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/3dcnn_ensemble.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="789">
-                  <caret line="239" selection-start-line="239" selection-end-line="240" />
+                <state relative-caret-position="699">
+                  <caret line="218" column="49" lean-forward="true" selection-start-line="218" selection-start-column="49" selection-end-line="218" selection-end-column="49" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
                   </folding>
@@ -68,11 +68,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/3dcnn.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="660">
-                  <caret line="74" column="9" selection-start-line="74" selection-start-column="9" selection-end-line="74" selection-end-column="9" />
+                <state relative-caret-position="-375">
+                  <caret line="80" column="45" selection-start-line="80" selection-start-column="45" selection-end-line="80" selection-end-column="45" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
                   </folding>
@@ -96,7 +96,7 @@
             <entry file="file://$PROJECT_DIR$/misc/videoto3d.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="405">
-                  <caret line="27" column="21" lean-forward="true" selection-start-line="25" selection-start-column="12" selection-end-line="27" selection-end-column="21" />
+                  <caret line="27" column="21" selection-start-line="25" selection-start-column="12" selection-end-line="27" selection-end-column="21" />
                   <folding>
                     <element signature="e#40#58#0" expanded="true" />
                   </folding>
@@ -120,7 +120,7 @@
             <entry file="file://$PROJECT_DIR$/misc/3dcnn_caffe.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="819">
-                  <caret line="149" column="4" lean-forward="true" selection-start-line="149" selection-start-column="4" selection-end-line="149" selection-end-column="4" />
+                  <caret line="149" column="4" selection-start-line="149" selection-start-column="4" selection-end-line="149" selection-end-column="4" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
                   </folding>
@@ -149,8 +149,8 @@
       <find>os.pa</find>
       <find>valid</find>
       <find>input</find>
-      <find>channel_d</find>
       <find>x</find>
+      <find>channel_d</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -164,19 +164,19 @@
         <option value="$PROJECT_DIR$/videoto3d.py" />
         <option value="$PROJECT_DIR$/misc/twostr.py" />
         <option value="$PROJECT_DIR$/3dcnn_train.py" />
-        <option value="$PROJECT_DIR$/3dcnn_ensemble.py" />
         <option value="$PROJECT_DIR$/misc/3dcnn.py" />
         <option value="$PROJECT_DIR$/videoto3d2.py" />
         <option value="$PROJECT_DIR$/misc/videoto3d.py" />
         <option value="$PROJECT_DIR$/videoto3d1.py" />
         <option value="$PROJECT_DIR$/3dcnn.py" />
+        <option value="$PROJECT_DIR$/3dcnn_ensemble.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="4">
-    <option name="x" value="4052" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="2560" />
     <option name="y" value="28" />
-    <option name="width" value="1948" />
+    <option name="width" value="1720" />
     <option name="height" value="1388" />
   </component>
   <component name="ProjectView">
@@ -238,10 +238,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="4052" y="28" width="1948" height="1388" extended-state="4" />
+    <frame x="2559" y="28" width="3442" height="1389" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2225689" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12525608" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="SonarLint" />
@@ -316,7 +316,7 @@
     <entry file="file://$PROJECT_DIR$/misc/3dcnn_caffe.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="819">
-          <caret line="149" column="4" lean-forward="true" selection-start-line="149" selection-start-column="4" selection-end-line="149" selection-end-column="4" />
+          <caret line="149" column="4" selection-start-line="149" selection-start-column="4" selection-end-line="149" selection-end-column="4" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
@@ -330,26 +330,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/3dcnn_train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="668">
-          <caret line="233" column="13" lean-forward="true" selection-start-line="233" selection-end-line="234" />
-          <folding>
-            <element signature="e#363#384#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/3dcnn_ensemble.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="789">
-          <caret line="239" selection-start-line="239" selection-end-line="240" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/videoto3d1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
@@ -359,7 +339,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/3dcnn_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
+        <state relative-caret-position="593">
           <caret line="149" selection-start-line="149" selection-end-line="149" />
         </state>
       </provider>
@@ -367,7 +347,7 @@
     <entry file="file://$PROJECT_DIR$/misc/videoto3d.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
-          <caret line="27" column="21" lean-forward="true" selection-start-line="25" selection-start-column="12" selection-end-line="27" selection-end-column="21" />
+          <caret line="27" column="21" selection-start-line="25" selection-start-column="12" selection-end-line="27" selection-end-column="21" />
           <folding>
             <element signature="e#40#58#0" expanded="true" />
           </folding>
@@ -386,8 +366,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/3dcnn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="74" column="9" selection-start-line="74" selection-start-column="9" selection-end-line="74" selection-end-column="9" />
+        <state relative-caret-position="-375">
+          <caret line="80" column="45" selection-start-line="80" selection-start-column="45" selection-end-line="80" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3dcnn_train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="819">
+          <caret line="243" selection-start-line="243" selection-end-line="244" selection-end-column="93" />
+          <folding>
+            <element signature="e#363#384#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3dcnn_ensemble.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="699">
+          <caret line="218" column="49" lean-forward="true" selection-start-line="218" selection-start-column="49" selection-end-line="218" selection-end-column="49" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
