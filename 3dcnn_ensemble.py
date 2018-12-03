@@ -222,7 +222,7 @@ def main():
     model = Model(inputs= model1.input, outputs=x)
     model.summary()
     model.compile(loss='categorical_crossentropy',
-                       optimizer=sgd, metrics=['accuracy'])
+                       optimizer=adam, metrics=['accuracy'])
     callbacks_list = [XTensorBoard('logs/{}'.format(time()))]
     history = model.fit(X_train_c, Y_train_c, validation_data=(X_test_c, Y_test_c), batch_size=args.batch,
                         epochs=args.epoch, verbose=1, shuffle=True, callbacks=callbacks_list)
