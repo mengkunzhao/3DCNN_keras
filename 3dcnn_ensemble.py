@@ -209,11 +209,11 @@ def main():
     model1.layers[-1].outbound_nodes = []
     model1.outputs = [model1.layers[-1].output]
     output = model1.get_layer(index = 11).output
-    output = Flatten()(output)
+    #output = Flatten()(output)
     new_model = Model(model1.input, output)
     new_model.summary()
 
-    x = Flatten(output)
+    x = Flatten()(output)
     x = Dense(512, activation='relu')(x)
     x = Dropout(0.5)(x)
     x = Dense(nb_classes, activation='softmax', name='output')(x)
